@@ -8,7 +8,7 @@ def center_image(image):
 
 
 # Tell pyglet where to find the resources
-pyglet.resource.path = ['/resources']
+pyglet.resource.path = ['resources']
 pyglet.resource.reindex()
 
 # Load the three main resources and get them to draw centered
@@ -17,6 +17,18 @@ center_image(plane_1)
 
 plane_2 = pyglet.resource.image("planeTest2.png")
 center_image(plane_2)
+
+start_button = pyglet.resource.image("start_button.png")
+center_image(start_button)
+
+exit_button = pyglet.resource.image("exit_button.png")
+center_image(exit_button)
+
+exit_button = pyglet.resource.image("exit_button.png")
+center_image(exit_button)
+
+start_map = pyglet.resource.image("placeholdermap.jpg")
+
 
 # The engine flame should not be centered on the ship. Rather, it should be shown 
 # behind it. To achieve this effect, we just set the anchor point outside the
