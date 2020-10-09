@@ -2,16 +2,16 @@ import pyglet
 import math
 
 class Enemy():
-    def __init__ (self, speed, health, image, x, y, t = 0, rotation = 0, **kwargs):
-        self.speed = speed
+    def __init__ (self, health, image, x, y, dt = 1/60, t = 0, rotation = 0, **kwargs):
         self.health = health
         self.img = pyglet.image.load(image)
         self.x = x
         self.y = y
         self.t = t
+        self.dt = 1/60
         self.rotation = rotation
         self.kwargs = kwargs
-        self.movement = kwargs.get('movement', 'moveNot')
+        self.movement = kwargs.get('movement', 'move_not')
 
     def get_image(self):
         return self.img
@@ -33,8 +33,8 @@ class Enemy():
     def move_ellipse(self):
         a = self.kwargs.get('a',1)
         b = self.kwargs.get('b',1)
-        self.x = a*math.cos(self.t)
-        self.y = b*math.sin(self.t)
+        self.x = a*math.cos(self.dt * self.t) + self.x
+        self.y = b*math.sin(self.dt * self.t) + self.y
         self.t += 1
 
     def move_straight(self):
