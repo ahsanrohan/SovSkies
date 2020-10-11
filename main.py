@@ -7,8 +7,7 @@ from PhysicalObject import *
 
 def start():
     window = pyglet.window.Window(1800, 1000, resizable=True)
-    glEnable(GL_BLEND)  # transparency
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)  # transparency
+
 
     level_batch = pyglet.graphics.Batch()
     start_screen_batch = pyglet.graphics.Batch()
