@@ -37,10 +37,10 @@ class PhysicalObject(pyglet.sprite.Sprite):
 
     def check_bounds(self):
         """Use the classic Asteroids screen wrapping behavior"""
-        min_x = -self.image.width / 2
-        min_y = -self.image.height / 2
-        max_x = 800 + self.image.width / 2
-        max_y = 600 + self.image.height / 2
+        min_x = 0
+        min_y = 0
+        max_x = 1800
+        max_y = 1000
         if self.x < min_x:
             self.x = max_x
         if self.y < min_y:

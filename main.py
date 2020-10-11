@@ -32,7 +32,7 @@ def start():
                                 group=buttons_layer)
 
 
-    level_map_object = PhysicalObject(start_map, batch=level_batch, group=maps_layer)
+    level_map_object = PhysicalObject(level_map,x=900, batch=level_batch, group=maps_layer)
     game_objects += [level_map_object]
     level_map_object.velocity_y = -1
 
