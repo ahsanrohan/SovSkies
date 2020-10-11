@@ -1,5 +1,5 @@
 import pyglet
-from . import util
+
 
 
 class PhysicalObject(pyglet.sprite.Sprite):
@@ -50,8 +50,8 @@ class PhysicalObject(pyglet.sprite.Sprite):
         if self.y > max_y:
             self.y = min_y
 
-    def collides_with(self, other_object):
-        """Determine if this object collides with another"""
+    """def collides_with(self, other_object):
+        #Determine if this object collides with another
 
         # Ignore bullet collisions if we're supposed to
         if not self.reacts_to_bullets and other_object.is_bullet:
@@ -67,7 +67,7 @@ class PhysicalObject(pyglet.sprite.Sprite):
         # Get distance using position tuples
         actual_distance = util.distance(self.position, other_object.position)
 
-        return (actual_distance <= collision_distance)
+        return (actual_distance <= collision_distance)"""
 
     def handle_collision_with(self, other_object):
         if other_object.__class__ is not self.__class__:
