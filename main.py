@@ -1,13 +1,14 @@
-import pyglet
 from playerPlaneHandler import planes
 from pyglet.gl import *
 from resources import *
 from PhysicalObject import *
-
+import math
 
 def start():
     window = pyglet.window.Window(1800, 1000, resizable=True)
 
+    mouse_x = 1
+    mouse_y = 1
 
     level_batch = pyglet.graphics.Batch()
     start_screen_batch = pyglet.graphics.Batch()
@@ -23,7 +24,8 @@ def start():
     planeNumber = 1
 
     # adding images to batches
-    test = pyglet.sprite.Sprite(planes[planeNumber].planeImg, batch=level_batch, group=plane_layer)
+    test = PhysicalObject(planes[planeNumber].planeImg, batch=level_batch, group=plane_layer)
+    game_objects += [test]
     temp_exit_button = pyglet.sprite.Sprite(exit_button, x=1800 - exit_button.anchor_x, y=1000 - exit_button.anchor_y,
                                             batch=level_batch,
                                             group=buttons_layer)
@@ -38,9 +40,10 @@ def start():
 
     @window.event
     def on_mouse_motion(x, y, dx, dy):
-        window.clear()
-        test.x = x
-        test.y = y
+        nonlocal mouse_x
+        nonlocal mouse_y
+        mouse_x = x
+        mouse_y = y
 
     # key press event
     @window.event
@@ -72,6 +75,15 @@ def start():
         live_batch.draw()
 
     def update(dt):
+        vector_x = mouse_x - test.x
+        vector_y = mouse_y - test.y
+        magnitude_velocity = math.sqrt(vector_x ** 2 + vector_y ** 2)
+
+        unit_x = vector_x / magnitude_velocity
+        unit_y = vector_y / magnitude_velocity
+
+        test.velocity_x = unit_x
+        test.velocity_y = unit_y
         for obj in game_objects:
             obj.update(1)
 
