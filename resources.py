@@ -12,6 +12,9 @@ pyglet.resource.path = ['resources']
 pyglet.resource.reindex()
 
 # Load the three main resources and get them to draw centered
+bullet = pyglet.resource.image("bullet1.png")
+center_image(bullet)
+
 plane_1 = pyglet.resource.image("planeTest1.png")
 center_image(plane_1)
 
