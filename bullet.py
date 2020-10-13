@@ -7,7 +7,7 @@ class Bullet(PhysicalObject):
     """Bullets fired by the player"""
 
     def __init__(self, *args, **kwargs):
-        super(Bullet, self).__init__(img=bullet, *args, **kwargs)
+        super().__init__(img = bullet, **kwargs)
 
         # Bullets shouldn't stick around forever
         pyglet.clock.schedule_once(self.die, 0.5)

@@ -102,14 +102,15 @@ def start():
     plane_layer = pyglet.graphics.OrderedGroup(0)
 
     game_objects = []
-    planeNumber = 1
+
 
     plane1 = PlayerPlane(50, 50, plane_1, batch=level_batch)
     plane2 = PlayerPlane(20, 80, plane_2, batch=level_batch)
     plane2.visible = False
     plane1.visible = False
     planes = [plane1, plane2]
-
+    planeNumber = 1
+    planes[planeNumber].visible = True
     # for plane in planes:
     #     game_objects += [planes]
         # adding images to batches

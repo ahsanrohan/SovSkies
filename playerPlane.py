@@ -29,8 +29,8 @@ class PlayerPlane(PhysicalObject):
 
             # Create a new bullet just in front of the player
             ship_radius = self.planeImg.width / 2
-            bullet_x = x #+ math.cos(angle_radians) * ship_radius
-            bullet_y = y #+ math.sin(angle_radians) * ship_radius
+            bullet_x = self.x #+ math.cos(angle_radians) * ship_radius
+            bullet_y = self.y #+ math.sin(angle_radians) * ship_radius
             new_bullet = Bullet(bullet_x, bullet_y, batch = self.batch)
 
             # Give it some speed
