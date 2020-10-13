@@ -106,6 +106,8 @@ def start():
 
     plane1 = PlayerPlane(50, 50, plane_1, batch=level_batch)
     plane2 = PlayerPlane(20, 80, plane_2, batch=level_batch)
+    plane2.visible = False
+    plane1.visible = False
     planes = [plane1, plane2]
 
     # for plane in planes:
@@ -113,7 +115,8 @@ def start():
         # adding images to batches
     #test = PhysicalObject(planes[planeNumber].planeImg, batch=level_batch, group=plane_layer)
     #test = PlayerPlane(50, 50, plane_1, batch=level_batch, group=plane_layer)
-    test = PhysicalObject(planes[planeNumber].planeImg, batch=level_batch, group=plane_layer)
+    #test = PhysicalObject(planes[planeNumber].planeImg, batch=level_batch, group=plane_layer)
+    test = planes[planeNumber]
     game_objects += [test]
 
     #temp_exit_button = pyglet.sprite.Sprite(exit_button, x=1800 - exit_button.anchor_x, y=1000 - exit_button.anchor_y,
@@ -152,7 +155,7 @@ def start():
     @window.event
     def on_mouse_press(x, y, button, modifiers):
         print("click")
-        planes[planeNumber].fire(test.x, test.y)
+        planes[planeNumber].fire()
         #bullet_sprites.append(pyglet.sprite.Sprite(bullet_image, x, y, batch = bullet_batch))
 
     @window.event

@@ -7,6 +7,7 @@ from resources import *
 
 class PlayerPlane(PhysicalObject):
     def __init__(self, moveSpeed, health, image, **kwargs):
+        super().__init__(img = image, **kwargs)
    # def __init__(self, *args, **kwargs):
         self.moveSpeed: moveSpeed
         self.health: health
@@ -20,9 +21,9 @@ class PlayerPlane(PhysicalObject):
     def getImage(self):
         return self.planeImg
 
-    def fire(self, x, y):
+    def fire(self):
             print("FIRE")
-            print(x)
+            print(self.x)
             # Note: pyglet's rotation attributes are in "negative degrees"
             angle_radians = -math.radians(0)
 
