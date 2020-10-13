@@ -12,7 +12,7 @@ class PlayerPlane(PhysicalObject):
         self.moveSpeed: moveSpeed
         self.health: health
         self.planeImg = image
-        self.bullet_speed = 700.0
+        self.bullet_speed = 10
         self.new_objects = []
 
         # Player should not collide with own bullets
@@ -34,9 +34,11 @@ class PlayerPlane(PhysicalObject):
             new_bullet = Bullet(bullet_x, bullet_y, batch = self.batch)
 
             # Give it some speed
-            bullet_vx = math.cos(angle_radians) * self.bullet_speed
-            bullet_vy = math.sin(angle_radians) * self.bullet_speed
+            #bullet_vx = math.cos(angle_radians) * self.bullet_speed
+            #bullet_vy = math.sin(angle_radians) * self.bullet_speed
+            bullet_vx = self.bullet_speed
+            bullet_vy = self.bullet_speed
             new_bullet.velocity_x, new_bullet.velocity_y = bullet_vx, bullet_vy
-
+            new_bullet.wrap = False
             # Add it to the list of objects to be added to the game_objects list
             self.new_objects.append(new_bullet)

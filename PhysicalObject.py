@@ -24,6 +24,7 @@ class PhysicalObject(pyglet.sprite.Sprite):
         # Tell the game handler about any event handlers
         # Only applies to things with keyboard/mouse input
         self.event_handlers = []
+        self.wrap = True
 
     def update(self, dt):
         """This method should be called every frame."""
@@ -33,7 +34,8 @@ class PhysicalObject(pyglet.sprite.Sprite):
         self.y += self.velocity_y * dt
 
         # Wrap around the screen if necessary
-        self.check_bounds()
+        if self.wrap == True:
+            self.check_bounds()
 
     def check_bounds(self):
         """Use the classic Asteroids screen wrapping behavior"""
