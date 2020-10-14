@@ -158,7 +158,9 @@ def start():
     @window.event
     def on_mouse_press(x, y, button, modifiers):
         print("click")
-        planes[planeNumber].fire()
+        #print(button)
+        if (button == 1):
+            planes[planeNumber].fire()
         #bullet_sprites.append(pyglet.sprite.Sprite(bullet_image, x, y, batch = bullet_batch))
 
     @window.event
