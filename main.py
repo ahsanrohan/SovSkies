@@ -104,8 +104,8 @@ def start():
     game_objects = []
 
 
-    plane1 = PlayerPlane(20, 50, plane_1, batch=level_batch, group=plane_layer)
-    plane2 = PlayerPlane(10, 80, plane_2, batch=level_batch, group=plane_layer)
+    plane1 = PlayerPlane(2000, 50, plane_1, batch=level_batch, group=plane_layer)
+    plane2 = PlayerPlane(2000, 80, plane_2, batch=level_batch, group=plane_layer)
     plane2.visible = False
     plane1.visible = False
     planes = [plane1, plane2]
@@ -157,8 +157,6 @@ def start():
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
-        print("click")
-        #print(button)
         if (button == 1):
             planes[planeNumber].fire()
         #bullet_sprites.append(pyglet.sprite.Sprite(bullet_image, x, y, batch = bullet_batch))
@@ -173,13 +171,19 @@ def start():
         vector_x = mouse_x - test.x
         vector_y = mouse_y - test.y
         magnitude_velocity = math.sqrt(vector_x ** 2 + vector_y ** 2)
-        print(magnitude_velocity)
-        if (magnitude_velocity > 5):
+        print(test.x)
+        if (magnitude_velocity > 200 and test.x <= 1800 and test.x >= 0):
             unit_x = vector_x / magnitude_velocity
             unit_y = vector_y / magnitude_velocity
 
-            test.velocity_x = unit_x * planes[planeNumber].moveSpeed
-            test.velocity_y = unit_y * planes[planeNumber].moveSpeed
+            test.velocity_x = unit_x * planes[planeNumber].moveSpeed * dt * 0.8
+            test.velocity_y = unit_y * planes[planeNumber].moveSpeed * dt * 0.8
+        elif (magnitude_velocity > 20 and magnitude_velocity < 200 and test.x <= 1800 and test.x >= 0):
+            unit_x = vector_x / magnitude_velocity
+            unit_y = vector_y / magnitude_velocity
+
+            test.velocity_x = unit_x * planes[planeNumber].moveSpeed * dt
+            test.velocity_y = unit_y * planes[planeNumber].moveSpeed * dt
         else:
             test.velocity_x = 0
             test.velocity_y = 0
