@@ -24,20 +24,19 @@ class PlayerPlane(PhysicalObject):
     def fire(self):
             print("FIRE")
             print(self.x)
+            print(self.moveSpeed)
             # Note: pyglet's rotation attributes are in "negative degrees"
-            angle_radians = -math.radians(0)
+            angle_radians = -math.radians(270)
 
             # Create a new bullet just in front of the player
             ship_radius = self.planeImg.width / 2
-            bullet_x = self.x #+ math.cos(angle_radians) * ship_radius
-            bullet_y = self.y #+ math.sin(angle_radians) * ship_radius
+            bullet_x = self.x #* ship_radius #+ math.cos(angle_radians) * ship_radius
+            bullet_y = self.y #* ship_radius #+ math.sin(angle_radians) * ship_radius
             new_bullet = Bullet(bullet_x, bullet_y, batch = self.batch)
 
             # Give it some speed
-            #bullet_vx = math.cos(angle_radians) * self.bullet_speed
-            #bullet_vy = math.sin(angle_radians) * self.bullet_speed
-            bullet_vx = self.bullet_speed
-            bullet_vy = self.bullet_speed
+            bullet_vx = math.cos(angle_radians) * self.bullet_speed
+            bullet_vy = math.sin(angle_radians) * self.bullet_speed
             new_bullet.velocity_x, new_bullet.velocity_y = bullet_vx, bullet_vy
             new_bullet.wrap = False
             # Add it to the list of objects to be added to the game_objects list

@@ -106,8 +106,8 @@ def start():
 
     plane1 = PlayerPlane(20, 50, plane_1, batch=level_batch, group=plane_layer)
     plane2 = PlayerPlane(10, 80, plane_2, batch=level_batch, group=plane_layer)
-    plane2.visible = False
-    plane1.visible = False
+    plane2.visible = True
+    plane1.visible = True
     planes = [plane1, plane2]
     planeNumber = 1
     planes[planeNumber].visible = True
@@ -118,7 +118,8 @@ def start():
     #test = PlayerPlane(50, 50, plane_1, batch=level_batch, group=plane_layer)
     #test = PhysicalObject(planes[planeNumber].planeImg, batch=level_batch, group=plane_layer)
     test = planes[planeNumber]
-    game_objects += [test]
+    game_objects += [plane1]
+    game_objects += [plane2]
 
     #temp_exit_button = pyglet.sprite.Sprite(exit_button, x=1800 - exit_button.anchor_x, y=1000 - exit_button.anchor_y,
     #                                        batch=level_batch)
@@ -135,6 +136,8 @@ def start():
     bullet_batch = pyglet.graphics.Batch()
     bullet_sprites = []
 
+    def getPlaneNumber():
+        return planeNumber
     @window.event
     def on_mouse_motion(x, y, dx, dy):
         nonlocal mouse_x
@@ -146,14 +149,21 @@ def start():
     @window.event
     def on_key_press(symbol, modifier):
         # key "1" get press +
+        planeNumber = getPlaneNumber()
         if symbol == pyglet.window.key._1:
+            print("change to plaen 1")
+            planes[planeNumber].visible = False
             planeNumber = 1
-            #test = planes[planeNumber]
-            test.image = planes[planeNumber].planeImg
+            test = planes[planeNumber]
+            planes[planeNumber].visible = True
+            #test.image = planes[planeNumber].planeImg
         if symbol == pyglet.window.key._2:
+            print("change to plaen 0")
+            planes[planeNumber].visible = False
             planeNumber = 0
-            #test = planes[planeNumber]
-            test.image = planes[planeNumber].planeImg
+            test = planes[planeNumber]
+            planes[planeNumber].visible = True
+            #test.image = planes[planeNumber].planeImg
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
@@ -171,7 +181,6 @@ def start():
         vector_x = mouse_x - test.x
         vector_y = mouse_y - test.y
         magnitude_velocity = math.sqrt(vector_x ** 2 + vector_y ** 2)
-        print(magnitude_velocity)
         if (magnitude_velocity > 5):
             unit_x = vector_x / magnitude_velocity
             unit_y = vector_y / magnitude_velocity
