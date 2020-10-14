@@ -118,7 +118,8 @@ def start():
     #test = PlayerPlane(50, 50, plane_1, batch=level_batch, group=plane_layer)
     #test = PhysicalObject(planes[planeNumber].planeImg, batch=level_batch, group=plane_layer)
     test = planes[planeNumber]
-    game_objects += [test]
+    game_objects += [plane1]
+    game_objects += [plane2]
 
     #temp_exit_button = pyglet.sprite.Sprite(exit_button, x=1800 - exit_button.anchor_x, y=1000 - exit_button.anchor_y,
     #                                        batch=level_batch)
@@ -135,6 +136,8 @@ def start():
     bullet_batch = pyglet.graphics.Batch()
     bullet_sprites = []
 
+    def getPlaneNumber():
+        return planeNumber
     @window.event
     def on_mouse_motion(x, y, dx, dy):
         nonlocal mouse_x
@@ -146,14 +149,21 @@ def start():
     @window.event
     def on_key_press(symbol, modifier):
         # key "1" get press +
+        planeNumber = getPlaneNumber()
         if symbol == pyglet.window.key._1:
+            print("change to plaen 1")
+            planes[planeNumber].visible = False
             planeNumber = 1
-            #test = planes[planeNumber]
-            test.image = planes[planeNumber].planeImg
+            test = planes[planeNumber]
+            planes[planeNumber].visible = True
+            #test.image = planes[planeNumber].planeImg
         if symbol == pyglet.window.key._2:
+            print("change to plaen 0")
+            planes[planeNumber].visible = False
             planeNumber = 0
-            #test = planes[planeNumber]
-            test.image = planes[planeNumber].planeImg
+            test = planes[planeNumber]
+            planes[planeNumber].visible = True
+            #test.image = planes[planeNumber].planeImg
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
