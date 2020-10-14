@@ -104,8 +104,8 @@ def start():
     game_objects = []
 
 
-    plane1 = PlayerPlane(50, 50, plane_1, batch=level_batch)
-    plane2 = PlayerPlane(20, 80, plane_2, batch=level_batch)
+    plane1 = PlayerPlane(20, 50, plane_1, batch=level_batch, group=plane_layer)
+    plane2 = PlayerPlane(10, 80, plane_2, batch=level_batch, group=plane_layer)
     plane2.visible = False
     plane1.visible = False
     planes = [plane1, plane2]
@@ -123,7 +123,7 @@ def start():
     #temp_exit_button = pyglet.sprite.Sprite(exit_button, x=1800 - exit_button.anchor_x, y=1000 - exit_button.anchor_y,
     #                                        batch=level_batch)
 
-    level_map_object = PhysicalObject(level_map,x=900, batch=level_batch, group=maps_layer)
+    level_map_object = PhysicalObject(level_map, x=900, batch=level_batch, group=maps_layer)
     game_objects += [level_map_object]
     level_map_object.velocity_y = -1
 
@@ -148,9 +148,11 @@ def start():
         # key "1" get press +
         if symbol == pyglet.window.key._1:
             planeNumber = 1
+            #test = planes[planeNumber]
             test.image = planes[planeNumber].planeImg
         if symbol == pyglet.window.key._2:
             planeNumber = 0
+            #test = planes[planeNumber]
             test.image = planes[planeNumber].planeImg
 
     @window.event
@@ -169,13 +171,16 @@ def start():
         vector_x = mouse_x - test.x
         vector_y = mouse_y - test.y
         magnitude_velocity = math.sqrt(vector_x ** 2 + vector_y ** 2)
+        print(magnitude_velocity)
+        if (magnitude_velocity > 5):
+            unit_x = vector_x / magnitude_velocity
+            unit_y = vector_y / magnitude_velocity
 
-        unit_x = vector_x / magnitude_velocity
-        unit_y = vector_y / magnitude_velocity
-
-        test.velocity_x = unit_x
-        test.velocity_y = unit_y
-
+            test.velocity_x = unit_x * planes[planeNumber].moveSpeed
+            test.velocity_y = unit_y * planes[planeNumber].moveSpeed
+        else:
+            test.velocity_x = 0
+            test.velocity_y = 0
         to_add = []
         for obj in game_objects:
             obj.update(1)

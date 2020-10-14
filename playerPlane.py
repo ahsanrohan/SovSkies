@@ -9,8 +9,8 @@ class PlayerPlane(PhysicalObject):
     def __init__(self, moveSpeed, health, image, **kwargs):
         super().__init__(img = image, **kwargs)
    # def __init__(self, *args, **kwargs):
-        self.moveSpeed: moveSpeed
-        self.health: health
+        self.moveSpeed = moveSpeed
+        self.health = health
         self.planeImg = image
         self.bullet_speed = 700.0
         self.new_objects = []
