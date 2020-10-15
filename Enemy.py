@@ -17,10 +17,10 @@ class Enemy(physicalobject.PhysicalObject):
         super(Enemy, self).update(dt)
     '''
 
-    '''
+    
     def handle_collision_with(self, other_object):
         super(Enemy, self).handle_collision_with(other_object)
-    '''
+    
 
     def move_ellipse(self):
         a = self.kwargs.get('a',1)

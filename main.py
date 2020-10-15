@@ -113,7 +113,7 @@ def start():
     game_objects += planeHandler.getAllPlanes()
 
     #add enemy
-    test_enemy = Enemy(resources.plane_1, 50, x=50, y=50, batch=level_batch)
+    test_enemy = Enemy(resources.plane_1, 50, batch=level_batch, group=plane_layer)
     game_objects += [test_enemy]
 
     #initializing the background
@@ -149,7 +149,7 @@ def start():
     def update(dt):
         #enemy
         test_enemy.velocity_x = 5
-        test_enemy.velocity_y = 5
+        test_enemy.y = 700
 
 
         #player plane
