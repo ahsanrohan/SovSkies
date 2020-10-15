@@ -1,8 +1,8 @@
 import pyglet
 import math
-import physicalobject, resources
+import physicalObject, resources
 
-class Enemy(physicalobject.PhysicalObject):
+class Enemy(physicalObject.PhysicalObject):
     def __init__ (self, image, health, *args, **kwargs):
         super(Enemy, self).__init__(image, *args, **kwargs)
         self.health = health
