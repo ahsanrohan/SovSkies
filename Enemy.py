@@ -1,34 +1,23 @@
 import pyglet
 import math
+from . import physicalobject, resources
 
-class Enemy():
-    def __init__ (self, health, image, x, y, dt = 1/60, t = 0, rotation = 0, **kwargs):
+class Enemy(physicalobject.PhysicalObject):
+    def __init__ (self, image, health, *args, **kwargs):
+        super(Enemy, self).__init__(image, *args, **kwargs)
         self.health = health
-        self.img = pyglet.image.load(image)
-        self.x = x
-        self.y = y
-        self.t = t
-        self.dt = 1/60
-        self.rotation = rotation
         self.kwargs = kwargs
         self.movement = kwargs.get('movement', 'move_not')
-
-    def get_image(self):
-        return self.img
-
-    def get_position(self):
-        return self.x, self.y
-
-    def get_x(self):
-        return self.x
-    
-    def get_y(self):
-        return self.y
 
     def move_not(self):
         #default don't move
         pass
         
+    def update(self, dt):
+        super(Enemy, self).update(dt)
+
+    def handle_collision_with(self, other_object):
+        super(Asteroid, self).handle_collision_with(other_object)
 
     def move_ellipse(self):
         a = self.kwargs.get('a',1)

@@ -1,8 +1,20 @@
 import pyglet
-import random
-from . import asteroid, resources, util
+import copy
+from . import enemy, resources
 
-def enemies()
+#def enemies(enemywave object, batch=None):
+def enemy_wave(num_enemies, image, health, spawn_x, spawn_y, batch=None, **kwargs):
+    #load a custom wave of enemies
+    enemies = []
+    for i in range(num_enemies):
+        new_enemy = Enemy(plane_1, health, x=spawn_x, y=spawn_x, **kwargs) 
+        #example enemy initiliazation => enemy =  Enemy(plane_1, 50, 50, 50, movement = 'move_ellipse', a = 5, b = 2)
+        enemies.append(new_enemy)
+    return enemies
+
+#list of tuples of num of planes and kwargs for plane movement
+level_1 = [(5,{'movement' = 'move_ellipse', 'a': 5, 'b' = 2}), ]
+enemies = [Enemy(plane_1, 50, x=50, y=50, movement = 'move_ellipse', a = 5, b = 2)  for i in range(5)]
 
 
 '''
