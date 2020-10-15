@@ -37,6 +37,9 @@ level_map = pyglet.resource.image("level_background.png")
 level_map = pyglet.resource.image("level_background.png")
 center_image(level_map)
 
+sov_logo = pyglet.resource.image("SovLogo.png")
+center_image(sov_logo)
+
 end_image = pyglet.resource.image("end_game.jpg")
 center_image(end_image)
 

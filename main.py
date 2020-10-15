@@ -21,9 +21,10 @@ def menu():
     start_screen_batch = pyglet.graphics.Batch()
     live_batch = start_screen_batch
 
+
     start_map_sprite = pyglet.sprite.Sprite(start_map, batch=start_screen_batch, group=maps_layer)
     start_button_sprite = pyglet.sprite.Sprite(start_button, x=900, y=start_button.anchor_y, batch=start_screen_batch,
-                                               group=buttons_layer)
+    group=buttons_layer)
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
@@ -49,9 +50,9 @@ def end_screen():
 
     # start_map = pyglet.sprite.Sprite(mapHandler.start_map.map_Image, batch=start_screen_batch, group=maps_layer)
     end_sprite = pyglet.sprite.Sprite(end_image, x=900, y=500, batch=end_screen_batch,
-                                      group=maps_layer)
+    group=maps_layer)
     start_button_sprite = pyglet.sprite.Sprite(start_button, x=900, y=start_button.anchor_y, batch=end_screen_batch,
-                                               group=buttons_layer)
+    group=buttons_layer)
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
@@ -125,7 +126,7 @@ def start():
             window.clear()
 
         if (button == 1):
-            planeHandler.getActivePlane().fire()
+            planeHandler.getActivePlane().fire(mouse_x, mouse_y)
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
