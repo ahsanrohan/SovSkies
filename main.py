@@ -125,8 +125,7 @@ def start():
             end_screen()
             window.clear()
 
-        if (button == 1):
-            planeHandler.getActivePlane().fire(mouse_x, mouse_y)
+
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
@@ -134,6 +133,8 @@ def start():
         if (1800 - exit_button.width) < x < 1800 and y > (1000 - exit_button.height):  # clicking X button
             end_screen()
             window.clear()
+        if (button == 1):
+            planeHandler.getActivePlane().fire(mouse_x, mouse_y)
 
     @window.event
     def on_draw():
