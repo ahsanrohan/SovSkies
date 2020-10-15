@@ -48,8 +48,10 @@ from playerplanehandler import *
 from pyglet.gl import *
 from resources import *
 from physicalobject import *
+from Enemy import * 
 import math
 import pyglet
+
 
 window = pyglet.window.Window(1800, 1000, resizable=True)
 maps_layer = pyglet.graphics.OrderedGroup(-2)
@@ -108,7 +110,11 @@ def start():
 
     #initializing plane handler which holds all the planes
     planeHandler = PlayerPlaneHandler(batch=level_batch, group=plane_layer)
-    game_objects += planeHandler.getAllPlanes();
+    game_objects += planeHandler.getAllPlanes()
+
+    #add enemy
+    test_enemy = Enemy(resources.plane_1, 50, x=50, y=50, batch=level_batch)
+    game_objects += [test_enemy]
 
     #initializing the background
     level_map_object = PhysicalObject(level_map, x=900, batch=level_batch, group=maps_layer)
@@ -141,6 +147,12 @@ def start():
         level_batch.draw()
         
     def update(dt):
+        #enemy
+        test_enemy.velocity_x = 5
+        test_enemy.velocity_y = 5
+
+
+        #player plane
         vector_x = mouse_x - planeHandler.getActivePlane().x
         vector_y = mouse_y - planeHandler.getActivePlane().y
         magnitude_velocity = math.sqrt(vector_x ** 2 + vector_y ** 2)
