@@ -12,10 +12,10 @@ class Enemy(physicalObject.PhysicalObject):
     def move_not(self):
         #default don't move
         pass
-    '''
+
     def update(self, dt):
         super(Enemy, self).update(dt)
-    '''
+        
 
     
     def handle_collision_with(self, other_object):
