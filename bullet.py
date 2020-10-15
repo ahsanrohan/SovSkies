@@ -1,5 +1,5 @@
 import pyglet
-from PhysicalObject import *
+from physicalObject import *
 from resources import *
 
 

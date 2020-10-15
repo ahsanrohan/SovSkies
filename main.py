@@ -1,8 +1,8 @@
 from playerPlaneHandler import *
 from pyglet.gl import *
 from resources import *
-from PhysicalObject import *
-from Enemy import * 
+from physicalObject import *
+from enemy import *
 import math
 import pyglet
 
