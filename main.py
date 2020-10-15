@@ -6,7 +6,6 @@ from enemy import *
 import math
 import pyglet
 
-
 window = pyglet.window.Window(1800, 1000, resizable=True)
 maps_layer = pyglet.graphics.OrderedGroup(-2)
 buttons_layer = pyglet.graphics.OrderedGroup(-1)
@@ -57,7 +56,7 @@ def end_screen():
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
-        if 739 < x < 1060 and y < 320:
+        if 750 < x < 1050 and y < 100:
             window.clear()
             # print(level_batch)
             start()
@@ -86,7 +85,7 @@ def start():
     planeHandler = PlayerPlaneHandler(batch=level_batch, group=plane_layer)
     game_objects += planeHandler.getAllPlanes()
 
-    #add enemy
+    # add enemy
     test_enemy = Enemy(resources.plane_1, 50, batch=level_batch, group=plane_layer)
     game_objects += [test_enemy]
 
@@ -97,15 +96,18 @@ def start():
 
     # initialize the exit button
     exit_button_sprite = pyglet.sprite.Sprite(exit_button, x=1800 - exit_button.anchor_x, y=1000 - exit_button.anchor_y,
-    batch=level_batch,
-    group=buttons_layer)
+                                              batch=level_batch,
+                                              group=buttons_layer)
 
-    @window.event
-    def on_mouse_motion(x, y, dx, dy):
+    def mouse_location_update(x, y):
         nonlocal mouse_x
         nonlocal mouse_y
         mouse_x = x
         mouse_y = y
+
+    @window.event
+    def on_mouse_motion(x, y, dx, dy):
+        mouse_location_update(x, y)
 
     # key press event
     @window.event
@@ -116,7 +118,8 @@ def start():
             planeHandler.setActivePlane(0)
 
     @window.event
-    def on_mouse_press(x, y, button, modifiers):
+    def on_mouse_drag(x, y, dx,dy, button, modifiers):
+        mouse_location_update(x, y)
 
         if (1800 - exit_button.width) < x < 1800 and y > (1000 - exit_button.height):  # clicking X button
             end_screen()
@@ -126,17 +129,23 @@ def start():
             planeHandler.getActivePlane().fire(mouse_x, mouse_y)
 
     @window.event
+    def on_mouse_press(x, y, button, modifiers):
+
+        if (1800 - exit_button.width) < x < 1800 and y > (1000 - exit_button.height):  # clicking X button
+            end_screen()
+            window.clear()
+
+    @window.event
     def on_draw():
         window.clear()
         level_batch.draw()
 
     def update(dt):
-        #enemy
+        # enemy
         test_enemy.velocity_x = 5
         test_enemy.y = 700
 
-
-        #player plane
+        # player plane
         vector_x = mouse_x - planeHandler.getActivePlane().x
         vector_y = mouse_y - planeHandler.getActivePlane().y
         magnitude_velocity = math.sqrt(vector_x ** 2 + vector_y ** 2)
