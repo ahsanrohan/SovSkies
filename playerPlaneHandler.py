@@ -1,4 +1,4 @@
-from playerplane import PlayerPlane
+from playerPlane import PlayerPlane
 from resources import *
 
 

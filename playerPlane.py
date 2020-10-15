@@ -1,7 +1,7 @@
 import pyglet
 import math
 from bullet import *
-from physicalobject import *
+from PhysicalObject import *
 from resources import *
 
 
