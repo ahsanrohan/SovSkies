@@ -1,6 +1,24 @@
 from playerplane import PlayerPlane
 from resources import *
 
-plane1 = PlayerPlane(50, 50, plane_1)
-plane2 = PlayerPlane(20, 80, plane_2)
-planes = [plane1, plane2]
+
+class PlayerPlaneHandler():
+    def __init__(self, *args, **kwargs):
+        self.activePlane = 0
+        self.plane1 = PlayerPlane(2000, 50, plane_1, **kwargs)
+        self.plane2 = PlayerPlane(2000, 80, plane_2, **kwargs)
+        self.plane1.visible = False
+        self.plane2.visible = False
+        self.planes = [self.plane1, self.plane2]
+        self.planes[self.activePlane].visible = True
+
+    def getActivePlane(self):
+        return self.planes[self.activePlane]
+
+    def setActivePlane(self, num):
+        self.planes[self.activePlane].visible = False
+        self.activePlane = num
+        self.planes[self.activePlane].visible = True
+
+    def getAllPlanes(self):
+        return self.planes
