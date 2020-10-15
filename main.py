@@ -97,8 +97,8 @@ def start():
 
     # initialize the exit button
     exit_button_sprite = pyglet.sprite.Sprite(exit_button, x=1800 - exit_button.anchor_x, y=1000 - exit_button.anchor_y,
-                                            batch=level_batch,
-                                            group=buttons_layer)
+    batch=level_batch,
+    group=buttons_layer)
 
     @window.event
     def on_mouse_motion(x, y, dx, dy):
