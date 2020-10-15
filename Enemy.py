@@ -1,6 +1,6 @@
 import pyglet
 import math
-from . import physicalobject, resources
+import physicalobject, resources
 
 class Enemy(physicalobject.PhysicalObject):
     def __init__ (self, image, health, *args, **kwargs):
@@ -12,12 +12,15 @@ class Enemy(physicalobject.PhysicalObject):
     def move_not(self):
         #default don't move
         pass
-        
+    '''
     def update(self, dt):
         super(Enemy, self).update(dt)
+    '''
 
+    
     def handle_collision_with(self, other_object):
-        super(Asteroid, self).handle_collision_with(other_object)
+        super(Enemy, self).handle_collision_with(other_object)
+    
 
     def move_ellipse(self):
         a = self.kwargs.get('a',1)
