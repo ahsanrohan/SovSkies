@@ -34,16 +34,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
 from playerplanehandler import *
 from pyglet.gl import *
 from resources import *
@@ -71,8 +61,7 @@ def menu():
 
     temp = pyglet.sprite.Sprite(temp_image, x=900-(temp_image.width/2), batch=start_screen_batch, group=buttons_layer)
     temp_start_map = pyglet.sprite.Sprite(start_map, batch=start_screen_batch, group=maps_layer)
-    temp = pyglet.sprite.Sprite(start_button, x=900, y=start_button.anchor_y, batch=start_screen_batch,
-                                group=buttons_layer)
+    temp = pyglet.sprite.Sprite(start_button, x=900, y=start_button.anchor_y, batch=start_screen_batch, group=buttons_layer)
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
@@ -133,13 +122,13 @@ def start():
     @window.event
     def on_mouse_press(x, y, button, modifiers):
         if (button == 1):
-            planeHandler.getActivePlane().fire()
+            planeHandler.getActivePlane().fire(mouse_x, mouse_y)
 
     @window.event
     def on_draw():
         window.clear()
         level_batch.draw()
-        
+
     def update(dt):
         vector_x = mouse_x - planeHandler.getActivePlane().x
         vector_y = mouse_y - planeHandler.getActivePlane().y
