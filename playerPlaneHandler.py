@@ -15,9 +15,11 @@ class PlayerPlaneHandler():
     def getActivePlane(self):
         return self.planes[self.activePlane]
 
-    def setActivePlane(self, num):
+    def setActivePlane(self, num, currPlane):
         self.planes[self.activePlane].visible = False
         self.activePlane = num
+        self.planes[self.activePlane].x = currPlane.x
+        self.planes[self.activePlane].y = currPlane.y
         self.planes[self.activePlane].visible = True
 
     def getAllPlanes(self):

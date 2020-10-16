@@ -28,7 +28,6 @@ def menu():
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
-        print(y)
         if 750 < x < 1050 and 400 < y < 500:
             inGame = True
             nonlocal live_batch
@@ -79,6 +78,7 @@ def start():
 
     # these objects will be updated every tick
     game_objects = []
+    enemies = []
 
     # initializing plane handler which holds all the planes
     planeHandler = PlayerPlaneHandler(batch=level_batch, group=plane_layer)
@@ -87,7 +87,7 @@ def start():
     # add enemy
     test_enemy = Enemy(resources.plane_1, 50, batch=level_batch, group=plane_layer)
     game_objects += [test_enemy]
-
+    enemies += [test_enemy]
     # initializing the background
     level_map_object = PhysicalObject(level_map, x=900, batch=level_batch, group=maps_layer)
     game_objects += [level_map_object]
@@ -111,10 +111,13 @@ def start():
     # key press event
     @window.event
     def on_key_press(symbol, modifier):
+        currPlane = planeHandler.getActivePlane()
         if symbol == pyglet.window.key._1:
-            planeHandler.setActivePlane(1)
+            #planeHandler.getActivePlane(1).x = currPlane.x
+            planeHandler.setActivePlane(1, currPlane)
         if symbol == pyglet.window.key._2:
-            planeHandler.setActivePlane(0)
+            #planeHandler.getActivePlane(0).x = currPlane.x
+            planeHandler.setActivePlane(0, currPlane)
 
     @window.event
     def on_mouse_drag(x, y, dx, dy, button, modifiers):
@@ -128,17 +131,16 @@ def start():
             window.clear()
         if (button == 1):
             planeHandler.getActivePlane().fire(mouse_x, mouse_y)
+        #print(game_objects)
 
     @window.event
     def on_draw():
         window.clear()
         level_batch.draw()
 
-    def update(dt):
-        # enemy
+    def handleMove(dt):
         test_enemy.velocity_x = 5
         test_enemy.y = 700
-        
 
         # player plane
         vector_x = mouse_x - planeHandler.getActivePlane().x
@@ -161,6 +163,23 @@ def start():
         else:
             planeHandler.getActivePlane().velocity_x = 0
             planeHandler.getActivePlane().velocity_y = 0
+
+    def checkCollision():
+        for obj in game_objects:
+            if (obj.dead == True):
+                game_objects.remove(obj)
+                #print(game_objects)
+
+            if (obj.is_bullet):
+                for enemyObj in enemies:
+                    if (enemyObj.collides_with(obj) == True):
+                        enemyObj.handle_collision_with(obj)
+
+    def update(dt):
+        # enemy
+        handleMove(dt)
+        checkCollision()
+
         to_add = []
         for obj in game_objects:
             obj.update(1)
@@ -174,7 +193,6 @@ def start():
     pyglet.clock.schedule_interval(update, 1 / 120.0)
 
     pyglet.app.run()
-
 
 if __name__ == '__main__':
     init()
