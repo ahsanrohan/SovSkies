@@ -1,49 +1,3 @@
-# import pyglet
-# from playerPlaneHandler import planes
-# from pyglet.gl import *
-# from resources import *
-# from level import level
-# from menu import menu
-    
-# #sets up the window
-# window = pyglet.window.Window(1800, 1000, resizable=True)
-
-# live_batch = pyglet.graphics.Batch()
-
-# def init():
-#     menu(live_batch)
-
-# @game_window.event
-# def on_draw():
-#     window.clear()
-#     live_batch.draw()
-
-# if __name__ == '__main__':
-#     # Starts up
-#     init()
-
-#     #updates the game 60 times per second
-#     pyglet.clock.schedule_interval(update, 1/60.0)
-
-#     pyglet.app.run()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 from playerPlaneHandler import *
 from pyglet.gl import *
 from resources import *
@@ -52,81 +6,107 @@ from enemy import *
 import math
 import pyglet
 
-
 window = pyglet.window.Window(1800, 1000, resizable=True)
 maps_layer = pyglet.graphics.OrderedGroup(-2)
 buttons_layer = pyglet.graphics.OrderedGroup(-1)
 
-#this is where values are initialized 
+# this is where values are initialized
 def init():
     menu()
 
-#menu funtion
+
+# menu funtion
 def menu():
     start_screen_batch = pyglet.graphics.Batch()
-
     live_batch = start_screen_batch
 
-
-    #start_map = pyglet.sprite.Sprite(mapHandler.start_map.map_Image, batch=start_screen_batch, group=maps_layer)
-    temp_image = pyglet.image.load('./resources/start_button.png')
-
-    temp = pyglet.sprite.Sprite(temp_image, x=900-(temp_image.width/2), batch=start_screen_batch, group=buttons_layer)
-    temp_start_map = pyglet.sprite.Sprite(start_map, batch=start_screen_batch, group=maps_layer)
-    temp = pyglet.sprite.Sprite(start_button, x=900, y=start_button.anchor_y, batch=start_screen_batch,
-                                group=buttons_layer)
+    start_map_sprite = pyglet.sprite.Sprite(start_map, batch=start_screen_batch, group=maps_layer)
+    start_button_sprite = pyglet.sprite.Sprite(start_button, x=900, y=450, batch=start_screen_batch,
+                                               group=buttons_layer)
+    sov_logo_sprite = pyglet.sprite.Sprite(sov_logo_image, x=900, y=800, batch=start_screen_batch,
+                                           group=buttons_layer)
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
-        
-        if 739 < x < 1060 and y < 320:
+        print(y)
+        if 750 < x < 1050 and 400 < y < 500:
             inGame = True
             nonlocal live_batch
-            #live_batch = level_batch
-            print('going to level')
+            # live_batch = level_batch
             window.clear()
-            #print(level_batch)
+            # print(level_batch)
             start()
 
     @window.event
     def on_draw():
         window.clear()
         live_batch.draw()
-    
+
     pyglet.app.run()
 
 
-#Game function
+def end_screen():
+    end_screen_batch = pyglet.graphics.Batch()
+
+    # start_map = pyglet.sprite.Sprite(mapHandler.start_map.map_Image, batch=start_screen_batch, group=maps_layer)
+    end_sprite = pyglet.sprite.Sprite(end_image, x=900, y=500, batch=end_screen_batch,
+                                      group=maps_layer)
+    start_button_sprite = pyglet.sprite.Sprite(start_button, x=900, y=start_button.anchor_y, batch=end_screen_batch,
+                                               group=buttons_layer)
+
+    @window.event
+    def on_mouse_press(x, y, button, modifiers):
+        if 750 < x < 1050 and y < 100:
+            window.clear()
+            # print(level_batch)
+            start()
+
+    @window.event
+    def on_draw():
+        window.clear()
+        end_screen_batch.draw()
+
+    pyglet.app.run()
+
+# Game function
 def start():
     level_batch = pyglet.graphics.Batch()
     mouse_x = 1
     mouse_y = 1
-    
+
     # setting layering
     plane_layer = pyglet.graphics.OrderedGroup(0)
 
     # these objects will be updated every tick
     game_objects = []
 
-    #initializing plane handler which holds all the planes
+    # initializing plane handler which holds all the planes
     planeHandler = PlayerPlaneHandler(batch=level_batch, group=plane_layer)
     game_objects += planeHandler.getAllPlanes()
 
-    #add enemy
+    # add enemy
     test_enemy = Enemy(resources.plane_1, 50, batch=level_batch, group=plane_layer)
     game_objects += [test_enemy]
 
-    #initializing the background
+    # initializing the background
     level_map_object = PhysicalObject(level_map, x=900, batch=level_batch, group=maps_layer)
     game_objects += [level_map_object]
     level_map_object.velocity_y = -1
 
-    @window.event
-    def on_mouse_motion(x, y, dx, dy):
+    # initialize the exit button
+    exit_button_sprite = pyglet.sprite.Sprite(exit_button, x=1800 - exit_button.anchor_x, y=1000 - exit_button.anchor_y,
+                                              batch=level_batch,
+                                              group=buttons_layer)
+
+    def mouse_location_update(x, y):
         nonlocal mouse_x
         nonlocal mouse_y
         mouse_x = x
         mouse_y = y
+
+    @window.event
+    def on_mouse_motion(x, y, dx, dy):
+        mouse_location_update(x, y)
 
     # key press event
     @window.event
@@ -137,32 +117,42 @@ def start():
             planeHandler.setActivePlane(0)
 
     @window.event
+    def on_mouse_drag(x, y, dx, dy, button, modifiers):
+        mouse_location_update(x, y)
+
+    @window.event
     def on_mouse_press(x, y, button, modifiers):
+
+        if (1800 - exit_button.width) < x < 1800 and y > (1000 - exit_button.height):  # clicking X button
+            end_screen()
+            window.clear()
         if (button == 1):
-            planeHandler.getActivePlane().fire()
+            planeHandler.getActivePlane().fire(mouse_x, mouse_y)
 
     @window.event
     def on_draw():
         window.clear()
         level_batch.draw()
-        
+
     def update(dt):
-        #enemy
+        # enemy
         test_enemy.velocity_x = 5
         test_enemy.y = 700
+        
 
-
-        #player plane
+        # player plane
         vector_x = mouse_x - planeHandler.getActivePlane().x
         vector_y = mouse_y - planeHandler.getActivePlane().y
         magnitude_velocity = math.sqrt(vector_x ** 2 + vector_y ** 2)
-        if (magnitude_velocity > 200 and planeHandler.getActivePlane().x <= 1800 and planeHandler.getActivePlane().x >= 0):
+        if (
+                magnitude_velocity > 200 and planeHandler.getActivePlane().x <= 1800 and planeHandler.getActivePlane().x >= 0):
             unit_x = vector_x / magnitude_velocity
             unit_y = vector_y / magnitude_velocity
 
             planeHandler.getActivePlane().velocity_x = unit_x * planeHandler.getActivePlane().moveSpeed * dt * 0.8
             planeHandler.getActivePlane().velocity_y = unit_y * planeHandler.getActivePlane().moveSpeed * dt * 0.8
-        elif (magnitude_velocity > 20 and magnitude_velocity < 200 and planeHandler.getActivePlane().x <= 1800 and planeHandler.getActivePlane().x >= 0):
+        elif (
+                magnitude_velocity > 20 and magnitude_velocity < 200 and planeHandler.getActivePlane().x <= 1800 and planeHandler.getActivePlane().x >= 0):
             unit_x = vector_x / magnitude_velocity
             unit_y = vector_y / magnitude_velocity
 
@@ -178,7 +168,7 @@ def start():
             to_add.extend(obj.new_objects)
             obj.new_objects = []
 
-         # Add new objects to the list
+        # Add new objects to the list
         game_objects.extend(to_add)
 
     pyglet.clock.schedule_interval(update, 1 / 120.0)

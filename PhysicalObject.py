@@ -1,4 +1,5 @@
 import pyglet
+import math
 
 
 
@@ -26,6 +27,8 @@ class PhysicalObject(pyglet.sprite.Sprite):
         self.event_handlers = []
         self.wrap = True
 
+        self.orientation = False
+
     def update(self, dt):
         """This method should be called every frame."""
 
@@ -37,6 +40,15 @@ class PhysicalObject(pyglet.sprite.Sprite):
         if self.wrap == True:
             self.check_bounds()
 
+        # Orient object to face object
+        if self.orientation == True:
+            if self.velocity_x == 0:
+                self.rotation = 90
+            else:
+                self.rotation = 90 - math.degrees(math.atan2(self.velocity_y,self.velocity_x))
+                    
+        
+        
     def check_bounds(self):
         """Use the classic Asteroids screen wrapping behavior"""
         min_x = 0
