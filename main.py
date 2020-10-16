@@ -10,7 +10,6 @@ window = pyglet.window.Window(1800, 1000, resizable=True)
 maps_layer = pyglet.graphics.OrderedGroup(-2)
 buttons_layer = pyglet.graphics.OrderedGroup(-1)
 
-
 # this is where values are initialized
 def init():
     menu()
@@ -67,7 +66,6 @@ def end_screen():
         end_screen_batch.draw()
 
     pyglet.app.run()
-
 
 # Game function
 def start():
@@ -144,6 +142,7 @@ def start():
         # enemy
         test_enemy.velocity_x = 5
         test_enemy.y = 700
+        
 
         # player plane
         vector_x = mouse_x - planeHandler.getActivePlane().x

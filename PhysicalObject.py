@@ -42,8 +42,11 @@ class PhysicalObject(pyglet.sprite.Sprite):
 
         # Orient object to face object
         if self.orientation == True:
-            if self.velocity_x:
-                self.rotation(math.degrees(math.sin(self.velocity_y/self.velocity_x)))
+            if self.velocity_x == 0:
+                self.rotation = 90
+            else:
+                self.rotation = 90 - math.degrees(math.atan2(self.velocity_y,self.velocity_x))
+                    
         
         
     def check_bounds(self):

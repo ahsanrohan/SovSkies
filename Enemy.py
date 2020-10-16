@@ -8,6 +8,7 @@ class Enemy(physicalObject.PhysicalObject):
         self.health = health
         self.kwargs = kwargs
         self.movement = kwargs.get('movement', 'move_not')
+        self.orientation = True
 
     def move_not(self):
         #default don't move
