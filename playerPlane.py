@@ -22,18 +22,18 @@ class PlayerPlane(PhysicalObject):
         return self.planeImg
 
     def fire(self, mouse_x, mouse_y):
-            print("mosue x is: " + str(mouse_x))
-            print("mouse y is: " + str(mouse_y))
-            print("plane x is: " + str(self.x))
-            print("plane y is: " + str(self.y))
-            print("diff x is: " +str(mouse_x - self.x))
-            xdiff = mouse_x - self.x
-            print("diff y is: " +str(mouse_y - self.y))
-            ydiff = mouse_y - self.y
-            print("math: " + str(math.degrees(math.atan(ydiff/xdiff))))
-            print("FIRE")
-            print(self.x)
-            print(self.moveSpeed)
+            # print("mosue x is: " + str(mouse_x))
+            # print("mouse y is: " + str(mouse_y))
+            # print("plane x is: " + str(self.x))
+            # print("plane y is: " + str(self.y))
+            # print("diff x is: " +str(mouse_x - self.x))
+            # xdiff = mouse_x - self.x
+            # print("diff y is: " +str(mouse_y - self.y))
+            # ydiff = mouse_y - self.y
+            # print("math: " + str(math.degrees(math.atan(ydiff/xdiff))))
+            # print("FIRE")
+            # print(self.x)
+            # print(self.moveSpeed)
             # Note: pyglet's rotation attributes are in "negative degrees"
             angle_radians = -math.radians(270)
 

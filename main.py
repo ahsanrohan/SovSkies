@@ -20,18 +20,19 @@ def menu():
     start_screen_batch = pyglet.graphics.Batch()
     live_batch = start_screen_batch
 
-
     start_map_sprite = pyglet.sprite.Sprite(start_map, batch=start_screen_batch, group=maps_layer)
-    start_button_sprite = pyglet.sprite.Sprite(start_button, x=900, y=start_button.anchor_y, batch=start_screen_batch,
-    group=buttons_layer)
+    start_button_sprite = pyglet.sprite.Sprite(start_button, x=900, y=450, batch=start_screen_batch,
+                                               group=buttons_layer)
+    sov_logo_sprite = pyglet.sprite.Sprite(sov_logo_image, x=900, y=800, batch=start_screen_batch,
+                                           group=buttons_layer)
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
-        if 739 < x < 1060 and y < 320:
+        print(y)
+        if 750 < x < 1050 and 400 < y < 500:
             inGame = True
             nonlocal live_batch
             # live_batch = level_batch
-            print('going to level')
             window.clear()
             # print(level_batch)
             start()
@@ -49,9 +50,9 @@ def end_screen():
 
     # start_map = pyglet.sprite.Sprite(mapHandler.start_map.map_Image, batch=start_screen_batch, group=maps_layer)
     end_sprite = pyglet.sprite.Sprite(end_image, x=900, y=500, batch=end_screen_batch,
-    group=maps_layer)
+                                      group=maps_layer)
     start_button_sprite = pyglet.sprite.Sprite(start_button, x=900, y=start_button.anchor_y, batch=end_screen_batch,
-    group=buttons_layer)
+                                               group=buttons_layer)
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
@@ -116,15 +117,8 @@ def start():
             planeHandler.setActivePlane(0)
 
     @window.event
-    def on_mouse_drag(x, y, dx,dy, button, modifiers):
+    def on_mouse_drag(x, y, dx, dy, button, modifiers):
         mouse_location_update(x, y)
-
-        if (1800 - exit_button.width) < x < 1800 and y > (1000 - exit_button.height):  # clicking X button
-            end_screen()
-            window.clear()
-
-        if (button == 1):
-            planeHandler.getActivePlane().fire(mouse_x, mouse_y)
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
@@ -132,6 +126,8 @@ def start():
         if (1800 - exit_button.width) < x < 1800 and y > (1000 - exit_button.height):  # clicking X button
             end_screen()
             window.clear()
+        if (button == 1):
+            planeHandler.getActivePlane().fire(mouse_x, mouse_y)
 
     @window.event
     def on_draw():
