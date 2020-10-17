@@ -47,4 +47,34 @@ class Enemy(physicalObject.PhysicalObject):
         if direction == "right":
             self.y = self.t
         
+
+# enemy
+        '''
+        test_enemy.velocity_x = 5
+        test_enemy.y = 700
+        '''
+        # sine wave
+        '''
+        test_enemy.velocity_x = 4
+        test_enemy.velocity_y = 100 * math.sin(0.001 * test_enemy.x)
+        '''
+
+        # parabola
+        '''
+        test_enemy.velocity_x = 4
+        test_enemy.velocity_y = -0.001 * test_enemy.x * 2
+        '''
+
+        # log
+        '''
+        test_enemy.velocity_x = 4
+        test_enemy.y = 800
+        test_enemy.velocity_y = 40/(0.01 * test_enemy.x + 1 ) 
+        '''
+
+        #circle
+        '''
+        test_enemy.velocity_y = math.cos(test_enemy.y)
+        test_enemy.velocity_x = math.sin(test_enemy.x)
+        '''
         

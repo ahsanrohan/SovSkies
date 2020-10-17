@@ -86,6 +86,7 @@ def start():
 
     # add enemy
     test_enemy = Enemy(resources.plane_1, 50, batch=level_batch, group=plane_layer)
+    test_enemy.color = (255,0,0)
     game_objects += [test_enemy]
     enemies += [test_enemy]
     # initializing the background
@@ -168,6 +169,7 @@ def start():
         for obj in game_objects:
             if (obj.dead == True):
                 game_objects.remove(obj)
+                end_screen()
                 #print(game_objects)
 
             if (obj.is_bullet):
