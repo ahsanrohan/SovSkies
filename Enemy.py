@@ -15,10 +15,13 @@ class Enemy(physicalObject.PhysicalObject):
         pass
 
     def update(self, dt):
+        if (self.health <= 0):
+            self.dead = True
         super(Enemy, self).update(dt)
-        
 
-    
+    def collides_with(self, other_object):
+        return super(Enemy, self).collides_with(other_object)
+
     def handle_collision_with(self, other_object):
         super(Enemy, self).handle_collision_with(other_object)
     

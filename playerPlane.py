@@ -15,8 +15,11 @@ class PlayerPlane(PhysicalObject):
         self.bullet_speed = 10
         self.new_objects = []
 
+        self.wrap = False
+        self.bind = True
         # Player should not collide with own bullets
         self.reacts_to_bullets = False
+        self.scale = 0.7
 
     def getImage(self):
         return self.planeImg
