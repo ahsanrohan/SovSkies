@@ -15,6 +15,12 @@ class Bullet(PhysicalObject):
         # Flag as a bullet
         self.is_bullet = True
 
+    # def update(self, dt):
+    #     if self.dead == True:
+    #         print("hi")
+
     def die(self, dt):
+        print("bullet is dead")
         self.dead = True
+        self.visible = False
         #self.delete()

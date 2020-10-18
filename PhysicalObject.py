@@ -13,6 +13,7 @@ class PhysicalObject(pyglet.sprite.Sprite):
         # Flags to toggle collision with bullets
         self.reacts_to_bullets = True
         self.is_bullet = False
+        self.is_enemy = False
 
         # Flag to remove this object from the game_object list
         self.dead = False
@@ -103,6 +104,7 @@ class PhysicalObject(pyglet.sprite.Sprite):
     def handle_collision_with(self, other_object):
         if other_object.__class__ is not self.__class__:
             self.health = self.health - other_object.damage
-            #self.dead = True
+
         if other_object.is_bullet == True:
-            other_object.dead = True
+
+            pyglet.clock.schedule_once(other_object.die, 0)

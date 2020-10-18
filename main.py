@@ -44,7 +44,7 @@ def menu():
     pyglet.app.run()
 
 
-def end_screen():
+def end_screen(dt):
     end_screen_batch = pyglet.graphics.Batch()
 
     # start_map = pyglet.sprite.Sprite(mapHandler.start_map.map_Image, batch=start_screen_batch, group=maps_layer)
@@ -168,8 +168,11 @@ def start():
     def checkCollision():
         for obj in game_objects:
             if (obj.dead == True):
+                if obj.is_enemy == True:
+                    print("game end")
+                    pyglet.clock.schedule_once(end_screen, 1)
+
                 game_objects.remove(obj)
-                end_screen()
                 #print(game_objects)
 
             if (obj.is_bullet):

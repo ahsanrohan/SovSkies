@@ -9,6 +9,7 @@ class Enemy(physicalObject.PhysicalObject):
         self.kwargs = kwargs
         self.movement = kwargs.get('movement', 'move_not')
         self.orientation = True
+        self.is_enemy = True
 
     def move_not(self):
         #default don't move
@@ -17,6 +18,8 @@ class Enemy(physicalObject.PhysicalObject):
     def update(self, dt):
         if (self.health <= 0):
             self.dead = True
+            self.visible = False
+            self.reacts_to_bullets = False
         super(Enemy, self).update(dt)
 
     def collides_with(self, other_object):
