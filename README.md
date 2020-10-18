@@ -9,7 +9,7 @@ Sovereign skies is a top down shooter. Take down waves of enemy planes while dod
 |--|--|
 | `1` | switch to plane 1 |
 | `2` | switch to plane 2 |
-|`left mouse` | shoot
+|`LMB` | shoot
 
 ## Installation
 `pip install `
