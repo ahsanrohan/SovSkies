@@ -104,8 +104,13 @@ class PhysicalObject(pyglet.sprite.Sprite):
     def handle_collision_with(self, other_object):
         if other_object.__class__ is not self.__class__:
             self.health = self.health - other_object.damage
-            self.color = (255,0,0)
+            self.color = (255,100,100)
+            pyglet.clock.schedule_once(self.revert_color, 0.1)
+            
 
         if other_object.is_bullet == True:
 
             pyglet.clock.schedule_once(other_object.die, 0)
+
+    def revert_color(self, dt):
+        self.color = (255,255,255)
