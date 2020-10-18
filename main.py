@@ -85,6 +85,10 @@ def start():
     # Score Handling
     score = [0]
     max_score = 0
+    label = pyglet.text.Label('Score: '+str(score[0]),
+                              font_name='Times New Roman',
+                              font_size=24, group=buttons_layer,
+                              x=window.width - 200, y=window.height // 2, batch=level_batch)
 
     # initializing plane handler which holds all the planes
     planeHandler = PlayerPlaneHandler(batch=level_batch, group=plane_layer)
@@ -175,8 +179,8 @@ def start():
         for obj in game_objects:
             if (obj.dead == True):
                 if obj.is_enemy == True:
-                    score[0] = score[0] + 1
-
+                    
+                    label.text = 'Score: '+str(score[0])
                     if score[0] > max_score:  # change this to change the required score to win
                         pyglet.clock.schedule_once(end_screen, 1)
                     print(score)
