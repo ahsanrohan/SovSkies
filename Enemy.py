@@ -14,7 +14,7 @@ class Enemy(physicalObject.PhysicalObject):
     def move_not(self):
         #default don't move
         pass
-
+        #test
     def update(self, dt):
         if (self.health <= 0):
             self.dead = True

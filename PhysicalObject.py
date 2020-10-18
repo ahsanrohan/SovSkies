@@ -9,7 +9,7 @@ class PhysicalObject(pyglet.sprite.Sprite):
 
         # Velocity
         self.velocity_x, self.velocity_y = 0.0, 0.0
-
+        #test
         # Flags to toggle collision with bullets
         self.reacts_to_bullets = True
         self.is_bullet = False
