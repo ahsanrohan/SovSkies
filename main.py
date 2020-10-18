@@ -10,6 +10,7 @@ window = pyglet.window.Window(1800, 1000, resizable=True)
 maps_layer = pyglet.graphics.OrderedGroup(-2)
 buttons_layer = pyglet.graphics.OrderedGroup(-1)
 
+
 # this is where values are initialized
 def init():
     menu()
@@ -67,6 +68,7 @@ def end_screen(dt):
 
     pyglet.app.run()
 
+
 # Game function
 def start():
     level_batch = pyglet.graphics.Batch()
@@ -80,13 +82,17 @@ def start():
     game_objects = []
     enemies = []
 
+    # Score Handling
+    score = [0]
+    max_score = 0
+
     # initializing plane handler which holds all the planes
     planeHandler = PlayerPlaneHandler(batch=level_batch, group=plane_layer)
     game_objects += planeHandler.getAllPlanes()
 
     # add enemy
     test_enemy = Enemy(resources.plane_1, 50, batch=level_batch, group=plane_layer)
-    test_enemy.color = (255,0,0)
+    test_enemy.color = (255, 0, 0)
     game_objects += [test_enemy]
     enemies += [test_enemy]
     # initializing the background
@@ -114,10 +120,10 @@ def start():
     def on_key_press(symbol, modifier):
         currPlane = planeHandler.getActivePlane()
         if symbol == pyglet.window.key._1:
-            #planeHandler.getActivePlane(1).x = currPlane.x
+            # planeHandler.getActivePlane(1).x = currPlane.x
             planeHandler.setActivePlane(1, currPlane)
         if symbol == pyglet.window.key._2:
-            #planeHandler.getActivePlane(0).x = currPlane.x
+            # planeHandler.getActivePlane(0).x = currPlane.x
             planeHandler.setActivePlane(0, currPlane)
 
     @window.event
@@ -128,11 +134,11 @@ def start():
     def on_mouse_press(x, y, button, modifiers):
 
         if (1800 - exit_button.width) < x < 1800 and y > (1000 - exit_button.height):  # clicking X button
-            end_screen()
+            end_screen(0)
             window.clear()
         if (button == 1):
             planeHandler.getActivePlane().fire(mouse_x, mouse_y)
-        #print(game_objects)
+        # print(game_objects)
 
     @window.event
     def on_draw():
@@ -169,11 +175,15 @@ def start():
         for obj in game_objects:
             if (obj.dead == True):
                 if obj.is_enemy == True:
+                    score[0] = score[0] + 1
+
+                    if score[0] > max_score:  # change this to change the required score to win
+                        pyglet.clock.schedule_once(end_screen, 1)
+                    print(score)
                     print("game end")
-                    pyglet.clock.schedule_once(end_screen, 1)
 
                 game_objects.remove(obj)
-                #print(game_objects)
+                # print(game_objects)
 
             if (obj.is_bullet):
                 for enemyObj in enemies:
@@ -198,6 +208,7 @@ def start():
     pyglet.clock.schedule_interval(update, 1 / 120.0)
 
     pyglet.app.run()
+
 
 if __name__ == '__main__':
     init()

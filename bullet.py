@@ -20,7 +20,7 @@ class Bullet(PhysicalObject):
     #         print("hi")
 
     def die(self, dt):
-        print("bullet is dead")
+        #print("bullet is dead")
         self.dead = True
         self.visible = False
         #self.delete()
