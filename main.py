@@ -83,9 +83,8 @@ def start():
     enemies = []
 
     # Score Handling
-    score = [0]
-    max_score = 0
-    label = pyglet.text.Label('Score: '+str(score[0]),
+    score_obj = {'score': 0, 'target_score': 3}
+    label = pyglet.text.Label('Score: ' + str(score_obj['score']),
                               font_name='Times New Roman',
                               font_size=24, group=buttons_layer,
                               x=window.width - 200, y=window.height // 2, batch=level_batch)
@@ -97,11 +96,11 @@ def start():
     # add enemy
     test_enemy = Enemy(resources.plane_1, 50, batch=level_batch, group=plane_layer)
     test_enemy.color = (255, 0, 0)
-    game_objects += [test_enemy]
-    enemies += [test_enemy]
+    game_objects.append(test_enemy)
+    enemies.append(test_enemy)
     # initializing the background
     level_map_object = PhysicalObject(level_map, x=900, batch=level_batch, group=maps_layer)
-    game_objects += [level_map_object]
+    game_objects.append(level_map_object)
     level_map_object.velocity_y = -1
 
     # initialize the exit button
@@ -179,13 +178,20 @@ def start():
         for obj in game_objects:
             if (obj.dead == True):
                 if obj.is_enemy == True:
-                    
-                    label.text = 'Score: '+str(score[0])
-                    if score[0] > max_score:  # change this to change the required score to win
+                    score_obj['score'] += 1
+                    label.text = 'Score: '+ str(score_obj['score'])
+                    print(score_obj)
+                    if score_obj['score'] >= score_obj['target_score']:  # change this to change the required score to win
                         pyglet.clock.schedule_once(end_screen, 1)
-                    print(score)
-                    print("game end")
-
+                        print("game end")
+                    else:
+                        #create new enemy when enemy dies (for demo only, should initialize it elsewhere)
+                        new_test_enemy = Enemy(resources.plane_1, 50, batch=level_batch, group=plane_layer)
+                        new_test_enemy.color = (255, 0, 0)
+                        new_test_enemy.velocity_x = 5
+                        new_test_enemy.y = 700
+                        game_objects.append(new_test_enemy)
+                        enemies.append(new_test_enemy)
                 game_objects.remove(obj)
                 # print(game_objects)
 
