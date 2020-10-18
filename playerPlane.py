@@ -47,7 +47,7 @@ class PlayerPlane(PhysicalObject):
                 bullet_x = self.x + shootSlot #* ship_radius #+ math.cos(angle_radians) * ship_radius
                 bullet_y = self.y #* ship_radius #+ math.sin(angle_radians) * ship_radius
                 new_bullet = Bullet(bullet_x, bullet_y, batch = self.batch)
-
+                #test
             # Give it some speed
                 bullet_vx = math.cos(angle_radians) * self.bullet_speed
                 bullet_vy = math.sin(angle_radians) * self.bullet_speed
