@@ -104,6 +104,7 @@ class PhysicalObject(pyglet.sprite.Sprite):
     def handle_collision_with(self, other_object):
         if other_object.__class__ is not self.__class__:
             self.health = self.health - other_object.damage
+            self.color = (255,0,0)
 
         if other_object.is_bullet == True:
 

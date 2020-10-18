@@ -95,7 +95,7 @@ def start():
 
     # add enemy
     test_enemy = Enemy(resources.plane_1, 50, batch=level_batch, group=plane_layer)
-    test_enemy.color = (255, 0, 0)
+    # test_enemy.color = (255, 0, 0)
     game_objects.append(test_enemy)
     enemies.append(test_enemy)
     # initializing the background
@@ -187,7 +187,7 @@ def start():
                     else:
                         #create new enemy when enemy dies (for demo only, should initialize it elsewhere)
                         new_test_enemy = Enemy(resources.plane_1, 50, batch=level_batch, group=plane_layer)
-                        new_test_enemy.color = (255, 0, 0)
+                        # new_test_enemy.color = (255, 0, 0)
                         new_test_enemy.velocity_x = 5
                         new_test_enemy.y = 700
                         game_objects.append(new_test_enemy)
