@@ -5,8 +5,8 @@ from resources import *
 class PlayerPlaneHandler():
     def __init__(self, *args, **kwargs):
         self.activePlane = 0
-        self.plane1 = PlayerPlane(1200, 50, plane_1, **kwargs)
-        self.plane2 = PlayerPlane(2000, 80, plane_2, **kwargs)
+        self.plane1 = PlayerPlane(1200, 50, plane_1, [50, -50], **kwargs)
+        self.plane2 = PlayerPlane(2000, 80, plane_2, [0], **kwargs)
         self.plane1.visible = False
         self.plane2.visible = False
         self.planes = [self.plane1, self.plane2]
