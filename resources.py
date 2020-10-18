@@ -24,6 +24,9 @@ center_image(plane_2)
 start_button = pyglet.resource.image("start_button.png")
 center_image(start_button)
 
+quit_button = pyglet.resource.image("quit_button.png")
+center_image(quit_button)
+
 exit_button = pyglet.resource.image("exit_button.png")
 center_image(exit_button)
 
@@ -48,6 +51,7 @@ center_image(enemy_plane)
 
 sov_logo_image = pyglet.resource.image("SovLogo.png")
 center_image(sov_logo_image)
+
 
 
 # The engine flame should not be centered on the ship. Rather, it should be shown 

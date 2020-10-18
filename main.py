@@ -6,7 +6,9 @@ from enemy import *
 import math
 import pyglet
 
-window = pyglet.window.Window(1800, 1000, resizable=True)
+window = pyglet.window.Window(fullscreen=True)
+windowWidth = window.width
+windowHeight = window.height
 maps_layer = pyglet.graphics.OrderedGroup(-2)
 buttons_layer = pyglet.graphics.OrderedGroup(-1)
 
@@ -22,14 +24,14 @@ def menu():
     live_batch = start_screen_batch
 
     start_map_sprite = pyglet.sprite.Sprite(start_map, batch=start_screen_batch, group=maps_layer)
-    start_button_sprite = pyglet.sprite.Sprite(start_button, x=900, y=450, batch=start_screen_batch,
+    start_button_sprite = pyglet.sprite.Sprite(start_button, x=windowWidth/2, y = windowHeight/4, batch=start_screen_batch,
                                                group=buttons_layer)
-    sov_logo_sprite = pyglet.sprite.Sprite(sov_logo_image, x=900, y=800, batch=start_screen_batch,
+    sov_logo_sprite = pyglet.sprite.Sprite(sov_logo_image, x=windowWidth/2, y = windowHeight*3/4, batch=start_screen_batch,
                                            group=buttons_layer)
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
-        if 750 < x < 1050 and 400 < y < 500:
+        if windowWidth/2 -150 < x < (windowWidth/2)+150 and windowHeight/4 -50 < y < windowHeight/4 + 50:
             inGame = True
             nonlocal live_batch
             # live_batch = level_batch
@@ -49,17 +51,25 @@ def end_screen(dt):
     end_screen_batch = pyglet.graphics.Batch()
 
     # start_map = pyglet.sprite.Sprite(mapHandler.start_map.map_Image, batch=start_screen_batch, group=maps_layer)
-    end_sprite = pyglet.sprite.Sprite(end_image, x=900, y=500, batch=end_screen_batch,
+    end_sprite = pyglet.sprite.Sprite(end_image, x=windowWidth/2, y = windowHeight*3/4, batch=end_screen_batch,
                                       group=maps_layer)
-    start_button_sprite = pyglet.sprite.Sprite(start_button, x=900, y=start_button.anchor_y, batch=end_screen_batch,
+
+    quit_button_sprite = pyglet.sprite.Sprite(quit_button, x=windowWidth/2, y=start_button.anchor_y + 150, batch=end_screen_batch,
+                                               group=buttons_layer)  
+
+    start_button_sprite = pyglet.sprite.Sprite(start_button, x=windowWidth/2, y=start_button.anchor_y, batch=end_screen_batch,
                                                group=buttons_layer)
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
-        if 750 < x < 1050 and y < 100:
+        if windowWidth/2 -150 < x < (windowWidth/2)+150 and y < 100:
             window.clear()
             # print(level_batch)
             start()
+
+        if windowWidth/2 -150 < x < (windowWidth/2)+150 and 150 < y < 250:
+            window.close()
+            # print(level_batch)
 
     @window.event
     def on_draw():
@@ -99,12 +109,12 @@ def start():
     game_objects.append(test_enemy)
     enemies.append(test_enemy)
     # initializing the background
-    level_map_object = PhysicalObject(level_map, x=900, batch=level_batch, group=maps_layer)
+    level_map_object = PhysicalObject(level_map, x=windowWidth/2, batch=level_batch, group=maps_layer)
     game_objects.append(level_map_object)
     level_map_object.velocity_y = -1
 
     # initialize the exit button
-    exit_button_sprite = pyglet.sprite.Sprite(exit_button, x=1800 - exit_button.anchor_x, y=1000 - exit_button.anchor_y,
+    exit_button_sprite = pyglet.sprite.Sprite(exit_button, x= windowWidth - exit_button.anchor_x, y= windowHeight - exit_button.anchor_y,
                                               batch=level_batch,
                                               group=buttons_layer)
 
@@ -136,7 +146,7 @@ def start():
     @window.event
     def on_mouse_press(x, y, button, modifiers):
 
-        if (1800 - exit_button.width) < x < 1800 and y > (1000 - exit_button.height):  # clicking X button
+        if (windowWidth - exit_button.width) < x < windowWidth and y > (windowHeight - exit_button.height):  # clicking X button
             end_screen(0)
             window.clear()
         if (button == 1):
