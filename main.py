@@ -192,6 +192,7 @@ def start():
                         new_test_enemy.y = 700
                         game_objects.append(new_test_enemy)
                         enemies.append(new_test_enemy)
+                        
                 game_objects.remove(obj)
                 # print(game_objects)
 
