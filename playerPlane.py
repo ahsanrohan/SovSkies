@@ -6,15 +6,18 @@ from resources import *
 
 
 class PlayerPlane(PhysicalObject):
-    def __init__(self, moveSpeed, health, image, arr, **kwargs):
+    def __init__(self,name, moveSpeed, health, image, arr, **kwargs):
         super().__init__(img = image, **kwargs)
    # def __init__(self, *args, **kwargs):
+        self.name = name
+        self.user_owns = False
         self.moveSpeed = moveSpeed
         self.health = health
         self.planeImg = image
         self.bullet_speed = 10
         self.new_objects = []
         self.shootVec = arr
+        self.visible = False
 
         self.wrap = False
         self.bind = True
@@ -31,15 +34,19 @@ class PlayerPlane(PhysicalObject):
             # print("plane x is: " + str(self.x))
             # print("plane y is: " + str(self.y))
             # print("diff x is: " +str(mouse_x - self.x))
-            # xdiff = mouse_x - self.x
+            xdiff = mouse_x - self.x
             # print("diff y is: " +str(mouse_y - self.y))
-            # ydiff = mouse_y - self.y
-            # print("math: " + str(math.degrees(math.atan(ydiff/xdiff))))
+            ydiff = mouse_y - self.y
+
+            print("math: " + str(- (180-math.radians(math.degrees(math.atan(xdiff/ydiff)) + 270))))
             # print("FIRE")
             # print(self.x)
             # print(self.moveSpeed)
             # Note: pyglet's rotation attributes are in "negative degrees"
-            angle_radians = -math.radians(270)
+            if (ydiff > 0):
+                angle_radians = -math.radians(math.degrees(math.atan(xdiff/ydiff)) + 270)
+            else:
+                angle_radians = math.radians(-(math.degrees(math.atan(xdiff/ydiff)) + 90))
             #print(self.shootVec)
             # Create a new bullet just in front of the player
             ship_radius = self.planeImg.width / 2

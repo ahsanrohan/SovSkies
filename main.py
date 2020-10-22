@@ -5,6 +5,10 @@ from physicalObject import *
 from enemy import *
 import math
 import pyglet
+from longTermData import *
+
+#createGame()
+
 
 window = pyglet.window.Window(fullscreen=True)
 windowWidth = window.width
@@ -15,6 +19,9 @@ buttons_layer = pyglet.graphics.OrderedGroup(-1)
 
 # this is where values are initialized
 def init():
+    #createPlayer("Peyton")
+    #createPlayerPlanes("Peyton", "lightning")
+    getPlayerPlanes("Peyton")
     menu()
 
 
@@ -68,6 +75,7 @@ def end_screen(dt):
             start()
 
         if windowWidth/2 -150 < x < (windowWidth/2)+150 and 150 < y < 250:
+            closeConnection()
             window.close()
             # print(level_batch)
 
@@ -134,10 +142,16 @@ def start():
         currPlane = planeHandler.getActivePlane()
         if symbol == pyglet.window.key._1:
             # planeHandler.getActivePlane(1).x = currPlane.x
-            planeHandler.setActivePlane(1, currPlane)
+            planeHandler.setActivePlane(0, currPlane)
         if symbol == pyglet.window.key._2:
             # planeHandler.getActivePlane(0).x = currPlane.x
-            planeHandler.setActivePlane(0, currPlane)
+            planeHandler.setActivePlane(1, currPlane)
+        if symbol == pyglet.window.key._3:
+            # planeHandler.getActivePlane(0).x = currPlane.x
+            planeHandler.setActivePlane(2, currPlane)
+        if symbol == pyglet.window.key._4:
+            # planeHandler.getActivePlane(0).x = currPlane.x
+            planeHandler.setActivePlane(3, currPlane)
 
     @window.event
     def on_mouse_drag(x, y, dx, dy, button, modifiers):
