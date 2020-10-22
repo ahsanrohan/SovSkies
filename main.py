@@ -16,12 +16,13 @@ windowHeight = window.height
 maps_layer = pyglet.graphics.OrderedGroup(-2)
 buttons_layer = pyglet.graphics.OrderedGroup(-1)
 
-
+playerName = "Peyton"
 # this is where values are initialized
 def init():
     #createPlayer("Peyton")
-    #createPlayerPlanes("Peyton", "lightning")
-    getPlayerPlanes("Peyton")
+    #createPlayerPlanes("Peyton", "oldy")
+
+    getPlayerPlanes(playerName)
     menu()
 
 
@@ -108,7 +109,7 @@ def start():
                               x=window.width - 200, y=window.height // 2, batch=level_batch)
 
     # initializing plane handler which holds all the planes
-    planeHandler = PlayerPlaneHandler(batch=level_batch, group=plane_layer)
+    planeHandler = PlayerPlaneHandler(getPlayerPlanes(playerName), batch=level_batch, group=plane_layer)
     game_objects += planeHandler.getAllPlanes()
 
     # add enemy

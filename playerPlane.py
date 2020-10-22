@@ -10,7 +10,7 @@ class PlayerPlane(PhysicalObject):
         super().__init__(img = image, **kwargs)
    # def __init__(self, *args, **kwargs):
         self.name = name
-        self.user_owns = False
+        self.user_owns = True
         self.moveSpeed = moveSpeed
         self.health = health
         self.planeImg = image

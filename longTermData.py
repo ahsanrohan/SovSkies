@@ -26,8 +26,7 @@ def getPlayers():
 def getPlayerPlanes(name):
     cur.execute("Select Name FROM PLAYERPLANES WHERE Owner LIKE '%'||?||'%';", (name,))
     before = cur.fetchall()
-    for i in before:
-        print(i)
+    return before
 
 def createPlayerTable():
     table = cur.execute("""

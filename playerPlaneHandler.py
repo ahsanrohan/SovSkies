@@ -3,11 +3,18 @@ from resources import *
 
 
 class PlayerPlaneHandler():
-    def __init__(self, *args, **kwargs):
+    def __init__(self,ownedPlanes, *args, **kwargs):
         self.activePlane = 1
         self.planes = []
-        self.planes.append(PlayerPlane("lightning", 1200, 50, plane_1, [50, -50], **kwargs))
-        self.planes.append(PlayerPlane("oldy", 2000, 80, plane_2, [0], **kwargs))
+        for plane in ownedPlanes:
+            if plane[0] == "lightning":
+                self.planes.append(PlayerPlane("lightning", 1200, 50, plane_1, [50, -50], **kwargs))
+            if plane[0] == "oldy":
+                self.planes.append(PlayerPlane("oldy", 2000, 80, plane_2, [0], **kwargs))
+            if plane[0] == "speedy":
+                self.planes.append(PlayerPlane("speedy", 2000, 80, plane_2, [0], **kwargs))
+            if plane[0] == "yourMom":
+                self.planes.append(PlayerPlane("yourMom", 2000, 80, plane_2, [0], **kwargs))
         # self.plane1 = PlayerPlane(1200, 50, plane_1, [50, -50], **kwargs)
         #self.plane2 = PlayerPlane(2000, 80, plane_2, [0], **kwargs)
         # self.planes = [self.plane1, self.plane2]
@@ -17,7 +24,7 @@ class PlayerPlaneHandler():
         return self.planes[self.activePlane]
 
     def setActivePlane(self, num, currPlane):
-        if self.planes[num].user_owns == True:
+        if len(self.planes) > num:
             self.planes[self.activePlane].visible = False
             self.activePlane = num
             self.planes[self.activePlane].x = currPlane.x
