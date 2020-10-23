@@ -1,0 +1,32 @@
+[
+    [
+        {   "spawn_time": 1,
+            "ememy_count": 5, 
+            "interval": 5,
+            "enemy_obj": 
+                {"img": "plane_1", "hp": 50, "kwargs": {"x": 700, "y": 700, "movement": "move_straight"}}
+        },
+        {
+            "spawn_time": 2,
+            "ememy_count": 3 ,
+            "interval": 4,
+            "enemy_obj": 
+                {"img": "plane_1", "hp": 50, "kwargs": {"x": 700, "y": 700, "movement": "move_straight"}}
+        }
+    ],
+    [
+        {   "spawn_time": 1,
+            "ememy_count": 5, 
+            "interval": 5,
+            "enemy_obj": 
+                {"img": "plane_1", "hp": 50, "kwargs": {"x": 700, "y": 700, "movement": "move_straight"}}
+        },
+        {
+            "spawn_time": 2,
+            "ememy_count": 3 ,
+            "interval": 4,
+            "enemy_obj": 
+                {"img": "plane_1", "hp": 50, "kwargs": {"x": 700, "y": 700, "movement": "move_straight"}}
+        }
+    ]
+]
