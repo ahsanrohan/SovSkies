@@ -6,6 +6,7 @@ from enemy import *
 import math
 import pyglet
 from longTermData import *
+import json
 
 #createGame()
 
@@ -113,10 +114,32 @@ def start():
     game_objects += planeHandler.getAllPlanes()
 
     # add enemy
-    test_enemy = Enemy(resources.plane_1, 50, batch=level_batch, group=plane_layer)
-    # test_enemy.color = (255, 0, 0)
-    game_objects.append(test_enemy)
-    enemies.append(test_enemy)
+    def add_enemy(dt, enemy):
+        game_objects.append(enemy)
+        enemies.append(enemy)
+        enemy.visible = True
+
+    level_filepath = 'resources/level_scripts.json'
+    level_number = 0
+    with open(level_filepath) as f:
+        level = json.load(f)[level_number]
+    for wave in level:
+        for enemy_count in range(wave['enemy_count']):
+            img = eval('resources.' + wave['enemy_obj']['img'])
+            hp = wave['enemy_obj']['hp']
+            new_enemy = Enemy(img, hp, batch=level_batch, group=plane_layer, **wave['enemy_obj']['kwargs'])
+            new_enemy.velocity_x = 5
+            new_enemy.x = wave['x']
+            new_enemy.y = wave['y']
+            new_enemy.visible = False
+            pyglet.clock.schedule_once(add_enemy, delay=wave['spawn_time']+enemy_count*wave['interval'], enemy = new_enemy)
+
+    # hard code level
+    level = 0
+    
+    #initialize wave
+    
+
     # initializing the background
     level_map_object = PhysicalObject(level_map, x=windowWidth/2, batch=level_batch, group=maps_layer)
     game_objects.append(level_map_object)
@@ -174,8 +197,6 @@ def start():
         level_batch.draw()
 
     def handle_move(dt):
-        test_enemy.velocity_x = 5
-        test_enemy.y = 700
 
         # player plane
         vector_x = mouse_x - planeHandler.getActivePlane().x
@@ -209,14 +230,6 @@ def start():
                     if score_obj['score'] >= score_obj['target_score']:  # change this to change the required score to win
                         pyglet.clock.schedule_once(end_screen, 1)
                         print("game end")
-                    else:
-                        #create new enemy when enemy dies (for demo only, should initialize it elsewhere)
-                        new_test_enemy = Enemy(resources.plane_1, 50, batch=level_batch, group=plane_layer)
-                        # new_test_enemy.color = (255, 0, 0)
-                        new_test_enemy.velocity_x = 5
-                        new_test_enemy.y = 700
-                        game_objects.append(new_test_enemy)
-                        enemies.append(new_test_enemy)
                         
                 game_objects.remove(obj)
                 # print(game_objects)
@@ -230,7 +243,6 @@ def start():
         # enemy
         handle_move(dt)
         checkCollision()
-
         to_add = []
         for obj in game_objects:
             obj.update(1)

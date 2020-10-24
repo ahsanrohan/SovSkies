@@ -9,6 +9,7 @@ class Enemy(physicalObject.PhysicalObject):
         self.kwargs = kwargs
         self.movement = kwargs.get('movement', 'move_not')
         self.orientation = True
+        self.wrap = False
         self.is_enemy = True
 
     def move_not(self):

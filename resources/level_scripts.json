@@ -1,0 +1,36 @@
+[
+    [
+        {   "spawn_time": 1,
+            "enemy_count": 5, 
+            "interval": 0.2,
+            "x": 0,
+            "y": 600,
+            "enemy_obj": 
+                {"img": "plane_1", "hp": 50, "kwargs": {}}
+        },
+        {
+            "spawn_time": 2,
+            "enemy_count": 3 ,
+            "interval": 1,
+            "x": 0,
+            "y": 500,
+            "enemy_obj": 
+                {"img": "plane_1", "hp": 50, "kwargs": {}}
+        }
+    ],
+    [
+        {   "spawn_time": 1,
+            "enemy_count": 5, 
+            "interval": 5,
+            "enemy_obj": 
+                {"img": "plane_1", "hp": 50, "kwargs": {}}
+        },
+        {
+            "spawn_time": 2,
+            "enemy_count": 3 ,
+            "interval": 4,
+            "enemy_obj": 
+                {"img": "plane_1", "hp": 50, "kwargs": {}}
+        }
+    ]
+]
