@@ -6,7 +6,7 @@ from resources import *
 
 
 class PlayerPlane(PhysicalObject):
-    def __init__(self,name, moveSpeed, health, image, arr, **kwargs):
+    def __init__(self,name, moveSpeed, health, image, shoot_speed, arr, **kwargs):
         super().__init__(img = image, **kwargs)
    # def __init__(self, *args, **kwargs):
         self.name = name
@@ -24,7 +24,7 @@ class PlayerPlane(PhysicalObject):
         # Player should not collide with own bullets
         self.reacts_to_bullets = False
         self.scale = 0.7
-        self.shoot_speed = .1
+        self.shoot_speed = shoot_speed
         self.could_shoot = True
 
         self.progress_circle_images =   [progress_circle_0,
