@@ -39,6 +39,15 @@ class PhysicalObject(pyglet.sprite.Sprite):
         if self.wrap == True:
             self.check_bounds()
 
+        if not self.wrap and not self.bind: #destroy object once it leaves screen + buffer
+            buffer = 200
+            min_x = 0
+            min_y = 0
+            max_x = 1800
+            max_y = 1000
+            if self.x < min_x - buffer or self.y < min_y - buffer or self.x > max_x + buffer or self.y > max_y + buffer:
+                self.dead = True
+
         if self.bind == True:
             self.bind_bounds()
         # Orient object to face object

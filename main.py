@@ -175,7 +175,7 @@ def start():
         window.clear()
         level_batch.draw()
 
-    def handleMove(dt):
+    def handle_move(dt):
         test_enemy.velocity_x = 5
         test_enemy.y = 700
 
@@ -230,7 +230,7 @@ def start():
 
     def update(dt):
         # enemy
-        handleMove(dt)
+        handle_move(dt)
         checkCollision()
 
         to_add = []
