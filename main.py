@@ -120,7 +120,7 @@ def start():
         enemy.visible = True
 
     level_filepath = 'resources/level_scripts.json'
-    level_number = 0
+    level_number = 0 #hardcoded level
     with open(level_filepath) as f:
         level = json.load(f)[level_number]
     for wave in level:
@@ -128,14 +128,9 @@ def start():
             img = eval('resources.' + wave['enemy_obj']['img'])
             hp = wave['enemy_obj']['hp']
             new_enemy = Enemy(img, hp, batch=level_batch, group=plane_layer, **wave['enemy_obj']['kwargs'])
-            new_enemy.velocity_x = 5
-            new_enemy.x = wave['x']
-            new_enemy.y = wave['y']
+            new_enemy.movement = wave.get('movement', {"name": 'move_not'})
             new_enemy.visible = False
             pyglet.clock.schedule_once(add_enemy, delay=wave['spawn_time']+enemy_count*wave['interval'], enemy = new_enemy)
-
-    # hard code level
-    level = 0
     
     #initialize wave
     

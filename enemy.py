@@ -3,14 +3,16 @@ import math
 import physicalObject, resources
 
 class Enemy(physicalObject.PhysicalObject):
-    def __init__ (self, image, health, *args, **kwargs):
-        super(Enemy, self).__init__(image, *args, **kwargs)
+    def __init__ (self, image, health, velocity_x=0.0, velocity_y=0.0, *args, **kwargs):
+        super().__init__(image, *args, **kwargs)
         self.health = health
-        self.kwargs = kwargs
-        self.movement = kwargs.get('movement', 'move_not')
+        self.movement = {}
         self.orientation = True
         self.wrap = False
         self.is_enemy = True
+        self.velocity_x = velocity_x
+        self.velocity_y = velocity_y
+        self.t = 0
 
     def move_not(self):
         #default don't move
@@ -21,6 +23,7 @@ class Enemy(physicalObject.PhysicalObject):
             self.dead = True
             self.visible = False
             self.reacts_to_bullets = False
+        getattr(self, self.movement.get('name'))()
         super(Enemy, self).update(dt)
 
     def collides_with(self, other_object):
@@ -31,25 +34,15 @@ class Enemy(physicalObject.PhysicalObject):
     
 
     def move_ellipse(self):
-        a = self.kwargs.get('a',1)
-        b = self.kwargs.get('b',1)
-        self.x = a*math.cos(self.dt * self.t) + self.x
-        self.y = b*math.sin(self.dt * self.t) + self.y
+        a = self.movement.get('a',5)
+        b = self.movement.get('b',5)
+        #self.x = a*math.cos(.01 * self.t) + self.x
+        #self.y = b*math.sin(.01 * self.t) + self.y
+        self.velocity_x = 0.5 * a*math.sin(.01 * self.t)
+        self.velocity_y = 0.5 * b*math.cos(.01 * self.t)
         self.t += 1
 
-    def move_straight(self):
-        direction = self.kwargs.get('direction').lower()
-        print(self.x, self.y)
-        if not direction:
-            raise Exception('no direction specified in moveStraight')
-        if direction == "up":
-            self.x += 1
-        if direction == "down":
-            self.x = self.t
-        if direction == "left":
-            self.y = self.t
-        if direction == "right":
-            self.y = self.t
+    
         
 
 # enemy
