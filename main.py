@@ -7,7 +7,7 @@ import math
 import pyglet
 from longTermData import *
 
-#createGame()
+# createGame()
 
 
 window = pyglet.window.Window(fullscreen=True)
@@ -17,10 +17,12 @@ maps_layer = pyglet.graphics.OrderedGroup(-2)
 buttons_layer = pyglet.graphics.OrderedGroup(-1)
 
 playerName = "Peyton"
+
+
 # this is where values are initialized
 def init():
-    #createPlayer("Peyton")
-    #createPlayerPlanes("Peyton", "oldy")
+    # createPlayer("Peyton")
+    # createPlayerPlanes("Peyton", "oldy")
 
     getPlayerPlanes(playerName)
     menu()
@@ -29,28 +31,89 @@ def init():
 # menu funtion
 def menu():
     start_screen_batch = pyglet.graphics.Batch()
-    live_batch = start_screen_batch
 
-    start_map_sprite = pyglet.sprite.Sprite(start_map, batch=start_screen_batch, group=maps_layer)
-    start_button_sprite = pyglet.sprite.Sprite(start_button, x=windowWidth/2, y = windowHeight/4, batch=start_screen_batch,
+    start_map_sprite = pyglet.sprite.Sprite(start_map, x=windowWidth / 2, y=windowHeight / 2, batch=start_screen_batch,
+                                            group=maps_layer)
+    start_button_sprite = pyglet.sprite.Sprite(start_button, x=windowWidth / 4, y=windowHeight / 4,
+                                               batch=start_screen_batch,
                                                group=buttons_layer)
-    sov_logo_sprite = pyglet.sprite.Sprite(sov_logo_image, x=windowWidth/2, y = windowHeight*3/4, batch=start_screen_batch,
+    store_button_sprite = pyglet.sprite.Sprite(store_button, x=3 * windowWidth / 4, y=windowHeight / 4,
+                                               batch=start_screen_batch,
+                                               group=buttons_layer)
+    sov_logo_sprite = pyglet.sprite.Sprite(sov_logo_image, x=windowWidth / 2, y=windowHeight * 3 / 4,
+                                           batch=start_screen_batch,
                                            group=buttons_layer)
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
-        if windowWidth/2 -150 < x < (windowWidth/2)+150 and windowHeight/4 -50 < y < windowHeight/4 + 50:
+        if windowWidth / 4 - 150 < x < (windowWidth / 4) + 150 and windowHeight / 4 - 50 < y < windowHeight / 4 + 50:
             inGame = True
-            nonlocal live_batch
             # live_batch = level_batch
             window.clear()
             # print(level_batch)
             start()
+        elif ((3 * windowWidth / 4 - 150) < x < (3 * windowWidth / 4) + 150) and (
+                windowHeight / 4 - 50 < y < windowHeight / 4 + 50):
+            window.clear()
+            store_menu()
 
     @window.event
     def on_draw():
         window.clear()
-        live_batch.draw()
+        start_screen_batch.draw()
+
+    pyglet.app.run()
+
+
+def level_menu():
+    level_menu_batch = pyglet.graphics.Batch()
+    level_menu_sprite = pyglet.sprite.Sprite(start_map, batch=level_menu_batch, group=maps_layer)
+
+    @window.event
+    def on_draw():
+        window.clear()
+        level_menu_batch.draw()
+
+
+def store_menu():
+    def create_square(batch, x, y, x2, y2):
+        line_left = pyglet.shapes.Line(x, y, x, y2,
+                                       color=(0, 0, 0), width=20, batch=batch, group=buttons_layer)
+        line_bottom = pyglet.shapes.Line(x-10, y, x2+10, y,
+                                         color=(0, 0, 0), width=20, batch=batch, group=buttons_layer)
+        line_top = pyglet.shapes.Line(x-10, y2, x2+10, y2,
+                                      color=(0, 0, 0), width=20, batch=batch, group=buttons_layer)
+        line_right = pyglet.shapes.Line(x2, y, x2, y2,
+                                        color=(0, 0, 0), width=20, batch=batch, group=buttons_layer)
+        return [line_left, line_bottom, line_top, line_right]
+    def item_buy(integer):
+        print("You tried to buy "+str(integer)+", but you get nothing!")
+
+    store_menu_batch = pyglet.graphics.Batch()
+    store_menu_sprite = pyglet.sprite.Sprite(store_map, x=windowWidth / 2, y=windowHeight / 2, batch=store_menu_batch,
+                                             group=maps_layer)
+    store_label = pyglet.text.Label('S T O R E',
+                                    font_name='Times New Roman',
+                                    font_size=50, group=buttons_layer,
+                                    x=window.width / 2, y=window.height // 1.1, batch=store_menu_batch)
+
+    # line_left = pyglet.shapes.Line(400, 200, 400, 300,color=(255, 0, 0), width=20, batch=store_menu_batch,group=buttons_layer)
+    bottom_square = create_square(store_menu_batch, x=windowWidth / 3-50, y=windowHeight / 3-50, x2=windowWidth / 3+50, y2=windowHeight / 3+50)
+    top_square = create_square(store_menu_batch, x=windowWidth / 3 - 50, y=2*windowHeight / 3 - 50,
+                                  x2=windowWidth / 3 + 50, y2=2*windowHeight / 3 + 50)
+    store_label.x = store_label.x - store_label.content_width / 2
+
+    @window.event
+    def on_mouse_press(x, y, button, modifiers):
+        if windowWidth / 3-50 < x < windowWidth / 3+50 + 150 and windowHeight / 3-50 < y < windowHeight / 3+50:
+            item_buy(1)
+        elif windowWidth / 3 - 50 < x < windowWidth / 3 + 50 + 150 and 2*windowHeight / 3 - 50 < y < 2*windowHeight / 3 + 50:
+            item_buy(2)
+
+    @window.event
+    def on_draw():
+        window.clear()
+        store_menu_batch.draw()
 
     pyglet.app.run()
 
@@ -59,23 +122,25 @@ def end_screen(dt):
     end_screen_batch = pyglet.graphics.Batch()
 
     # start_map = pyglet.sprite.Sprite(mapHandler.start_map.map_Image, batch=start_screen_batch, group=maps_layer)
-    end_sprite = pyglet.sprite.Sprite(end_image, x=windowWidth/2, y = windowHeight*3/4, batch=end_screen_batch,
+    end_sprite = pyglet.sprite.Sprite(end_image, x=windowWidth / 2, y=windowHeight * 3 / 4, batch=end_screen_batch,
                                       group=maps_layer)
 
-    quit_button_sprite = pyglet.sprite.Sprite(quit_button, x=windowWidth/2, y=start_button.anchor_y + 150, batch=end_screen_batch,
-                                               group=buttons_layer)  
+    quit_button_sprite = pyglet.sprite.Sprite(quit_button, x=windowWidth / 2, y=start_button.anchor_y + 150,
+                                              batch=end_screen_batch,
+                                              group=buttons_layer)
 
-    start_button_sprite = pyglet.sprite.Sprite(start_button, x=windowWidth/2, y=start_button.anchor_y, batch=end_screen_batch,
+    start_button_sprite = pyglet.sprite.Sprite(start_button, x=windowWidth / 2, y=start_button.anchor_y,
+                                               batch=end_screen_batch,
                                                group=buttons_layer)
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
-        if windowWidth/2 -150 < x < (windowWidth/2)+150 and y < 100:
+        if windowWidth / 2 - 150 < x < (windowWidth / 2) + 150 and y < 100:
             window.clear()
             # print(level_batch)
             start()
 
-        if windowWidth/2 -150 < x < (windowWidth/2)+150 and 150 < y < 250:
+        if windowWidth / 2 - 150 < x < (windowWidth / 2) + 150 and 150 < y < 250:
             closeConnection()
             window.close()
             # print(level_batch)
@@ -93,8 +158,6 @@ def start():
     level_batch = pyglet.graphics.Batch()
     mouse_x = 1
     mouse_y = 1
-
-
 
     # setting layering
     plane_layer = pyglet.graphics.OrderedGroup(0)
@@ -120,12 +183,13 @@ def start():
     game_objects.append(test_enemy)
     enemies.append(test_enemy)
     # initializing the background
-    level_map_object = PhysicalObject(level_map, x=windowWidth/2, batch=level_batch, group=maps_layer)
+    level_map_object = PhysicalObject(level_map, x=windowWidth / 2, batch=level_batch, group=maps_layer)
     game_objects.append(level_map_object)
     level_map_object.velocity_y = -1
 
     # initialize the exit button
-    exit_button_sprite = pyglet.sprite.Sprite(exit_button, x= windowWidth - exit_button.anchor_x, y= windowHeight - exit_button.anchor_y,
+    exit_button_sprite = pyglet.sprite.Sprite(exit_button, x=windowWidth - exit_button.anchor_x,
+                                              y=windowHeight - exit_button.anchor_y,
                                               batch=level_batch,
                                               group=buttons_layer)
 
@@ -163,7 +227,8 @@ def start():
     @window.event
     def on_mouse_press(x, y, button, modifiers):
 
-        if (windowWidth - exit_button.width) < x < windowWidth and y > (windowHeight - exit_button.height):  # clicking X button
+        if (windowWidth - exit_button.width) < x < windowWidth and y > (
+                windowHeight - exit_button.height):  # clicking X button
             end_screen(0)
             window.clear()
         if (button == 1):
@@ -206,20 +271,21 @@ def start():
             if (obj.dead == True):
                 if obj.is_enemy == True:
                     score_obj['score'] += 1
-                    label.text = 'Score: '+ str(score_obj['score'])
+                    label.text = 'Score: ' + str(score_obj['score'])
                     print(score_obj)
-                    if score_obj['score'] >= score_obj['target_score']:  # change this to change the required score to win
+                    if score_obj['score'] >= score_obj[
+                        'target_score']:  # change this to change the required score to win
                         pyglet.clock.schedule_once(end_screen, 1)
                         print("game end")
                     else:
-                        #create new enemy when enemy dies (for demo only, should initialize it elsewhere)
+                        # create new enemy when enemy dies (for demo only, should initialize it elsewhere)
                         new_test_enemy = Enemy(resources.plane_1, 50, batch=level_batch, group=plane_layer)
                         # new_test_enemy.color = (255, 0, 0)
                         new_test_enemy.velocity_x = 5
                         new_test_enemy.y = 700
                         game_objects.append(new_test_enemy)
                         enemies.append(new_test_enemy)
-                        
+
                 game_objects.remove(obj)
                 # print(game_objects)
 

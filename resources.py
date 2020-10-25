@@ -35,7 +35,6 @@ center_image(exit_button)
 
 start_map = pyglet.resource.image("placeholdermap.jpg")
 
-level_map = pyglet.resource.image("level_background.png")
 
 level_map = pyglet.resource.image("level_background.png")
 center_image(level_map)
@@ -51,6 +50,7 @@ center_image(enemy_plane)
 
 sov_logo_image = pyglet.resource.image("SovLogo.png")
 center_image(sov_logo_image)
+
 
 progress_circle_8 = pyglet.resource.image('progressCircle8.png')
 center_image(progress_circle_8)
@@ -71,6 +71,12 @@ center_image(progress_circle_1)
 progress_circle_0 = pyglet.resource.image('progressCircle0.png')
 center_image(progress_circle_0)
 
+store_button = pyglet.resource.image("store.png")
+center_image(store_button)
+
+
+store_map = start_map
+center_image(store_map)
 
 # The engine flame should not be centered on the ship. Rather, it should be shown 
 # behind it. To achieve this effect, we just set the anchor point outside the
