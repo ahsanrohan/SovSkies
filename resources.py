@@ -34,7 +34,7 @@ exit_button = pyglet.resource.image("exit_button.png")
 center_image(exit_button)
 
 start_map = pyglet.resource.image("placeholdermap.jpg")
-
+center_image(start_map)
 
 level_map = pyglet.resource.image("level_background.png")
 center_image(level_map)

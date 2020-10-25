@@ -16,6 +16,8 @@ windowHeight = window.height
 maps_layer = pyglet.graphics.OrderedGroup(-2)
 buttons_layer = pyglet.graphics.OrderedGroup(-1)
 
+
+
 playerName = "Peyton"
 
 
@@ -30,10 +32,14 @@ def init():
 
 # menu funtion
 def menu():
+
+
     start_screen_batch = pyglet.graphics.Batch()
 
     start_map_sprite = pyglet.sprite.Sprite(start_map, x=windowWidth / 2, y=windowHeight / 2, batch=start_screen_batch,
                                             group=maps_layer)
+    start_map_sprite.scale_x = windowWidth/start_map_sprite.width
+    start_map_sprite.scale_y = windowHeight / start_map_sprite.height
     start_button_sprite = pyglet.sprite.Sprite(start_button, x=windowWidth / 4, y=windowHeight / 4,
                                                batch=start_screen_batch,
                                                group=buttons_layer)
@@ -79,35 +85,41 @@ def store_menu():
     def create_square(batch, x, y, x2, y2):
         line_left = pyglet.shapes.Line(x, y, x, y2,
                                        color=(0, 0, 0), width=20, batch=batch, group=buttons_layer)
-        line_bottom = pyglet.shapes.Line(x-10, y, x2+10, y,
+        line_bottom = pyglet.shapes.Line(x - 10, y, x2 + 10, y,
                                          color=(0, 0, 0), width=20, batch=batch, group=buttons_layer)
-        line_top = pyglet.shapes.Line(x-10, y2, x2+10, y2,
+        line_top = pyglet.shapes.Line(x - 10, y2, x2 + 10, y2,
                                       color=(0, 0, 0), width=20, batch=batch, group=buttons_layer)
         line_right = pyglet.shapes.Line(x2, y, x2, y2,
                                         color=(0, 0, 0), width=20, batch=batch, group=buttons_layer)
         return [line_left, line_bottom, line_top, line_right]
+
     def item_buy(integer):
-        print("You tried to buy "+str(integer)+", but you get nothing!")
+        print("You tried to buy " + str(integer) + ", but you get nothing!")
 
     store_menu_batch = pyglet.graphics.Batch()
     store_menu_sprite = pyglet.sprite.Sprite(store_map, x=windowWidth / 2, y=windowHeight / 2, batch=store_menu_batch,
                                              group=maps_layer)
+    store_menu_sprite.scale_x = windowWidth/start_map_sprite.width
+    store_menu_sprite.scale_y = windowHeight / start_map_sprite.height
     store_label = pyglet.text.Label('S T O R E',
                                     font_name='Times New Roman',
                                     font_size=50, group=buttons_layer,
                                     x=window.width / 2, y=window.height // 1.1, batch=store_menu_batch)
 
     # line_left = pyglet.shapes.Line(400, 200, 400, 300,color=(255, 0, 0), width=20, batch=store_menu_batch,group=buttons_layer)
-    bottom_square = create_square(store_menu_batch, x=windowWidth / 3-50, y=windowHeight / 3-50, x2=windowWidth / 3+50, y2=windowHeight / 3+50)
-    top_square = create_square(store_menu_batch, x=windowWidth / 3 - 50, y=2*windowHeight / 3 - 50,
-                                  x2=windowWidth / 3 + 50, y2=2*windowHeight / 3 + 50)
+    bottom_square = create_square(store_menu_batch, x=windowWidth / 3 - 50, y=windowHeight / 3 - 50,
+                                  x2=windowWidth / 3 + 50, y2=windowHeight / 3 + 50)
+    top_square = create_square(store_menu_batch, x=windowWidth / 3 - 50, y=2 * windowHeight / 3 - 50,
+                               x2=windowWidth / 3 + 50, y2=2 * windowHeight / 3 + 50)
+    plane_square_1 = create_square(store_menu_batch, x=windowWidth / 3 - 50, y=windowHeight * 0.95,
+                               x2=windowWidth / 3 + 50, y2=2 * windowHeight * 0.9)
     store_label.x = store_label.x - store_label.content_width / 2
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
-        if windowWidth / 3-50 < x < windowWidth / 3+50 + 150 and windowHeight / 3-50 < y < windowHeight / 3+50:
+        if windowWidth / 3 - 50 < x < windowWidth / 3 + 50 + 150 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:
             item_buy(1)
-        elif windowWidth / 3 - 50 < x < windowWidth / 3 + 50 + 150 and 2*windowHeight / 3 - 50 < y < 2*windowHeight / 3 + 50:
+        elif windowWidth / 3 - 50 < x < windowWidth / 3 + 50 + 150 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:
             item_buy(2)
 
     @window.event
@@ -184,6 +196,8 @@ def start():
     enemies.append(test_enemy)
     # initializing the background
     level_map_object = PhysicalObject(level_map, x=windowWidth / 2, batch=level_batch, group=maps_layer)
+    level_map_object.scale_x = windowWidth/level_map_object.width
+
     game_objects.append(level_map_object)
     level_map_object.velocity_y = -1
 
