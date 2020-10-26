@@ -24,6 +24,7 @@ class Enemy(physicalObject.PhysicalObject):
             self.visible = False
             self.reacts_to_bullets = False
         getattr(self, self.movement.get('name'))()
+        self.t += 1
         super(Enemy, self).update(dt)
 
     def collides_with(self, other_object):
@@ -36,14 +37,24 @@ class Enemy(physicalObject.PhysicalObject):
     def move_ellipse(self):
         a = self.movement.get('a',5)
         b = self.movement.get('b',5)
+        speed = self.movement.get('speed', 1)
         #self.x = a*math.cos(.01 * self.t) + self.x
         #self.y = b*math.sin(.01 * self.t) + self.y
-        self.velocity_x = 0.5 * a*math.sin(.01 * self.t)
-        self.velocity_y = 0.5 * b*math.cos(.01 * self.t)
-        self.t += 1
+        self.velocity_x = speed*a*math.sin(.01 * speed * self.t)
+        self.velocity_y = speed*b*math.cos(.01 * speed * self.t)
 
+    def move_sinusoid(self):
+        speed = self.movement.get('speed', 1)
+        self.velocity_x = speed
+        a = self.movement.get('a', 1)
+        b = self.movement.get('b', 0.01)
+        self.velocity_y = a * math.sin(0.01 * self.t)
     
-        
+    def move_parabola(self):
+        speed = self.movement.get('speed', 1)
+        a = self.movement.get('a', 1)
+        self.velocity_x = speed
+        self.velocity_y = -0.001*a*speed*self.t   
 
 # enemy
         '''

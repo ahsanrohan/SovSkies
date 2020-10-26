@@ -103,7 +103,7 @@ def start():
     enemies = []
 
     # Score Handling
-    score_obj = {'score': 0, 'target_score': 3}
+    score_obj = {'score': 0, 'target_score': 20}
     label = pyglet.text.Label('Score: ' + str(score_obj['score']),
                               font_name='Times New Roman',
                               font_size=24, group=buttons_layer,
