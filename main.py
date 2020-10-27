@@ -162,12 +162,14 @@ def start():
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
-
         if (windowWidth - exit_button.width) < x < windowWidth and y > (windowHeight - exit_button.height):  # clicking X button
             end_screen(0)
             window.clear()
         if (button == 1):
             planeHandler.getActivePlane().fire(mouse_x, mouse_y)
+        if (button == 4):
+            planeHandler.getActivePlane().specialAbilityFire(mouse_x, mouse_y)
+        
         # print(game_objects)
 
     @window.event

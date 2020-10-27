@@ -6,7 +6,7 @@ from resources import *
 
 
 class PlayerPlane(PhysicalObject):
-    def __init__(self,name, moveSpeed, health, image, shoot_speed, arr, **kwargs):
+    def __init__(self,name, moveSpeed, health, image, shoot_speed, special_ability, arr, **kwargs):
         super().__init__(img = image, **kwargs)
    # def __init__(self, *args, **kwargs):
         self.name = name
@@ -26,6 +26,12 @@ class PlayerPlane(PhysicalObject):
         self.scale = 0.7
         self.shoot_speed = shoot_speed
         self.could_shoot = True
+        
+
+        self.has_special_ability = True
+        self.special_ability = special_ability
+        self.special_ability_shoot_speed = 1
+        self.could_shoot_special_ability = True
 
         self.progress_circle_images =   [progress_circle_0,
                     progress_circle_1,
@@ -39,6 +45,17 @@ class PlayerPlane(PhysicalObject):
 
         self.progress_circle = pyglet.image.Animation.from_image_sequence(self.progress_circle_images, duration=self.shoot_speed, loop=False)
 
+        self.blue_progress_circle_images =   [blue_progress_circle_0,
+                    blue_progress_circle_1,
+                    blue_progress_circle_2,
+                    blue_progress_circle_3,
+                    blue_progress_circle_4,
+                    blue_progress_circle_5,
+                    blue_progress_circle_6,
+                    blue_progress_circle_7,
+                    blue_progress_circle_8]
+
+        self.blue_progress_circle = pyglet.image.Animation.from_image_sequence(self.blue_progress_circle_images, duration=self.special_ability_shoot_speed, loop=False)
     def getImage(self):
         return self.planeImg
 
@@ -46,13 +63,16 @@ class PlayerPlane(PhysicalObject):
     def enableShoot(self, dt):
         self.could_shoot = True
 
+    def enableSpecialAbilityShoot(self, dt):
+        self.could_shoot_special_ability = True
+
     def fire(self, mouse_x, mouse_y):
 
         if(self.could_shoot):
             
             self.could_shoot = False
             pyglet.clock.schedule_once(self.enableShoot, self.shoot_speed * 8)
-            progress_circle_sprite = pyglet.sprite.Sprite(self.progress_circle, x = 50, y = 50,
+            progress_circle_sprite = pyglet.sprite.Sprite(self.progress_circle, x = 61, y = 61,
                                                     batch=self.batch,
                                                     group=self.group)
 
@@ -91,5 +111,21 @@ class PlayerPlane(PhysicalObject):
                 new_bullet.wrap = False
             # Add it to the list of objects to be added to the game_objects list
                 self.new_objects.append(new_bullet)
+    
+    def specialAbilityFire(self, mouse_x, mouse_y):
+        if self.has_special_ability:
+            if(self.could_shoot_special_ability):
+                self.could_shoot_special_ability = False
+                pyglet.clock.schedule_once(self.enableSpecialAbilityShoot, self.special_ability_shoot_speed * 8)
+
+                progress_circle_sprite = pyglet.sprite.Sprite(self.blue_progress_circle, x = 61, y = 61,
+                                        batch=self.batch,
+                                        group=self.group)
+                if self.special_ablity == "laser":
+                    print("laser")
+                if self.special_ability == "fire_rate_increse":
+                    print("fire_rate_increse")
+                if self.special_ability == "raming":
+                    print("raming")
 
 
