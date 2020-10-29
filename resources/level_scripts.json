@@ -28,7 +28,7 @@
             "fire": {"interval":  1},
             "enemy_obj": {"img": "plane_1", "hp": 50, "kwargs": {"x": -200, "y": 900}}
         },
-        {   "spawn_time": 30,
+        {   "spawn_time": 20,
             "enemy_count": 5, 
             "interval": 0.5,
             "movement": {"name": "move_sinusoid", "speed": 9},
@@ -36,7 +36,7 @@
             "enemy_obj": 
                 {"img": "plane_1", "hp": 50, "kwargs": {"x": -100, "y": 500, "velocity_x": 1}}
         },
-        {   "spawn_time": 80,
+        {   "spawn_time": 30,
             "enemy_count": 5, 
             "interval": 0.5,
             "movement": {"name": "move_parabola", "speed": 8, "a": 2},
@@ -44,7 +44,7 @@
             "enemy_obj": 
                 {"img": "plane_1", "hp": 50, "kwargs": {"x": -100, "y": 800}}
         },
-        {   "spawn_time": 80,
+        {   "spawn_time": 30,
             "enemy_count": 5, 
             "interval": 0.5,
             "movement": {"name": "move_parabola", "speed": -8, "a": -2},

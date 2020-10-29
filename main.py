@@ -238,6 +238,7 @@ def start():
         for obj in game_objects:
             if (obj.dead == True):
                 if obj.is_enemy == True and obj.destroyed == True:
+                    enemies.remove(obj)
                     score_obj['score'] += 1
                     label.text = 'Score: '+ str(score_obj['score'])
                     print(score_obj)

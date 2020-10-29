@@ -98,6 +98,13 @@ class PhysicalObject(pyglet.sprite.Sprite):
             actual_distance = math.sqrt((self.position[0] - other_object.position[0]) ** 2 +
                                 (self.position[1] - other_object.position[1]) ** 2)
             return (actual_distance <= collision_distance)
+        elif (self.is_enemy or other_object.is_enemy):
+            collision_distance = self.image.width * 0.4 * self.scale \
+                             + other_object.image.width * 0.4 * other_object.scale
+
+            actual_distance = math.sqrt((self.position[0] - other_object.position[0]) ** 2 +
+                                (self.position[1] - other_object.position[1]) ** 2)
+            return (actual_distance <= collision_distance)
         else:
             return False
         #if not self.reacts_to_bullets and other_object.is_bullet:
