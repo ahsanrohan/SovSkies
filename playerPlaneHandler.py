@@ -4,7 +4,7 @@ from resources import *
 
 class PlayerPlaneHandler():
     def __init__(self,ownedPlanes, *args, **kwargs):
-        self.activePlane = 1
+        self.activePlane = 0
         self.planes = []
         for plane in ownedPlanes:
             if plane[0] == "lightning":

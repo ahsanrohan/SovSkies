@@ -114,10 +114,16 @@ def start():
     game_objects += planeHandler.getAllPlanes()
 
     # add enemy
+    def enemy_fire(dt, enemy):
+        if(enemy.canFire):
+            enemy.enemyFire(planeHandler.getActivePlane())
+
     def add_enemy(dt, enemy):
         game_objects.append(enemy)
         enemies.append(enemy)
         enemy.visible = True
+        if(enemy.x == -500):
+            enemy.x = planeHandler.getActivePlane().x
 
     level_filepath = 'resources/level_scripts.json'
     level_number = 0 #hardcoded level
@@ -130,6 +136,13 @@ def start():
             new_enemy = Enemy(img, hp, batch=level_batch, group=plane_layer, **wave['enemy_obj']['kwargs'])
             new_enemy.movement = wave.get('movement', {"name": 'move_not'})
             new_enemy.visible = False
+            if (wave['movement']['name'] == 'move_down_follow'):
+                new_enemy.x = -500 #outside value to check for plane follow
+            if (wave['fire']['interval'] > 0):
+                new_enemy.canFire = True
+                pyglet.clock.schedule_interval(enemy_fire, wave['fire']['interval'], enemy=new_enemy)
+                #pyglet.clock.schedule_interval(new_enemy.enemyFire,
+                                          #wave['fire']['interval'], planeHandler.getActivePlane())
             pyglet.clock.schedule_once(add_enemy, delay=wave['spawn_time']+enemy_count*wave['interval'], enemy = new_enemy)
     
     #initialize wave
@@ -191,6 +204,12 @@ def start():
         window.clear()
         level_batch.draw()
 
+    def checkEnd():
+        #for plane in planeHandler.planes:
+            #print(plane.health)
+            #if(plane.health <= 0):
+            pyglet.clock.schedule_once(end_screen, 0.4)
+
     def handle_move(dt):
 
         # player plane
@@ -218,7 +237,7 @@ def start():
     def checkCollision():
         for obj in game_objects:
             if (obj.dead == True):
-                if obj.is_enemy == True:
+                if obj.is_enemy == True and obj.destroyed == True:
                     score_obj['score'] += 1
                     label.text = 'Score: '+ str(score_obj['score'])
                     print(score_obj)
@@ -229,15 +248,27 @@ def start():
                 game_objects.remove(obj)
                 # print(game_objects)
 
+            if (obj.is_enemy):
+                if(obj.collides_with(planeHandler.getActivePlane()) and planeHandler.getActivePlane().damageable == True):
+                    planeHandler.getActivePlane().handle_collision_with(obj)
+                    if (planeHandler.getActivePlane().health <= 0):
+                        checkEnd()
+                    #planeHandler.getActivePlane().health = planeHandler.getActivePlane().health - 5
+
             if (obj.is_bullet):
-                for enemyObj in enemies:
-                    if (enemyObj.collides_with(obj) == True):
-                        enemyObj.handle_collision_with(obj)
+                if (obj.is_enemyBullet):
+                    if (planeHandler.getActivePlane().collides_with(obj) == True and planeHandler.getActivePlane().damageable == True):
+                        planeHandler.getActivePlane().handle_collision_with(obj)
+                else:
+                    for enemyObj in enemies:
+                        if (enemyObj.collides_with(obj) == True):
+                            enemyObj.handle_collision_with(obj)
 
     def update(dt):
         # enemy
         handle_move(dt)
         checkCollision()
+        #checkEnd()
         to_add = []
         for obj in game_objects:
             obj.update(1)

@@ -53,13 +53,13 @@ class PhysicalObject(pyglet.sprite.Sprite):
         # Orient object to face object
         if self.orientation == True:
             if self.velocity_x == 0:
-                self.rotation = 90
+                #self.rotation = 90
+                self.rotation = 90 - math.degrees(math.atan2(self.velocity_y, self.velocity_x))
             else:
-                self.rotation = 90 - math.degrees(math.atan2(self.velocity_y,self.velocity_x))
+                self.rotation = 90 - math.degrees(math.atan2(self.velocity_y, self.velocity_x))
 
         
     def check_bounds(self):
-        """Use the classic Asteroids screen wrapping behavior"""
         min_x = 0
         min_y = 0
         max_x = 1800
@@ -90,25 +90,30 @@ class PhysicalObject(pyglet.sprite.Sprite):
             self.y = max_y
 
     def collides_with(self, other_object):
-         #Determine if this object collides with another
-
     #     # Ignore bullet collisions if we're supposed to
-         if not self.reacts_to_bullets and other_object.is_bullet:
-             return False
-         if self.is_bullet and not other_object.reacts_to_bullets:
-             return False
+        if (self.reacts_to_bullets and other_object.is_bullet) or (self.reacts_to_enemy_bullets and other_object.is_enemyBullet):
+            collision_distance = self.image.width * 0.4 * self.scale \
+                             + other_object.image.width * 0.4 * other_object.scale
 
-         # Calculate distance between object centers that would be a collision,
-         # assuming square resources
-         collision_distance = self.image.width * 0.4 * self.scale \
-                              + other_object.image.width * 0.4 * other_object.scale
+            actual_distance = math.sqrt((self.position[0] - other_object.position[0]) ** 2 +
+                                (self.position[1] - other_object.position[1]) ** 2)
+            return (actual_distance <= collision_distance)
+        else:
+            return False
+        #if not self.reacts_to_bullets and other_object.is_bullet:
+            #return False
+        #if self.is_bullet and not other_object.reacts_to_bullets:
+        #    return False
 
-         # Get distance using position tuples
-         actual_distance = math.sqrt((self.position[0] - other_object.position[0]) ** 2 +
-                                     (self.position[1] - other_object.position[1]) ** 2)
-         #util.distance(self.position, other_object.position)
+        # Calculate distance between object centers that would be a collision,
+        # assuming square resources
 
-         return (actual_distance <= collision_distance)
+
+        # Get distance using position tuples
+
+        #util.distance(self.position, other_object.position)
+
+
 
     def handle_collision_with(self, other_object):
         if other_object.__class__ is not self.__class__:
