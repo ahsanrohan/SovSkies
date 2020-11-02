@@ -44,7 +44,7 @@ class PlayerPlane(PhysicalObject):
                     progress_circle_8]
 
         self.progress_circle = pyglet.image.Animation.from_image_sequence(self.progress_circle_images, duration=self.shoot_speed, loop=False)
-
+        
         self.blue_progress_circle_images =   [blue_progress_circle_0,
                     blue_progress_circle_1,
                     blue_progress_circle_2,
@@ -65,6 +65,10 @@ class PlayerPlane(PhysicalObject):
 
     def enableSpecialAbilityShoot(self, dt):
         self.could_shoot_special_ability = True
+
+    def revert_fire_rate_increase(self, dt, previous_rate):
+        self.shoot_speed = previous_rate
+        self.progress_circle = pyglet.image.Animation.from_image_sequence(self.progress_circle_images, duration=self.shoot_speed, loop=False)
 
     def fire(self, mouse_x, mouse_y):
 
@@ -121,11 +125,19 @@ class PlayerPlane(PhysicalObject):
                 progress_circle_sprite = pyglet.sprite.Sprite(self.blue_progress_circle, x = 61, y = 61,
                                         batch=self.batch,
                                         group=self.group)
-                if self.special_ablity == "laser":
+                print(self.special_ability)
+                if self.special_ability == "laser":
                     print("laser")
-                if self.special_ability == "fire_rate_increse":
+                if self.special_ability == "fire_rate_increase":
+                    print("got here")
+                    pyglet.clock.schedule_once(self.revert_fire_rate_increase, self.special_ability_shoot_speed * 2,  self.shoot_speed)
+                    self.shoot_speed = self.shoot_speed/10
+                    self.progress_circle = pyglet.image.Animation.from_image_sequence(self.progress_circle_images, duration=self.shoot_speed, loop=False)
                     print("fire_rate_increse")
                 if self.special_ability == "raming":
                     print("raming")
+
+
+        
 
 

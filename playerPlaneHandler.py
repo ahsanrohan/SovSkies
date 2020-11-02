@@ -10,7 +10,7 @@ class PlayerPlaneHandler():
             if plane[0] == "lightning":
                 self.planes.append(PlayerPlane("lightning", 1000, 50, plane_1, 0.1, "laser",  [50, -50], **kwargs))
             if plane[0] == "oldy":
-                self.planes.append(PlayerPlane("oldy", 2000, 80, plane_2, 0.03, "fire_rate_increase",  [0], **kwargs))
+                self.planes.append(PlayerPlane("oldy", 2000, 80, plane_2, .1, "fire_rate_increase",  [0], **kwargs))
             if plane[0] == "speedy":
                 self.planes.append(PlayerPlane("speedy", 2000, 80, plane_2, 0.1, "raming", [0], **kwargs))
             if plane[0] == "yourMom":
