@@ -51,6 +51,9 @@ center_image(enemy_plane)
 sov_logo_image = pyglet.resource.image("SovLogo.png")
 center_image(sov_logo_image)
 
+laser = pyglet.resource.image("laser.png")
+center_image(laser)
+
 blue_progress_circle_8 = pyglet.resource.image('progressCircle8.png')
 center_image(blue_progress_circle_8)
 blue_progress_circle_7 = pyglet.resource.image('blueprogressCircle7.png')
