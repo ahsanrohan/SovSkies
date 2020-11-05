@@ -14,7 +14,7 @@ class Bullet(PhysicalObject):
         self.damage = 10
         # Flag as a bullet
         self.is_bullet = True
-
+        self.die_on_impact = True
     # def update(self, dt):
     #     if self.dead == True:
     #         print("hi")

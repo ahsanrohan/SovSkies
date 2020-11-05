@@ -19,6 +19,8 @@ class PlayerPlane(PhysicalObject):
         self.shootVec = arr
         self.visible = False
 
+        self.laser = ""
+
         self.wrap = False
         self.bind = True
         # Player should not collide with own bullets
@@ -30,7 +32,7 @@ class PlayerPlane(PhysicalObject):
 
         self.has_special_ability = True
         self.special_ability = special_ability
-        self.special_ability_shoot_speed = .2
+        self.special_ability_shoot_speed = .3
         self.could_shoot_special_ability = True
 
         self.progress_circle_images =   [progress_circle_0,
@@ -106,7 +108,7 @@ class PlayerPlane(PhysicalObject):
             for shootSlot in self.shootVec:
                 bullet_x = self.x + shootSlot #* ship_radius #+ math.cos(angle_radians) * ship_radius
                 bullet_y = self.y #* ship_radius #+ math.sin(angle_radians) * ship_radius
-                new_bullet = Bullet(bullet, bullet_x, bullet_y, batch = self.batch, group=self.group)
+                new_bullet = Bullet(bullet, bullet_x , bullet_y , batch = self.batch, group=self.group)
 
             # Give it some speed
                 bullet_vx = math.cos(angle_radians) * self.bullet_speed
@@ -128,12 +130,14 @@ class PlayerPlane(PhysicalObject):
                 print(self.special_ability)
                 if self.special_ability == "laser":
                     print("laser")
-                    new_bullet = Bullet(laser, self.x, self.y, batch = self.batch, group=self.group)
+                    new_bullet = Bullet(laser, self.x, self.y +500, batch = self.batch, group=self.group)
                     angle_radians = -math.radians(270)
                     bullet_vx = math.cos(angle_radians) * 0
                     bullet_vy = math.sin(angle_radians) * 0
                     new_bullet.velocity_x, new_bullet.velocity_y = bullet_vx, bullet_vy
                     new_bullet.wrap = False
+                    new_bullet.die_on_impact = False
+                    self.laser = new_bullet
                     self.new_objects.append(new_bullet)
                 if self.special_ability == "fire_rate_increase":
                     print("got here")
