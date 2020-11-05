@@ -4,7 +4,6 @@ from resources import *
 
 
 class Bullet(PhysicalObject):
-    """Bullets fired by the player"""
 
     def __init__(self, bullet_x, bullet_y , **kwargs):
         super().__init__(img = bullet, x= bullet_x, y = bullet_y, **kwargs)
@@ -17,11 +16,18 @@ class Bullet(PhysicalObject):
         self.is_bullet = True
         self.is_enemyBullet = False
         self.wrap = False
+        self.decceleration = 0
 
-    # def update(self, dt):
-    #     if self.dead == True:
-    #         print("hi")
+    '''
+    def update(self, dt):
+        if self.dead == True:
+            print("hi")
 
+    def deccelerate(self):
+        bullet_rotation = 90 - self.rotation
+        new_bullet.velocity_x -= self.decceleration*math.cos(math.radians(bullet_rotation))
+        new_bullet.velocity_y -= self.decceleration*math.sin(math.radians(bullet_rotation))
+    '''
     def die(self, dt):
         #print("bullet is dead")
         self.dead = True
