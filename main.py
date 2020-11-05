@@ -41,34 +41,176 @@ def init():
     menu()
 
 
+def shop_upgrade(plane_choice_shopping, batch):
+    upgrade_box_array = []
+    if plane_choice_shopping == 1:
+        # Tier 1
+        upgrade_box_array += create_square(batch, x=windowWidth / 3 - 50,
+                                           y=windowHeight / 3 - 50,
+                                           x2=windowWidth / 3 + 50, y2=windowHeight / 3 + 50)
+        upgrade_box_array += create_square(batch, x=windowWidth / 3 - 50,
+                                           y=2 * windowHeight / 3 - 50,
+                                           x2=windowWidth / 3 + 50,
+                                           y2=2 * windowHeight / 3 + 50)
+        # Tier 2
+        upgrade_box_array += create_square(batch, x=windowWidth / 2 - 50,
+                                           y=windowHeight / 3 - 50,
+                                           x2=windowWidth / 2 + 50, y2=windowHeight / 3 + 50)
+        upgrade_box_array += create_square(batch, x=windowWidth / 2 - 50,
+                                           y=2 * windowHeight / 3 - 50,
+                                           x2=windowWidth / 2 + 50,
+                                           y2=2 * windowHeight / 3 + 50)
+        # Tier 3
+        upgrade_box_array += create_square(batch, x=2 * windowWidth / 3 - 50,
+                                           y=windowHeight / 2 - 50,
+                                           x2=2 * windowWidth / 3 + 50,
+                                           y2=windowHeight / 2 + 50)
+
+        # Connections
+        upgrade_box_array += create_square(batch,
+                                           x=windowWidth / 3 + 50, x2=windowWidth / 2 - 50,
+                                           y=windowHeight / 3, y2=windowHeight / 3)
+        upgrade_box_array += create_square(batch, x=windowWidth / 3 + 50,
+                                           x2=windowWidth / 2 - 50,
+                                           y=2 * windowHeight / 3, y2=2 * windowHeight / 3)
+        upgrade_box_array += create_square(batch,
+                                           x=windowWidth / 2 + 50, x2=2 * windowWidth / 3,
+                                           y=2 * windowHeight / 3, y2=2 * windowHeight / 3)
+        upgrade_box_array += create_square(batch,
+                                           x=windowWidth / 2 + 50, x2=2 * windowWidth / 3,
+                                           y=windowHeight / 3, y2=windowHeight / 3)
+        upgrade_box_array += create_square(batch,
+                                           x=2 * windowWidth / 3, x2=2 * windowWidth / 3,
+                                           y=windowHeight / 2 - 50, y2=windowHeight / 3)
+        upgrade_box_array += create_square(batch,
+                                           x=2 * windowWidth / 3, x2=2 * windowWidth / 3,
+                                           y=windowHeight / 2 + 50, y2=2 * windowHeight / 3)
+    if plane_choice_shopping == 2:
+        # Tier 1
+        upgrade_box_array = create_square(batch, x=windowWidth / 3 - 50,
+                                          y=windowHeight / 3 - 50,
+                                          x2=windowWidth / 3 + 50, y2=windowHeight / 3 + 50)
+        upgrade_box_array += create_square(batch, x=windowWidth / 3 - 50,
+                                           y=2 * windowHeight / 3 - 50,
+                                           x2=windowWidth / 3 + 50,
+                                           y2=2 * windowHeight / 3 + 50)
+        # Tier 2
+        upgrade_box_array += create_square(batch,
+                                           x=windowWidth / 2 - 50, x2=windowWidth / 2 + 50,
+                                           y=windowHeight / 2 + 50, y2=windowHeight / 2 - 50)
+
+        # Tier 3
+        upgrade_box_array += create_square(batch,
+                                           x=2 * windowWidth / 3 - 50,
+                                           x2=2 * windowWidth / 3 + 50,
+                                           y=windowHeight / 3 - 50, y2=windowHeight / 3 + 50)
+        upgrade_box_array += create_square(batch,
+                                           x=2 * windowWidth / 3 - 50,
+                                           x2=2 * windowWidth / 3 + 50,
+                                           y=2 * windowHeight / 3 - 50,
+                                           y2=2 * windowHeight / 3 + 50)
+
+        # Connections 1
+        upgrade_box_array += create_square(batch,
+                                           x=windowWidth / 3 + 50, x2=windowWidth / 2,
+                                           y=windowHeight / 3, y2=windowHeight / 3)
+        upgrade_box_array += create_square(batch,
+                                           x=windowWidth / 3 + 50, x2=windowWidth / 2,
+                                           y=2 * windowHeight / 3, y2=2 * windowHeight / 3)
+
+        upgrade_box_array += create_square(batch,
+                                           x=windowWidth / 2, x2=windowWidth / 2,
+                                           y=2 * windowHeight / 3, y2=windowHeight / 2 + 50)
+        upgrade_box_array += create_square(batch,
+                                           x=windowWidth / 2, x2=windowWidth / 2,
+                                           y=windowHeight / 3, y2=windowHeight / 2 - 50)
+        # Connections 2
+        upgrade_box_array += create_square(batch,
+                                           x=2 * windowWidth / 3, x2=2 * windowWidth / 3,
+                                           y=windowHeight / 2, y2=windowHeight / 3 + 50)
+        upgrade_box_array += create_square(batch,
+                                           x=2 * windowWidth / 3, x2=2 * windowWidth / 3,
+                                           y=windowHeight / 2, y2=2 * windowHeight / 3 - 50)
+        upgrade_box_array += create_square(batch,
+                                           x=windowWidth / 2 + 50, x2=2 * windowWidth / 3,
+                                           y=windowHeight / 2, y2=windowHeight / 2)
+    if plane_choice_shopping == 3:
+        # Tier 1
+        upgrade_box_array = create_square(batch,
+                                          x=windowWidth / 3 - 50, x2=windowWidth / 3 + 50,
+                                          y=windowHeight / 2 - 50, y2=windowHeight / 2 + 50)
+        # Tier 2
+        upgrade_box_array += create_square(batch,
+                                           x=windowWidth / 2 - 50, x2=windowWidth / 2 + 50,
+                                           y=2 * windowHeight / 3 + 50,
+                                           y2=2 * windowHeight / 3 - 50)
+        upgrade_box_array += create_square(batch,
+                                           x=windowWidth / 2 - 50, x2=windowWidth / 2 + 50,
+                                           y=windowHeight / 3 + 50, y2=windowHeight / 3 - 50)
+
+        # Tier 3
+        upgrade_box_array += create_square(batch,
+                                           x=2 * windowWidth / 3 - 50,
+                                           x2=2 * windowWidth / 3 + 50,
+                                           y=windowHeight / 3 - 50, y2=windowHeight / 3 + 50)
+        upgrade_box_array += create_square(batch,
+                                           x=2 * windowWidth / 3 - 50,
+                                           x2=2 * windowWidth / 3 + 50,
+                                           y=2 * windowHeight / 3 - 50,
+                                           y2=2 * windowHeight / 3 + 50)
+
+        # Connections 1
+        upgrade_box_array += create_square(batch,
+                                           x=windowWidth / 3 + 50, x2=windowWidth / 2,
+                                           y=windowHeight / 2, y2=windowHeight / 2)
+
+        upgrade_box_array += create_square(batch,
+                                           x=windowWidth / 2, x2=windowWidth / 2,
+                                           y=2 * windowHeight / 3 - 50, y2=windowHeight / 2)
+        upgrade_box_array += create_square(batch,
+                                           x=windowWidth / 2, x2=windowWidth / 2,
+                                           y=windowHeight / 3 + 50, y2=windowHeight / 2)
+        # Connections 2
+        upgrade_box_array += create_square(batch,
+                                           x=windowWidth / 2 + 50, x2=2 * windowWidth / 3 - 50,
+                                           y=windowHeight / 3, y2=windowHeight / 3)
+        upgrade_box_array += create_square(batch,
+                                           x=windowWidth / 2 + 50, x2=2 * windowWidth / 3 - 50,
+                                           y=2 * windowHeight / 3, y2=2 * windowHeight / 3)
+
+    return upgrade_box_array
+
+
 # menu funtion
 def menu():
     start_screen_batch = pyglet.graphics.Batch()
 
-    start_map_sprite = pyglet.sprite.Sprite(start_map, x=windowWidth / 2, y=windowHeight / 2, batch=start_screen_batch,
+    start_map_sprite = pyglet.sprite.Sprite(start_map, x=windowWidth / 2, y=windowHeight / 2,
+                                            batch=start_screen_batch,
                                             group=maps_layer)
     start_map_sprite.scale_x = windowWidth / start_map_sprite.width
     start_map_sprite.scale_y = windowHeight / start_map_sprite.height
     start_button_sprite = pyglet.sprite.Sprite(start_button, x=windowWidth / 4, y=windowHeight / 4,
                                                batch=start_screen_batch,
                                                group=buttons_layer)
-    store_button_sprite = pyglet.sprite.Sprite(store_button, x=3 * windowWidth / 4, y=windowHeight / 4,
+    store_button_sprite = pyglet.sprite.Sprite(store_button, x=3 * windowWidth / 4,
+                                               y=windowHeight / 4,
                                                batch=start_screen_batch,
                                                group=buttons_layer)
 
-    level_select_square = create_square(start_screen_batch, x=windowWidth / 2 - 200, y=windowHeight / 4 - 40,
-                  x2=windowWidth / 2 + 200, y2=windowHeight / 4 + 40, width = 2)
-
-
-
+    level_select_square = create_square(start_screen_batch, x=windowWidth / 2 - 200,
+                                        y=windowHeight / 4 - 40,
+                                        x2=windowWidth / 2 + 200, y2=windowHeight / 4 + 40, width=2)
 
     plane_1_label = pyglet.text.Label('Level Select', color=(0, 0, 0, 255),
                                       font_name='Times New Roman',
                                       font_size=50, group=buttons_layer,
-                                      x=window.width / 2, y=windowHeight / 4 - 20, batch=start_screen_batch)
+                                      x=window.width / 2, y=windowHeight / 4 - 20,
+                                      batch=start_screen_batch)
     plane_1_label.x = plane_1_label.x - plane_1_label.content_width / 2
 
-    sov_logo_sprite = pyglet.sprite.Sprite(sov_logo_image, x=windowWidth / 2, y=windowHeight * 3 / 4,
+    sov_logo_sprite = pyglet.sprite.Sprite(sov_logo_image, x=windowWidth / 2,
+                                           y=windowHeight * 3 / 4,
                                            batch=start_screen_batch,
                                            group=buttons_layer)
 
@@ -100,15 +242,37 @@ def menu():
 
 def level_menu():
     level_menu_batch = pyglet.graphics.Batch()
-    level_map_sprite = pyglet.sprite.Sprite(start_map, batch=level_menu_batch, x=windowWidth / 2, y=windowHeight / 2, group=maps_layer)
+    store_label = pyglet.text.Label('Level Selection',
+                                    font_name='Times New Roman',
+                                    font_size=50, group=buttons_layer,
+                                    x=window.width / 2, y=window.height // 1.1,
+                                    batch=level_menu_batch)
+    store_label.x = store_label.x - store_label.content_width / 2
+    level_map_sprite = pyglet.sprite.Sprite(start_map, batch=level_menu_batch, x=windowWidth / 2,
+                                            y=windowHeight / 2, group=maps_layer)
     level_map_sprite.scale_x = windowWidth / level_map_sprite.width
     level_map_sprite.scale_y = windowHeight / level_map_sprite.height
     exit_button_sprite = pyglet.sprite.Sprite(exit_button, x=windowWidth - exit_button.anchor_x,
                                               y=windowHeight - exit_button.anchor_y,
                                               batch=level_menu_batch,
                                               group=buttons_layer)
-    create_square(level_menu_batch, x=windowWidth / 3 - 50, y=windowHeight / 3 - 50,
-                  x2=windowWidth / 3 + 50, y2=windowHeight / 3 + 50)
+
+    level_1 = create_square(level_menu_batch,
+                            x=windowWidth / 3 - 50, x2=windowWidth / 3 + 50,
+                            y=windowHeight / 2 - 50, y2=windowHeight / 2 + 50)
+    level_2 = create_square(level_menu_batch,
+                            x=windowWidth / 2 - 50, x2=windowWidth / 2 + 50,
+                            y=windowHeight / 2 - 50, y2=windowHeight / 2 + 50)
+    level_3 = create_square(level_menu_batch,
+                            x=2 * windowWidth / 3 - 50, x2=2 * windowWidth / 3 + 50,
+                            y=windowHeight / 2 - 50, y2=windowHeight / 2 + 50)
+
+    connection_1 = create_square(level_menu_batch,
+                                 x=windowWidth / 3 + 50, x2=windowWidth / 2 - 50,
+                                 y=windowHeight / 2, y2=windowHeight / 2)
+    connection_2 = create_square(level_menu_batch,
+                                 x2=windowWidth / 2 + 50, x=2 * windowWidth / 3 - 50,
+                                 y=windowHeight / 2, y2=windowHeight / 2)
 
     @window.event
     def on_draw():
@@ -130,17 +294,19 @@ def level_menu():
 
 def store_menu():
     def item_buy(item):
-        print("You tried to buy " + str(item) + ", but you get nothing!")
+        pass
 
     store_menu_batch = pyglet.graphics.Batch()
-    store_menu_sprite = pyglet.sprite.Sprite(store_map, x=windowWidth / 2, y=windowHeight / 2, batch=store_menu_batch,
+    store_menu_sprite = pyglet.sprite.Sprite(store_map, x=windowWidth / 2, y=windowHeight / 2,
+                                             batch=store_menu_batch,
                                              group=maps_layer)
     store_menu_sprite.scale_x = windowWidth / store_menu_sprite.width
     store_menu_sprite.scale_y = windowHeight / store_menu_sprite.height
     store_label = pyglet.text.Label('S T O R E',
                                     font_name='Times New Roman',
                                     font_size=50, group=buttons_layer,
-                                    x=window.width / 2, y=window.height // 1.1, batch=store_menu_batch)
+                                    x=window.width / 2, y=window.height // 1.1,
+                                    batch=store_menu_batch)
     store_label.x = store_label.x - store_label.content_width / 2
 
     plane_square_1 = create_square(store_menu_batch, x=windowWidth / 4 - 100, y=windowHeight * 0.80,
@@ -148,7 +314,8 @@ def store_menu():
     plane_1_label = pyglet.text.Label('P L A N E 1', color=(0, 0, 255, 255),
                                       font_name='Times New Roman',
                                       font_size=20, group=buttons_layer,
-                                      x=window.width / 4, y=window.height * 0.82, batch=store_menu_batch)
+                                      x=window.width / 4, y=window.height * 0.82,
+                                      batch=store_menu_batch)
     plane_1_label.x = plane_1_label.x - plane_1_label.content_width / 2
 
     plane_square_2 = create_square(store_menu_batch, x=windowWidth / 2 - 100, y=windowHeight * 0.80,
@@ -156,51 +323,61 @@ def store_menu():
     plane_2_label = pyglet.text.Label('P L A N E 2', color=(0, 255, 0, 255),
                                       font_name='Times New Roman',
                                       font_size=20, group=buttons_layer,
-                                      x=window.width / 2, y=window.height * 0.82, batch=store_menu_batch)
+                                      x=window.width / 2, y=window.height * 0.82,
+                                      batch=store_menu_batch)
     plane_2_label.x = plane_2_label.x - plane_2_label.content_width / 2
 
-    plane_square_3 = create_square(store_menu_batch, x=3 * windowWidth / 4 - 100, y=windowHeight * 0.80,
+    plane_square_3 = create_square(store_menu_batch, x=3 * windowWidth / 4 - 100,
+                                   y=windowHeight * 0.80,
                                    x2=3 * windowWidth / 4 + 100, y2=windowHeight * 0.85, width=2)
     plane_3_label = pyglet.text.Label('P L A N E 3', color=(255, 0, 0, 255),
                                       font_name='Times New Roman',
                                       font_size=20, group=buttons_layer,
-                                      x=3 * window.width / 4, y=window.height * 0.82, batch=store_menu_batch)
+                                      x=3 * window.width / 4, y=window.height * 0.82,
+                                      batch=store_menu_batch)
     plane_3_label.x = plane_3_label.x - plane_3_label.content_width / 2
     exit_button_sprite = pyglet.sprite.Sprite(exit_button, x=windowWidth - exit_button.anchor_x,
                                               y=windowHeight - exit_button.anchor_y,
                                               batch=store_menu_batch,
                                               group=buttons_layer)
+    plane_choice_shopping = 2
 
-    re_array = create_square(store_menu_batch, x=windowWidth / 3 - 50, y=windowHeight / 3 - 50,
-                             x2=windowWidth / 3 + 50, y2=windowHeight / 3 + 50)
-    re_array += create_square(store_menu_batch, x=windowWidth / 3 - 50, y=2 * windowHeight / 3 - 50,
-                              x2=windowWidth / 3 + 50, y2=2 * windowHeight / 3 + 50)
-
-    re_array += create_square(store_menu_batch, x=windowWidth / 2 - 50, y=windowHeight / 3 - 50,
-                             x2=windowWidth / 2 + 50, y2=windowHeight / 3 + 50)
-    re_array += create_square(store_menu_batch, x=windowWidth / 2 - 50, y=2 * windowHeight / 3 - 50,
-                              x2=windowWidth / 2 + 50, y2=2 * windowHeight / 3 + 50)
-
-    re_array += create_square(store_menu_batch, x=2 * windowWidth / 3 - 50, y=windowHeight / 3 - 50,
-                             x2=2 * windowWidth / 3 + 50, y2=windowHeight / 3 + 50)
-    re_array += create_square(store_menu_batch, x=2 * windowWidth / 3 - 50, y=2 * windowHeight / 3 - 50,
-                              x2=2 * windowWidth / 3 + 50, y2=2 * windowHeight / 3 + 50)
-
-
+    temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch)
     store_menu_batch.draw()
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
-        if windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:
-            item_buy(1)
-        elif windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and 2 * windowHeight / 4 - 50 < y < 2 * windowHeight / 4 + 50:
-            item_buy(2)
+        nonlocal temp_upgrades, plane_choice_shopping
+        if windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom left
+            item_buy([[plane_choice_shopping], [3]])
+        elif windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top left
+            item_buy([[plane_choice_shopping], [1]])
+        elif windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle left
+            item_buy([[plane_choice_shopping], [2]])
+        elif windowWidth / 2 - 50 < x < windowWidth / 2 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top middle
+            item_buy([[plane_choice_shopping], [4]])
+        elif windowWidth / 2 - 50 < x < windowWidth / 2 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle middle
+            item_buy([[plane_choice_shopping], [5]])
+        elif windowWidth / 2 - 50 < x < windowWidth / 2 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom left
+            item_buy([[plane_choice_shopping], [6]])
+        elif 2*windowWidth / 3 - 50 < x < 2*windowWidth / 3 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top right
+            item_buy([[plane_choice_shopping], [7]])
+        elif 2*windowWidth / 3 - 50 < x < 2*windowWidth / 3 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle right
+            item_buy([[plane_choice_shopping], [8]])
+        elif 2*windowWidth / 3 - 50 < x < 2*windowWidth / 3 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom right
+            item_buy([[plane_choice_shopping], [9]])
+
         elif windowWidth / 4 - 100 < x < windowWidth / 4 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 1
-            item_buy('plane1')
+            plane_choice_shopping = 1
+            temp_upgrades = shop_upgrade(1, store_menu_batch)
         elif windowWidth / 2 - 100 < x < windowWidth / 2 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 2
-            item_buy('plane2')
+            plane_choice_shopping = 2
+            temp_upgrades = shop_upgrade(2, store_menu_batch)
+
         elif 3 * windowWidth / 4 - 100 < x < 3 * windowWidth / 4 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 3
-            item_buy('plane3')
+            plane_choice_shopping = 3
+            temp_upgrades = shop_upgrade(3, store_menu_batch)
+
         elif (windowWidth - exit_button.width) < x < windowWidth and y > (
                 windowHeight - exit_button.height):  # clicking X button
             menu()
@@ -221,15 +398,19 @@ def store_menu():
 def end_screen(dt):
     end_screen_batch = pyglet.graphics.Batch()
 
-    # start_map = pyglet.sprite.Sprite(mapHandler.start_map.map_Image, batch=start_screen_batch, group=maps_layer)
-    end_sprite = pyglet.sprite.Sprite(end_image, x=windowWidth / 2, y=windowHeight * 3 / 4, batch=end_screen_batch,
+    # start_map = pyglet.sprite.Sprite(mapHandler.start_map.map_Image, batch=start_screen_batch,
+    # group=maps_layer)
+    end_sprite = pyglet.sprite.Sprite(end_image, x=windowWidth / 2, y=windowHeight * 3 / 4,
+                                      batch=end_screen_batch,
                                       group=maps_layer)
 
-    quit_button_sprite = pyglet.sprite.Sprite(quit_button, x=windowWidth / 2, y=start_button.anchor_y + 150,
+    quit_button_sprite = pyglet.sprite.Sprite(quit_button, x=windowWidth / 2,
+                                              y=start_button.anchor_y + 150,
                                               batch=end_screen_batch,
                                               group=buttons_layer)
 
-    start_button_sprite = pyglet.sprite.Sprite(start_button, x=windowWidth / 2, y=start_button.anchor_y,
+    start_button_sprite = pyglet.sprite.Sprite(start_button, x=windowWidth / 2,
+                                               y=start_button.anchor_y,
                                                batch=end_screen_batch,
                                                group=buttons_layer)
 
@@ -274,7 +455,8 @@ def start():
                               x=window.width - 200, y=window.height // 2, batch=level_batch)
 
     # initializing plane handler which holds all the planes
-    planeHandler = PlayerPlaneHandler(getPlayerPlanes(playerName), batch=level_batch, group=plane_layer)
+    planeHandler = PlayerPlaneHandler(getPlayerPlanes(playerName), batch=level_batch,
+                                      group=plane_layer)
     game_objects += planeHandler.getAllPlanes()
 
     # add enemy
@@ -283,7 +465,8 @@ def start():
     game_objects.append(test_enemy)
     enemies.append(test_enemy)
     # initializing the background
-    level_map_object = PhysicalObject(level_map, x=windowWidth / 2, batch=level_batch, group=maps_layer)
+    level_map_object = PhysicalObject(level_map, x=windowWidth / 2, batch=level_batch,
+                                      group=maps_layer)
     level_map_object.scale_x = windowWidth / level_map_object.width
 
     game_objects.append(level_map_object)
@@ -370,7 +553,7 @@ def start():
         else:
             planeHandler.getActivePlane().velocity_x = 0
             planeHandler.getActivePlane().velocity_y = 0
-        if(planeHandler.getActivePlane().laser):
+        if (planeHandler.getActivePlane().laser):
             planeHandler.getActivePlane().laser.velocity_x = planeHandler.getActivePlane().velocity_x
             planeHandler.getActivePlane().laser.velocity_y = planeHandler.getActivePlane().velocity_y
 
@@ -387,7 +570,8 @@ def start():
                         print("game end")
                     else:
                         # create new enemy when enemy dies (for demo only, should initialize it elsewhere)
-                        new_test_enemy = Enemy(resources.plane_1, 50, batch=level_batch, group=plane_layer)
+                        new_test_enemy = Enemy(resources.plane_1, 50, batch=level_batch,
+                                               group=plane_layer)
                         # new_test_enemy.color = (255, 0, 0)
                         new_test_enemy.velocity_x = 5
                         new_test_enemy.y = 700
@@ -424,4 +608,3 @@ def start():
 
 if __name__ == '__main__':
     init()
-
