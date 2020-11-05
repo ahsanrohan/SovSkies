@@ -4,31 +4,35 @@
             "enemy_count": 4,
             "interval": 0.6,
             "movement": {"name": "move_down", "speed": -5},
+            "fire": {"interval":  0},
             "enemy_obj": {"img": "plane_1", "hp": 50, "kwargs": {"x": 200, "y": 900}}
         },
         {   "spawn_time": 5,
             "enemy_count": 4,
             "interval": 0.6,
             "movement": {"name": "move_down", "speed": -5},
+            "fire": {"interval":  0},
             "enemy_obj": {"img": "plane_1", "hp": 50, "kwargs": {"x": 1300, "y": 900}}
         },
         {   "spawn_time": 10,
             "enemy_count": 5,
             "interval": 0.2,
             "movement": {"name": "move_down_follow", "speed": 1},
+            "fire": {"interval":  0},
             "enemy_obj": {"img": "plane_1", "hp": 50, "kwargs": {"x": -500, "y": 900}}
         },
         {   "spawn_time": 5,
             "enemy_count": 5, 
             "interval": 0.5,
             "movement": {"name": "move_ellipse", "speed": 2, "a": 8, "b": -3},
-            "fire": {"name": "target_plane", "interval":  1},
+            "fire": {"interval":  1},
             "enemy_obj": {"img": "plane_1", "hp": 50, "kwargs": {"x": -200, "y": 900}}
         },
         {   "spawn_time": 20,
             "enemy_count": 5, 
             "interval": 0.5,
             "movement": {"name": "move_sinusoid", "speed": 9},
+            "fire": {"interval":  0},
             "enemy_obj": 
                 {"img": "plane_1", "hp": 50, "kwargs": {"x": -100, "y": 500, "velocity_x": 1}}
         },
@@ -36,6 +40,7 @@
             "enemy_count": 5, 
             "interval": 0.5,
             "movement": {"name": "move_parabola", "speed": 8, "a": 2},
+            "fire": {"interval":  0},
             "enemy_obj": 
                 {"img": "plane_1", "hp": 50, "kwargs": {"x": -100, "y": 800}}
         },
@@ -43,17 +48,23 @@
             "enemy_count": 5, 
             "interval": 0.5,
             "movement": {"name": "move_parabola", "speed": -8, "a": -2},
+            "fire": {"interval":  0},
             "enemy_obj": 
                 {"img": "plane_1", "hp": 50, "kwargs": {"x": 1600, "y": 800}}
         }
     ],
     [
-        {   "spawn_time": 1,
+        {   "spawn_time": 10,
             "enemy_count": 5, 
             "interval": 0.5,
-            "movement": {"name": "move_ellipse", "speed": 2, "a": 8, "b": -3},
-            "fire": {"name": "cone", "interval":  1},
-            "enemy_obj": {"img": "plane_1", "hp": 50, "kwargs": {"x": -200, "y": 900}}
+            "enemy_obj": 
+                {"img": "plane_1", "hp": 50, "kwargs": {"x": 5, "y": 700, "velocity_x": 5}}
+        },
+        {   "spawn_time": 10,
+            "enemy_count": 5, 
+            "interval": 0.5,
+            "enemy_obj": 
+                {"img": "plane_1", "hp": 50, "kwargs": {"x": 5, "y": 700, "velocity_x": 5}}
         }
     ]
 ]

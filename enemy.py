@@ -8,7 +8,6 @@ class Enemy(physicalObject.PhysicalObject):
         super().__init__(image, *args, **kwargs)
         self.health = health
         self.movement = {}
-        self.fire_type = {}
         self.orientation = True
         self.wrap = False
         self.is_enemy = True
@@ -83,38 +82,61 @@ class Enemy(physicalObject.PhysicalObject):
         self.velocity_y = -10 * speed
         self.rotation = 90
 
-    def fire_target(self, target_x, target_y):
-        speed = self.fire_type.get('speed', 10)
+    def enemyFire(self, target):
         if (not self.dead):
-            xdiff = target_x - self.x
-            ydiff = target_y - self.y
+            xdiff = target.x - self.x
+            ydiff = target.y - self.y
             magnitude_velocity = math.sqrt(xdiff ** 2 + ydiff ** 2)
             unit_x = xdiff / magnitude_velocity
             unit_y = ydiff / magnitude_velocity
+            # Note: pyglet's rotation attributes are in "negative degrees"
+            #if (ydiff > 0):
+                #angle_radians = -math.radians(math.degrees(math.atan(xdiff/ydiff)) + 270)
+            #else:
+                #angle_radians = math.radians(-(math.degrees(math.atan(xdiff/ydiff)) + 90))
+            #print(self.shootVec)
+            # Create a new bullet just in front of the player
+            #ship_radius = self.planeImg.width / 2
+            #for shootSlot in shootVec:
 
             bullet_x = self.x #* ship_radius #+ math.cos(angle_radians) * ship_radius
             bullet_y = self.y #* ship_radius #+ math.sin(angle_radians) * ship_radius
             new_bullet = Bullet(bullet_x, bullet_y + 5, batch = self.batch)
             new_bullet.is_enemyBullet = True
             # Give it some speed
-            bullet_vx = unit_x * speed #math.cos(angle_radians) * self.bullet_speed
-            bullet_vy = unit_y * speed #self.bullet_speed #math.sin(angle_radians) * self.bullet_speed
+            bullet_vx = unit_x * 10 #math.cos(angle_radians) * self.bullet_speed
+            bullet_vy = unit_y * 10 #self.bullet_speed #math.sin(angle_radians) * self.bullet_speed
             new_bullet.velocity_x, new_bullet.velocity_y = bullet_vx, bullet_vy
             new_bullet.wrap = False
             # Add it to the list of objects to be added to the game_objects list
             self.new_objects.append(new_bullet)
+# enemy
+        '''
+        test_enemy.velocity_x = 5
+        test_enemy.y = 700
+        '''
+        # sine wave
+        '''
+        test_enemy.velocity_x = 4
+        test_enemy.velocity_y = 100 * math.sin(0.001 * test_enemy.x)
+        '''
 
+        # parabola
+        '''
+        test_enemy.velocity_x = 4
+        test_enemy.velocity_y = -0.001 * test_enemy.x * 2
+        '''
 
-    def target_plane(self, plane):
-        self.fire_target(plane.x, plane.y)
+        # log
+        '''
+        test_enemy.velocity_x = 4
+        test_enemy.y = 800
+        test_enemy.velocity_y = 40/(0.01 * test_enemy.x + 1 ) 
+        '''
 
-    def cone(self):
-        bullets = self.fire_type.get('count', 3)
-        spread = self.fire_type.get('spread', 30) #degrees
-        for bullet in range(-int(bullets/2),int(bullets/2)):
-            self.rotation += int(spread/bullets * bullet)
-            print(self.velocity_x, self.velocity_y)
-            self.fire_target(self.x + self.velocity_x + 0.01, self.y + self.velocity_y + 0.01)
-
-    def multi(self): pass
-
+        #circle
+        '''
+        test_enemy.velocity_y = math.cos(test_enemy.y)
+        test_enemy.velocity_x = math.sin(test_enemy.x)
+        '''
+        

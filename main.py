@@ -113,19 +113,10 @@ def start():
     planeHandler = PlayerPlaneHandler(getPlayerPlanes(playerName), batch=level_batch, group=plane_layer)
     game_objects += planeHandler.getAllPlanes()
 
-    # load level data
-    level_filepath = 'resources/level_scripts.json'
-    level_number = 1 #hardcoded level
-    with open(level_filepath) as f:
-        level = json.load(f)[level_number]
-
-    # functions to add enemy objects to game objects
+    # add enemy
     def enemy_fire(dt, enemy):
         if(enemy.canFire):
-            if( enemy.fire_type and enemy.fire_type['name'] == 'target_plane'):
-                enemy.target_plane(planeHandler.getActivePlane())
-            else:
-                getattr(enemy, enemy.fire_type['name'])()
+            enemy.enemyFire(planeHandler.getActivePlane())
 
     def add_enemy(dt, enemy):
         game_objects.append(enemy)
@@ -134,27 +125,26 @@ def start():
         if(enemy.x == -500):
             enemy.x = planeHandler.getActivePlane().x
 
-    #read level data
+    level_filepath = 'resources/level_scripts.json'
+    level_number = 0 #hardcoded level
+    with open(level_filepath) as f:
+        level = json.load(f)[level_number]
     for wave in level:
         for enemy_count in range(wave['enemy_count']):
             img = eval('resources.' + wave['enemy_obj']['img'])
             hp = wave['enemy_obj']['hp']
             new_enemy = Enemy(img, hp, batch=level_batch, group=plane_layer, **wave['enemy_obj']['kwargs'])
             new_enemy.movement = wave.get('movement', {"name": 'move_not'})
-            new_enemy.fire_type = wave.get('fire', None)
-            new_enemy.x += enemy_count*wave.get('spawn_dx', 0)
-            new_enemy.y += enemy_count*wave.get('spawn_dy', 0)
             new_enemy.visible = False
             if (wave['movement']['name'] == 'move_down_follow'):
                 new_enemy.x = -500 #outside value to check for plane follow
-            if (new_enemy.fire_type):
+            if (wave['fire']['interval'] > 0):
                 new_enemy.canFire = True
-                pyglet.clock.schedule_interval(enemy_fire, new_enemy.fire_type['interval'], enemy=new_enemy)
+                pyglet.clock.schedule_interval(enemy_fire, wave['fire']['interval'], enemy=new_enemy)
                 #pyglet.clock.schedule_interval(new_enemy.enemyFire,
                                           #wave['fire']['interval'], planeHandler.getActivePlane())
             pyglet.clock.schedule_once(add_enemy, delay=wave['spawn_time']+enemy_count*wave['interval'], enemy = new_enemy)
     
-
     #initialize wave
     
 
