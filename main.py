@@ -283,7 +283,7 @@ def start():
         to_add = []
         for obj in game_objects:
             obj.update(1)
-
+    
             to_add.extend(obj.new_objects)
             obj.new_objects = []
 

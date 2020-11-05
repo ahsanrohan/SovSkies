@@ -49,11 +49,11 @@
     ],
     [
         {   "spawn_time": 1,
-            "enemy_count": 5, 
+            "enemy_count": 4, 
             "interval": 0.5,
-            "movement": {"name": "move_ellipse", "speed": 2, "a": 8, "b": -3},
-            "fire": {"name": "cone", "interval":  1},
-            "enemy_obj": {"img": "plane_1", "hp": 50, "kwargs": {"x": -200, "y": 900}}
+            "movement": {"name": "move_sinusoid", "speed": 9},
+            "fire": {"name": "cone", "interval":  0.5, "speed": 10},
+            "enemy_obj": {"img": "plane_1", "hp": 50, "kwargs": {"x": 500, "y": 500}}
         }
     ]
 ]

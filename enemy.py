@@ -83,6 +83,7 @@ class Enemy(physicalObject.PhysicalObject):
         self.velocity_y = -10 * speed
         self.rotation = 90
 
+    #fire bullet to a targetted x,y
     def fire_target(self, target_x, target_y):
         speed = self.fire_type.get('speed', 10)
         if (not self.dead):
@@ -110,11 +111,17 @@ class Enemy(physicalObject.PhysicalObject):
 
     def cone(self):
         bullets = self.fire_type.get('count', 3)
-        spread = self.fire_type.get('spread', 30) #degrees
-        for bullet in range(-int(bullets/2),int(bullets/2)):
-            self.rotation += int(spread/bullets * bullet)
-            print(self.velocity_x, self.velocity_y)
-            self.fire_target(self.x + self.velocity_x + 0.01, self.y + self.velocity_y + 0.01)
+        spread = self.fire_type.get('spread', 9) #degrees
+        for bullet in range(-int(bullets/2), int(bullets/2) + 1):
+            bullet_rotation = 90 - self.rotation + int(spread/bullets * bullet)
+            speed = self.fire_type.get('speed', 10)
+            new_bullet = Bullet(self.x, self.y, batch = self.batch)
+            new_bullet.is_enemyBullet = True
+            new_bullet.velocity_x, new_bullet.velocity_y = speed*math.cos(math.radians(bullet_rotation)), speed*math.sin(math.radians(bullet_rotation))
+            self.new_objects.append(new_bullet)
 
-    def multi(self): pass
+    def drift_down(self):
+        speed = 0
+
+    def burst(self): pass
 

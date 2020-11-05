@@ -10,11 +10,13 @@ class Bullet(PhysicalObject):
         super().__init__(img = bullet, x= bullet_x, y = bullet_y, **kwargs)
 
         # Bullets shouldn't stick around forever
-        pyglet.clock.schedule_once(self.die, 2.5)
+        self.life_time = 2.5
+        pyglet.clock.schedule_once(self.die, self.life_time)
         self.damage = 10
         # Flag as a bullet
         self.is_bullet = True
         self.is_enemyBullet = False
+        self.wrap = False
 
     # def update(self, dt):
     #     if self.dead == True:
