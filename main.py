@@ -181,7 +181,7 @@ def shop_upgrade(plane_choice_shopping, batch):
     return upgrade_box_array
 
 
-# menu funtion
+# menu function
 def menu():
     start_screen_batch = pyglet.graphics.Batch()
 
@@ -241,6 +241,9 @@ def menu():
 
 
 def level_menu():
+    def level_selectioned(level_number):
+        """Takes input in the form of an integer from 1-6, changes the level selected"""
+        pass
     level_menu_batch = pyglet.graphics.Batch()
     store_label = pyglet.text.Label('Level Selection',
                                     font_name='Times New Roman',
@@ -294,6 +297,7 @@ def level_menu():
 
 def store_menu():
     def item_buy(item):
+        """Takes input in form [[plane number],[upgrade position]]"""
         pass
 
     store_menu_batch = pyglet.graphics.Batch()
@@ -360,20 +364,18 @@ def store_menu():
             item_buy([[plane_choice_shopping], [5]])
         elif windowWidth / 2 - 50 < x < windowWidth / 2 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom left
             item_buy([[plane_choice_shopping], [6]])
-        elif 2*windowWidth / 3 - 50 < x < 2*windowWidth / 3 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top right
+        elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top right
             item_buy([[plane_choice_shopping], [7]])
-        elif 2*windowWidth / 3 - 50 < x < 2*windowWidth / 3 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle right
+        elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle right
             item_buy([[plane_choice_shopping], [8]])
-        elif 2*windowWidth / 3 - 50 < x < 2*windowWidth / 3 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom right
+        elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom right
             item_buy([[plane_choice_shopping], [9]])
-
         elif windowWidth / 4 - 100 < x < windowWidth / 4 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 1
             plane_choice_shopping = 1
             temp_upgrades = shop_upgrade(1, store_menu_batch)
         elif windowWidth / 2 - 100 < x < windowWidth / 2 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 2
             plane_choice_shopping = 2
             temp_upgrades = shop_upgrade(2, store_menu_batch)
-
         elif 3 * windowWidth / 4 - 100 < x < 3 * windowWidth / 4 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 3
             plane_choice_shopping = 3
             temp_upgrades = shop_upgrade(3, store_menu_batch)
