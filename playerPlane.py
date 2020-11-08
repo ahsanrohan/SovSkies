@@ -6,7 +6,7 @@ from resources import *
 
 
 class PlayerPlane(PhysicalObject):
-    def __init__(self,name, moveSpeed, health, image, arr, **kwargs):
+    def __init__(self,name, moveSpeed, health, image, arr, planeNum, **kwargs):
         super().__init__(img = image, **kwargs)
    # def __init__(self, *args, **kwargs):
         self.name = name
@@ -19,13 +19,28 @@ class PlayerPlane(PhysicalObject):
         self.shootVec = arr
         self.visible = False
         self.damageable = True
-
         self.wrap = False
         self.bind = True
         # Player should not collide with own bullets
         self.reacts_to_bullets = False
         self.reacts_to_enemy_bullets = True
         self.scale = 0.7
+        self.is_player = True
+        self.planeNum = planeNum
+        if (planeNum == 3):
+            self.rotorRadius = self.image.width * 0.35 * self.scale * 2
+            self.collisionRadius = self.image.width * 0.35 * self.scale
+            self.damage = 5
+            self.rotorDamage = 0.2
+        else:
+            self.rotorRadius = 1
+            self.collisionRadius = self.image.width * 0.35 * self.scale
+            self.damage = 5
+
+        if (planeNum == 4):
+            self.regen = 1
+        else:
+            self.regen = 0
 
     def getImage(self):
         return self.planeImg

@@ -213,12 +213,28 @@ def start():
     def on_draw():
         window.clear()
         level_batch.draw()
+        circle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
+                                      planeHandler.getActivePlane().collisionRadius, color=(50, 225, 30), batch=level_batch)
+        circle.opacity = 100
+
+        rotorCircle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
+                                      planeHandler.getActivePlane().rotorRadius, color=(255, 255, 255), batch=level_batch)
+
+        rotorCircle.opacity = 100
+
+        circle.draw()
+        rotorCircle.draw()
 
     def checkEnd():
-        #for plane in planeHandler.planes:
-            #print(plane.health)
-            #if(plane.health <= 0):
+        planes = planeHandler.getAllPlanes()
+        currentPlane = planeHandler.getActivePlane()
+        if(planes[planeHandler.prevPlane].dead == False):
+            pyglet.clock.schedule_once(switchDeadPlane, num=planeHandler.prevPlane, currPlane=currentPlane, delay=0.1)
+        else:
             pyglet.clock.schedule_once(end_screen, 0.4)
+
+    def switchDeadPlane(dt, num, currPlane):
+        planeHandler.setActivePlane(num, currPlane)
 
     def handle_move(dt):
 
@@ -255,16 +271,24 @@ def start():
                     if score_obj['score'] >= score_obj['target_score']:  # change this to change the required score to win
                         pyglet.clock.schedule_once(end_screen, 1)
                         print("game end")
-                        
+
                 game_objects.remove(obj)
-                # print(game_objects)
+
+            #if (obj.is_player and planeHandler.getActivePlane().planeNum == 3):
+                #circle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
+                                              #10, color=(50, 225, 30), batch=level_batch)
+                #game_objects.append(circle)
+                #print('true')
 
             if (obj.is_enemy):
+                if(planeHandler.getActivePlane().planeNum == 3):
+                    if (obj.collides_with_rotor(planeHandler.getActivePlane())):
+                        obj.health -= planeHandler.getActivePlane().rotorDamage
+                        obj.color = (255, 100, 100)
+                        pyglet.clock.schedule_once(obj.revert_color, 0.1)
+
                 if(obj.collides_with(planeHandler.getActivePlane()) and planeHandler.getActivePlane().damageable == True):
                     planeHandler.getActivePlane().handle_collision_with(obj)
-                    if (planeHandler.getActivePlane().health <= 0):
-                        checkEnd()
-                    #planeHandler.getActivePlane().health = planeHandler.getActivePlane().health - 5
 
             if (obj.is_bullet):
                 if (obj.is_enemyBullet):
@@ -279,7 +303,9 @@ def start():
         # enemy
         handle_move(dt)
         checkCollision()
-        #checkEnd()
+        if (planeHandler.getActivePlane().health <= 0):
+            planeHandler.getActivePlane().dead = True
+            checkEnd()
         to_add = []
         for obj in game_objects:
             obj.update(1)
