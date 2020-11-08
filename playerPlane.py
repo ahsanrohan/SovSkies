@@ -32,7 +32,7 @@ class PlayerPlane(PhysicalObject):
 
         self.has_special_ability = True
         self.special_ability = special_ability
-        self.special_ability_shoot_speed = .3
+        self.special_ability_shoot_speed = .7
         self.could_shoot_special_ability = True
 
         self.progress_circle_images =   [progress_circle_0,
@@ -61,6 +61,8 @@ class PlayerPlane(PhysicalObject):
     def getImage(self):
         return self.planeImg
 
+    def get_name(self):
+        return self.name
 
     def enableShoot(self, dt):
         self.could_shoot = True
@@ -147,6 +149,53 @@ class PlayerPlane(PhysicalObject):
                     print("fire_rate_increse")
                 if self.special_ability == "raming":
                     print("raming")
+
+    def add_upgrades(self, upgrades):
+        for upgrade in upgrades:
+            if upgrade[0] == "improved_movespeed":
+                print("1")
+            elif upgrade[0] == "improved_bullet_damage":
+                print("2")
+            elif upgrade[0] == "shorter_special_charge_time":
+                print("3")
+            elif upgrade[0] == "improved_fire_rate":
+                self.shoot_speed = .001;
+            elif upgrade[0] == "increased_special_damage":
+                print("5")
+            elif upgrade[0] == "increase_dodge_bullets":
+                print("6")
+            elif upgrade[0] == "improved_bullet_damage":
+                print("7")
+            elif upgrade[0] == "bomb":
+                print("8")
+            elif upgrade[0] == "improved_bomb_damage":
+                print("9")
+            elif upgrade[0] == "improved_bomb_fire_rate":
+                print("10")
+            elif upgrade[0] == "triples_fire_rate":
+                print("11")
+            elif upgrade[0] == "improved_collision_damage":
+                print("12")
+            elif upgrade[0] == "improved_health":
+                print("13")
+            elif upgrade[0] == "improved_movement_speed":
+                print("14")
+            elif upgrade[0] == "increase_special_time":
+                print("15")
+            elif upgrade[0] == "increased_special_damage":
+                print("16")
+            elif upgrade[0] == "increased_damage_to_closer_enemies":
+                print("17")
+            elif upgrade[0] == "improved_regen_rate":
+                print("18")
+            elif upgrade[0] == "regenerate_self":
+                print("19")
+            elif upgrade[0] == "revive_planes_full_health":
+                print("20")
+            elif upgrade[0] == "shorter_special_charge_time":
+                print("21")
+            elif upgrade[0] == "revives_all_planes":
+                print("22")
 
 
         
