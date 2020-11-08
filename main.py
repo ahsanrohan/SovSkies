@@ -121,7 +121,7 @@ def start():
 
     # functions to add enemy objects to game objects
     def enemy_fire(dt, enemy):
-        if(enemy.canFire):
+        if(enemy.canFire and not enemy.dead):
             if( enemy.fire_type and enemy.fire_type['name'] == 'target_plane'):
                 enemy.target_plane(planeHandler.getActivePlane())
             else:
@@ -145,7 +145,7 @@ def start():
             new_enemy.x += enemy_count*wave.get('spawn_dx', 0)
             new_enemy.y += enemy_count*wave.get('spawn_dy', 0)
             new_enemy.visible = False
-            if (wave['movement']['name'] == 'move_down_follow'):
+            if (new_enemy.movement['name'] == 'move_down_follow'):
                 new_enemy.x = -500 #outside value to check for plane follow
             if (new_enemy.fire_type):
                 new_enemy.canFire = True
@@ -283,7 +283,7 @@ def start():
         to_add = []
         for obj in game_objects:
             obj.update(1)
-
+    
             to_add.extend(obj.new_objects)
             obj.new_objects = []
 

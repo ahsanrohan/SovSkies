@@ -1,5 +1,6 @@
 import pyglet
 import math
+import random
 from bullet import *
 import physicalObject, resources
 
@@ -83,38 +84,59 @@ class Enemy(physicalObject.PhysicalObject):
         self.velocity_y = -10 * speed
         self.rotation = 90
 
+    #fire bullet to a targetted x,y
     def fire_target(self, target_x, target_y):
         speed = self.fire_type.get('speed', 10)
-        if (not self.dead):
-            xdiff = target_x - self.x
-            ydiff = target_y - self.y
-            magnitude_velocity = math.sqrt(xdiff ** 2 + ydiff ** 2)
-            unit_x = xdiff / magnitude_velocity
-            unit_y = ydiff / magnitude_velocity
+        xdiff = target_x - self.x
+        ydiff = target_y - self.y
+        magnitude_velocity = math.sqrt(xdiff ** 2 + ydiff ** 2)
+        unit_x = xdiff / magnitude_velocity
+        unit_y = ydiff / magnitude_velocity
 
-            bullet_x = self.x #* ship_radius #+ math.cos(angle_radians) * ship_radius
-            bullet_y = self.y #* ship_radius #+ math.sin(angle_radians) * ship_radius
-            new_bullet = Bullet(bullet_x, bullet_y + 5, batch = self.batch)
-            new_bullet.is_enemyBullet = True
-            # Give it some speed
-            bullet_vx = unit_x * speed #math.cos(angle_radians) * self.bullet_speed
-            bullet_vy = unit_y * speed #self.bullet_speed #math.sin(angle_radians) * self.bullet_speed
-            new_bullet.velocity_x, new_bullet.velocity_y = bullet_vx, bullet_vy
-            new_bullet.wrap = False
-            # Add it to the list of objects to be added to the game_objects list
-            self.new_objects.append(new_bullet)
+        bullet_x = self.x #* ship_radius #+ math.cos(angle_radians) * ship_radius
+        bullet_y = self.y #* ship_radius #+ math.sin(angle_radians) * ship_radius
+        new_bullet = Bullet(bullet_x, bullet_y + 5, batch = self.batch)
+        new_bullet.is_enemyBullet = True
+        # Give it some speed
+        bullet_vx = unit_x * speed #math.cos(angle_radians) * self.bullet_speed
+        bullet_vy = unit_y * speed #self.bullet_speed #math.sin(angle_radians) * self.bullet_speed
+        new_bullet.velocity_x, new_bullet.velocity_y = bullet_vx, bullet_vy
+        new_bullet.wrap = False
+        # Add it to the list of objects to be added to the game_objects list
+        self.new_objects.append(new_bullet)
 
 
     def target_plane(self, plane):
         self.fire_target(plane.x, plane.y)
 
+    def down(self):
+        self.fire_target(self.x, self.y-1)
+
+    def straight(self):
+        offset = self.fire_type.get('offset', 0) #degrees
+        bullet_angle = self.fire_type.get('bullet_rotation', 90 - self.rotation) + offset
+        speed = self.fire_type.get('speed', 10)
+        new_bullet = Bullet(self.x, self.y, batch = self.batch)
+        new_bullet.is_enemyBullet = True
+        new_bullet.velocity_x, new_bullet.velocity_y = speed*math.cos(math.radians(bullet_angle)), speed*math.sin(math.radians(bullet_angle))
+        self.new_objects.append(new_bullet)
+
     def cone(self):
         bullets = self.fire_type.get('count', 3)
-        spread = self.fire_type.get('spread', 30) #degrees
-        for bullet in range(-int(bullets/2),int(bullets/2)):
-            self.rotation += int(spread/bullets * bullet)
-            print(self.velocity_x, self.velocity_y)
-            self.fire_target(self.x + self.velocity_x + 0.01, self.y + self.velocity_y + 0.01)
+        spread = self.fire_type.get('spread', 9) #degrees
+        for bullet in range(-int(bullets/2), int(bullets/2) + 1):
+            self.fire_type['bullet_rotation'] = 90 - self.rotation + int(spread/bullets * bullet)
+            self.straight()
 
-    def multi(self): pass
+    def rand(self):
+        spread = self.fire_type.get('spread', 30) #range of random
+        rand = random.randint(-spread//2, spread//2)
+        self.fire_type['bullet_rotation'] = 90 - self.rotation + rand
+        self.straight()
 
+    def burst(self, degree=0):
+        #cone with 360 degree spread, offset so that enemy isnt shooting directly in front of itself
+        count = self.fire_type.get('count', 3)
+        self.fire_type['spread'] = 360
+        self.fire_type['offset'] = 360/count/2
+        self.cone()
