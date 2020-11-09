@@ -2,6 +2,12 @@ import sqlite3
 
 conn = sqlite3.connect("longTermData.db")
 cur = conn.cursor()
+
+def deleteUpgrades(name):
+    cur.execute("DELETE FROM PLAYERPLANEUPGRADES WHERE Owner LIKE '%'||?||'%';", (name, ))
+    print("Deleted Upgrades")
+
+
 def createPlayer(name):
     sqlite_insert_with_param = """INSERT INTO PLAYER
                               (Name, Level, Cash, GamesPlayed) 

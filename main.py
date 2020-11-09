@@ -38,6 +38,7 @@ def init():
     # createPlayerPlanes("Peyton", "oldy")
     #createPlaneUpgradeTable()
 
+    #nh4deleteUpgrades("Peyton")
     getPlayerPlanes(playerName)
     menu()
 
