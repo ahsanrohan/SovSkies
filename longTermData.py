@@ -7,6 +7,11 @@ def deleteUpgrades(name):
     cur.execute("DELETE FROM PLAYERPLANEUPGRADES WHERE Owner LIKE '%'||?||'%';", (name, ))
     print("Deleted Upgrades")
 
+def deletePlanes(name):
+    cur.execute("DELETE FROM PLAYERPLANES WHERE Owner LIKE '%'||?||'%';", (name, ))
+    print("Deleted planes")
+    conn.commit()
+
 
 def createPlayer(name):
     sqlite_insert_with_param = """INSERT INTO PLAYER

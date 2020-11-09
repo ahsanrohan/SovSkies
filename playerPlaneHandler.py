@@ -4,17 +4,17 @@ from resources import *
 
 class PlayerPlaneHandler():
     def __init__(self,ownedPlanes, *args, **kwargs):
-        self.activePlane = 1
+        self.activePlane = 0
         self.planes = []
         for plane in ownedPlanes:
-            if plane[0] == "lightning":
-                self.planes.append(PlayerPlane("lightning", 1000, 50, plane_1, 0.1, "laser",  [50, -50], **kwargs))
-            if plane[0] == "oldy":
-                self.planes.append(PlayerPlane("oldy", 2000, 80, plane_2, .1, "fire_rate_increase",  [0], **kwargs))
+            if plane[0] == "fast_plane":
+                self.planes.append(PlayerPlane("fast_plane", 2000, 30, plane_2, 0.1, 10, "laser",  [0], **kwargs))
+            if plane[0] == "damage_plane":
+                self.planes.append(PlayerPlane("damage_plane", 1200, 50, plane_1, 0.1, 10, "fire_rate_increase",  [50, -50], **kwargs))
             if plane[0] == "speedy":
-                self.planes.append(PlayerPlane("speedy", 2000, 80, plane_2, 0.1, "raming", [0], **kwargs))
+                self.planes.append(PlayerPlane("helicopter", 1600, 40, plane_2, 0.1, 40, "raming", [0], **kwargs))
             if plane[0] == "yourMom":
-                self.planes.append(PlayerPlane("yourMom", 2000, 80, plane_2,0.1, "laser", [0], **kwargs))
+                self.planes.append(PlayerPlane("support_plane", 1200, 80, plane_2,0.1, 20, "revive", [0], **kwargs))
         # self.plane1 = PlayerPlane(1200, 50, plane_1, [50, -50], **kwargs)
         #self.plane2 = PlayerPlane(2000, 80, plane_2, [0], **kwargs)
         # self.planes = [self.plane1, self.plane2]

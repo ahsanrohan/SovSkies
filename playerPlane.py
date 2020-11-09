@@ -6,7 +6,7 @@ from resources import *
 
 
 class PlayerPlane(PhysicalObject):
-    def __init__(self,name, moveSpeed, health, image, shoot_speed, special_ability, arr, **kwargs):
+    def __init__(self,name, moveSpeed, health, image, shoot_speed, collision_damage, special_ability, arr, **kwargs):
         super().__init__(img = image, **kwargs)
    # def __init__(self, *args, **kwargs):
         self.name = name
@@ -20,6 +20,7 @@ class PlayerPlane(PhysicalObject):
         self.new_objects = []
         self.shootVec = arr
         self.visible = False
+        self.collision_damage = collision_damage
 
         self.laser = ""
 
@@ -145,9 +146,9 @@ class PlayerPlane(PhysicalObject):
                     self.laser = new_bullet
                     self.new_objects.append(new_bullet)
                 if self.special_ability == "fire_rate_increase":
-                    print("got here")
-                    pyglet.clock.schedule_once(self.revert_fire_rate_increase, self.special_ability_shoot_duration,  self.shoot_speed)
-                    self.shoot_speed = self.shoot_speed/10
+                    print("fire_rate_increase")
+                    pyglet.clock.schedule_once(self.revert_fire_rate_increase, self.special_ability_shoot_duration * 8,  self.shoot_speed)
+                    self.shoot_speed = self.shoot_speed/100
                     self.progress_circle = pyglet.image.Animation.from_image_sequence(self.progress_circle_images, duration=self.shoot_speed, loop=False)
                     print("fire_rate_increse")
                 if self.special_ability == "raming":
