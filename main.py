@@ -115,7 +115,7 @@ def start():
 
     # load level data
     level_filepath = 'resources/level_scripts.json'
-    level_number = 1 #hardcoded level
+    level_number = 2 #hardcoded level
     with open(level_filepath) as f:
         level = json.load(f)[level_number]
 
@@ -302,7 +302,7 @@ def start():
     def update(dt):
         # enemy
         handle_move(dt)
-        checkCollision()
+        #checkCollision()
         if (planeHandler.getActivePlane().health <= 0):
             planeHandler.getActivePlane().dead = True
             checkEnd()
