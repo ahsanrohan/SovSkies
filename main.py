@@ -6,7 +6,6 @@ from enemy import *
 import math
 import pyglet
 from longTermData import *
-import time
 
 # createGame()
 
@@ -241,7 +240,42 @@ def menu():
 
 
 def level_menu():
+
     level_menu_batch = pyglet.graphics.Batch()
+    text_layer = pyglet.graphics.OrderedGroup(0)
+    check_layer = pyglet.graphics.OrderedGroup(1)
+
+    def level_button(number, stars):
+        shape = pyglet.shapes.Circle(window.width * ((number - 1) % 3) / 3 + window.width / 6,
+                                     (window.height / (1 + ((number - 1) // 3)) * 1 / 2) + 1 / 8 * window.height,
+                                     100, color=(237, 177, 47),
+                                     batch=level_menu_batch, group=buttons_layer)
+        text = pyglet.text.Label(str(number), font_name='Comic Sans', font_size=100, group=text_layer,
+                                 x=shape.x, y=shape.y, batch=level_menu_batch)
+        text.x = text.x - (text.content_width / 2)
+        text.y = text.y - (text.content_height / 3)
+        return [shape, text, stars]
+
+    def show_stars(number, stars):
+        text_stars = pyglet.text.Label("Stars: " + str(stars), font_name='Comic Sans', font_size=50, group=text_layer,
+                                       x=(window.width * ((number - 1) % 3) / 3 + window.width / 6) - 100,
+                                       y=(window.height / (1 + ((number - 1) // 3)) * 1 / 2) + 1 / 8 * window.height + 50,
+                                       batch=level_menu_batch)
+        return [text_stars]
+
+    def check_off(number):
+        strike_1 = pyglet.shapes.Line(window.width * ((number - 1) % 3) / 3 + window.width / 6,
+                                      (window.height / (1 + ((number - 1) // 3)) * 1 / 2) + 1 / 8 * window.height - 95,
+                                      window.width * ((number - 1) % 3) / 3 + window.width / 6 - 95,
+                                      (window.height / (1 + ((number - 1) // 3)) * 1 / 2) + 1 / 8 * window.height,
+                                      color=(0, 255, 0), width=10, batch=level_menu_batch, group=check_layer)
+        strike_2 = pyglet.shapes.Line(window.width * ((number - 1) % 3) / 3 + window.width / 6,
+                                      (window.height / (1 + ((number - 1) // 3)) * 1 / 2) + 1 / 8 * window.height - 95,
+                                      window.width * ((number - 1) % 3) / 3 + window.width / 6 + 125,
+                                      (window.height / (1 + ((number - 1) // 3)) * 1 / 2) + 1 / 8 * window.height+100,
+                                      color=(0, 255, 0), width=10, batch=level_menu_batch, group=check_layer)
+        return [strike_1, strike_2]
+
     store_label = pyglet.text.Label('Level Selection',
                                     font_name='Times New Roman',
                                     font_size=50, group=buttons_layer,
@@ -256,28 +290,36 @@ def level_menu():
                                               y=windowHeight - exit_button.anchor_y,
                                               batch=level_menu_batch,
                                               group=buttons_layer)
-
-    level_1 = create_square(level_menu_batch,
-                            x=windowWidth / 3 - 50, x2=windowWidth / 3 + 50,
-                            y=windowHeight / 2 - 50, y2=windowHeight / 2 + 50)
-    level_2 = create_square(level_menu_batch,
-                            x=windowWidth / 2 - 50, x2=windowWidth / 2 + 50,
-                            y=windowHeight / 2 - 50, y2=windowHeight / 2 + 50)
-    level_3 = create_square(level_menu_batch,
-                            x=2 * windowWidth / 3 - 50, x2=2 * windowWidth / 3 + 50,
-                            y=windowHeight / 2 - 50, y2=windowHeight / 2 + 50)
-
-    connection_1 = create_square(level_menu_batch,
-                                 x=windowWidth / 3 + 50, x2=windowWidth / 2 - 50,
-                                 y=windowHeight / 2, y2=windowHeight / 2)
-    connection_2 = create_square(level_menu_batch,
-                                 x2=windowWidth / 2 + 50, x=2 * windowWidth / 3 - 50,
-                                 y=windowHeight / 2, y2=windowHeight / 2)
+    stars_text = []
+    level_1 = level_button(1, 1)
+    level_2 = level_button(2, 10)
+    level_3 = level_button(3, 5)
+    level_4 = level_button(4, 2)
+    level_5 = level_button(5, 3)
+    level_6 = level_button(6, 1)
 
     @window.event
     def on_draw():
         window.clear()
         level_menu_batch.draw()
+
+    @window.event
+    def on_mouse_motion(x, y, dx, dy):
+        nonlocal stars_text
+        for temp in stars_text:
+            temp.delete()
+        if level_1[0].x - 100 < x < level_1[0].x + 100 and level_1[0].y - 100 < y < level_1[0].y + 100:
+            stars_text += show_stars(1, level_1[2])
+        elif level_2[0].x - 100 < x < level_2[0].x + 100 and level_2[0].y - 100 < y < level_2[0].y + 100:
+            stars_text += show_stars(2, level_2[2])
+        elif level_3[0].x - 100 < x < level_3[0].x + 100 and level_3[0].y - 100 < y < level_3[0].y + 100:
+            stars_text += show_stars(3, level_3[2])
+        elif level_4[0].x - 100 < x < level_4[0].x + 100 and level_4[0].y - 100 < y < level_4[0].y + 100:
+            stars_text += show_stars(4, level_4[2])
+        elif level_5[0].x - 100 < x < level_5[0].x + 100 and level_5[0].y - 100 < y < level_5[0].y + 100:
+            stars_text += show_stars(5, level_5[2])
+        elif level_6[0].x - 100 < x < level_6[0].x + 100 and level_6[0].y - 100 < y < level_6[0].y + 100:
+            stars_text += show_stars(6, level_6[2])
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
@@ -360,11 +402,11 @@ def store_menu():
             item_buy([[plane_choice_shopping], [5]])
         elif windowWidth / 2 - 50 < x < windowWidth / 2 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom left
             item_buy([[plane_choice_shopping], [6]])
-        elif 2*windowWidth / 3 - 50 < x < 2*windowWidth / 3 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top right
+        elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top right
             item_buy([[plane_choice_shopping], [7]])
-        elif 2*windowWidth / 3 - 50 < x < 2*windowWidth / 3 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle right
+        elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle right
             item_buy([[plane_choice_shopping], [8]])
-        elif 2*windowWidth / 3 - 50 < x < 2*windowWidth / 3 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom right
+        elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom right
             item_buy([[plane_choice_shopping], [9]])
 
         elif windowWidth / 4 - 100 < x < windowWidth / 4 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 1
