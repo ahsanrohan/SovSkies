@@ -6,7 +6,7 @@ from resources import *
 
 
 class PlayerPlane(PhysicalObject):
-    def __init__(self,name, moveSpeed, health, image, shoot_speed, special_ability, arr, **kwargs):
+    def __init__(self,name, moveSpeed, health, image, shoot_speed, collision_damage, special_ability, arr, **kwargs):
         super().__init__(img = image, **kwargs)
    # def __init__(self, *args, **kwargs):
         self.name = name
@@ -15,9 +15,12 @@ class PlayerPlane(PhysicalObject):
         self.health = health
         self.planeImg = image
         self.bullet_speed = 10
+        self.bullet_damage = 10
+        self.special_bullet_damage = 10
         self.new_objects = []
         self.shootVec = arr
         self.visible = False
+        self.collision_damage = collision_damage
 
         self.laser = ""
 
@@ -32,7 +35,8 @@ class PlayerPlane(PhysicalObject):
 
         self.has_special_ability = True
         self.special_ability = special_ability
-        self.special_ability_shoot_speed = .3
+        self.special_ability_shoot_speed = .7
+        self.special_ability_shoot_duration = .175
         self.could_shoot_special_ability = True
 
         self.progress_circle_images =   [progress_circle_0,
@@ -61,6 +65,8 @@ class PlayerPlane(PhysicalObject):
     def getImage(self):
         return self.planeImg
 
+    def get_name(self):
+        return self.name
 
     def enableShoot(self, dt):
         self.could_shoot = True
@@ -108,7 +114,7 @@ class PlayerPlane(PhysicalObject):
             for shootSlot in self.shootVec:
                 bullet_x = self.x + shootSlot #* ship_radius #+ math.cos(angle_radians) * ship_radius
                 bullet_y = self.y #* ship_radius #+ math.sin(angle_radians) * ship_radius
-                new_bullet = Bullet(bullet, bullet_x , bullet_y , batch = self.batch, group=self.group)
+                new_bullet = Bullet(bullet, bullet_x , bullet_y , self.bullet_damage, batch = self.batch, group=self.group)
 
             # Give it some speed
                 bullet_vx = math.cos(angle_radians) * self.bullet_speed
@@ -130,7 +136,7 @@ class PlayerPlane(PhysicalObject):
                 print(self.special_ability)
                 if self.special_ability == "laser":
                     print("laser")
-                    new_bullet = Bullet(laser, self.x, self.y +500, batch = self.batch, group=self.group)
+                    new_bullet = Bullet(laser, self.x, self.y +500, self.special_bullet_damage, batch = self.batch, group=self.group)
                     angle_radians = -math.radians(270)
                     bullet_vx = math.cos(angle_radians) * 0
                     bullet_vy = math.sin(angle_radians) * 0
@@ -140,13 +146,58 @@ class PlayerPlane(PhysicalObject):
                     self.laser = new_bullet
                     self.new_objects.append(new_bullet)
                 if self.special_ability == "fire_rate_increase":
-                    print("got here")
-                    pyglet.clock.schedule_once(self.revert_fire_rate_increase, self.special_ability_shoot_speed * 2,  self.shoot_speed)
-                    self.shoot_speed = self.shoot_speed/10
+                    print("fire_rate_increase")
+                    pyglet.clock.schedule_once(self.revert_fire_rate_increase, self.special_ability_shoot_duration * 8,  self.shoot_speed)
+                    self.shoot_speed = self.shoot_speed/100
                     self.progress_circle = pyglet.image.Animation.from_image_sequence(self.progress_circle_images, duration=self.shoot_speed, loop=False)
                     print("fire_rate_increse")
                 if self.special_ability == "raming":
                     print("raming")
+
+    def add_upgrades(self, upgrades):
+        for upgrade in upgrades:
+            if upgrade[0] == "improved_movespeed":
+                self.moveSpeed = self.moveSpeed * 1.5
+            elif upgrade[0] == "improved_bullet_damage":
+                self.bullet_damage == self.bullet_damage * 1.5
+            elif upgrade[0] == "shorter_special_charge_time":
+                self.special_ability_shoot_speed = self.special_ability_shoot_speed * .5
+            elif upgrade[0] == "improved_fire_rate":
+                self.shoot_speed = self.shoot_speed * .5;
+            elif upgrade[0] == "increased_special_damage":
+                self.special_bullet_damage = self.special_bullet_damage * 1.5
+            elif upgrade[0] == "increase_dodge_bullets":
+                print("6")
+            elif upgrade[0] == "improved_bullet_damage":
+                self.bullet_damage = self.bullet_damage * 1.5
+            elif upgrade[0] == "bomb":
+                print("8")
+            elif upgrade[0] == "improved_bomb_damage":
+                print("9")
+            elif upgrade[0] == "improved_bomb_fire_rate":
+                print("10")
+            elif upgrade[0] == "triples_fire_rate":
+                print("11")
+            elif upgrade[0] == "improved_collision_damage":
+                print("12")
+            elif upgrade[0] == "improved_health":
+                self.health = self.health * 1.5
+            elif upgrade[0] == "improved_movement_speed":
+                print("14")
+            elif upgrade[0] == "increase_special_time":
+                self.special_ability_shoot_duration = self.special_ability_shoot_duration * 1.5
+            elif upgrade[0] == "increased_damage_to_closer_enemies":
+                print("17")
+            elif upgrade[0] == "improved_regen_rate":
+                print("18")
+            elif upgrade[0] == "regenerate_self":
+                print("19")
+            elif upgrade[0] == "revive_planes_full_health":
+                print("20")
+            elif upgrade[0] == "shorter_special_charge_time":
+                print("21")
+            elif upgrade[0] == "revives_all_planes":
+                print("22")
 
 
         
