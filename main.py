@@ -344,11 +344,12 @@ def start():
 
         to_add = []
         for obj in game_objects:
+            if obj.dead:
+                game_objects.remove(obj)
             obj.update(1)
     
             to_add.extend(obj.new_objects)
             obj.new_objects = []
-
         # Add new objects to the list
         game_objects.extend(to_add)
 
