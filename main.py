@@ -94,7 +94,6 @@ def start():
     level_batch = pyglet.graphics.Batch()
     mouse_x = 1
     mouse_y = 1
-
     # setting layering
     plane_layer = pyglet.graphics.OrderedGroup(0)
 
@@ -109,9 +108,15 @@ def start():
                               font_size=24, group=buttons_layer,
                               x=window.width - 200, y=window.height // 2, batch=level_batch)
 
+
     # initializing plane handler which holds all the planes
     planeHandler = PlayerPlaneHandler(getPlayerPlanes(playerName), batch=level_batch, group=plane_layer)
     game_objects += planeHandler.getAllPlanes()
+
+    health = pyglet.text.Label('Health: ' + str(planeHandler.getActivePlane().health),
+                               font_name='Times New Roman',
+                               font_size=24, group=buttons_layer,
+                               x=window.width - 200, y=(window.height // 2) - 50, batch=level_batch)
 
     # load level data
     level_filepath = 'resources/level_scripts.json'
@@ -217,13 +222,13 @@ def start():
                                       planeHandler.getActivePlane().collisionRadius, color=(50, 225, 30), batch=level_batch)
         circle.opacity = 100
 
-        rotorCircle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
-                                      planeHandler.getActivePlane().rotorRadius, color=(255, 255, 255), batch=level_batch)
+        #rotorCircle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
+        #                             planeHandler.getActivePlane().rotorRadius, color=(255, 255, 255), batch=level_batch)
 
-        rotorCircle.opacity = 100
+        #rotorCircle.opacity = 100
 
         circle.draw()
-        rotorCircle.draw()
+        #rotorCircle.draw()
 
     def checkEnd():
         planes = planeHandler.getAllPlanes()
@@ -235,6 +240,23 @@ def start():
 
     def switchDeadPlane(dt, num, currPlane):
         planeHandler.setActivePlane(num, currPlane)
+
+    def regeneratePlane(dt, selfHeal):
+        low = 2.0
+        planeNum = 0
+        if (planeHandler.getActivePlane().planeNum == 4):
+            for plane in planeHandler.getAllPlanes():
+                if (plane.health / plane.maxHealth) < low:
+                    low = plane.health / plane.maxHealth
+                    planeNum = plane.planeNum
+            if (low < 1):
+                planeHandler.getPlaneByNum(planeNum).health += planeHandler.getPlaneByNum(4).regen
+
+        elif (planeHandler.getActivePlane().planeNum != 4 and selfHeal == True
+              and planeHandler.getPlaneByNum(4).health < planeHandler.getPlaneByNum(4).maxHealth):
+            planeHandler.getPlaneByNum(4).health += planeHandler.getPlaneByNum(4).regen
+
+        planeHandler.getPlaneByNum(4).heal = True
 
     def handle_move(dt):
 
@@ -267,18 +289,13 @@ def start():
                     enemies.remove(obj)
                     score_obj['score'] += 1
                     label.text = 'Score: '+ str(score_obj['score'])
+
                     print(score_obj)
                     if score_obj['score'] >= score_obj['target_score']:  # change this to change the required score to win
                         pyglet.clock.schedule_once(end_screen, 1)
                         print("game end")
 
                 game_objects.remove(obj)
-
-            #if (obj.is_player and planeHandler.getActivePlane().planeNum == 3):
-                #circle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
-                                              #10, color=(50, 225, 30), batch=level_batch)
-                #game_objects.append(circle)
-                #print('true')
 
             if (obj.is_enemy):
                 if(planeHandler.getActivePlane().planeNum == 3):
@@ -299,13 +316,19 @@ def start():
                         if (enemyObj.collides_with(obj) == True):
                             enemyObj.handle_collision_with(obj)
 
+    def checkHeal():
+        if (planeHandler.getPlaneByNum(4).heal == True):
+            pyglet.clock.schedule_once(regeneratePlane, 1, False)
+            planeHandler.getPlaneByNum(4).heal = False
+
     def update(dt):
-        # enemy
         handle_move(dt)
         checkCollision()
         if (planeHandler.getActivePlane().health <= 0):
             planeHandler.getActivePlane().dead = True
             checkEnd()
+        checkHeal()
+
         to_add = []
         for obj in game_objects:
             obj.update(1)
@@ -315,6 +338,8 @@ def start():
 
         # Add new objects to the list
         game_objects.extend(to_add)
+
+        health.text = 'Health: ' + str(planeHandler.getActivePlane().health)
 
     pyglet.clock.schedule_interval(update, 1 / 120.0)
 

@@ -11,11 +11,11 @@ class PlayerPlaneHandler():
             if plane[0] == "lightning":
                 self.planes.append(PlayerPlane("lightning", 1200, 40, plane_1, [50, -50], 3, **kwargs))
             if plane[0] == "oldy":
-                self.planes.append(PlayerPlane("oldy", 2000, 40, plane_2, [0], 2, **kwargs))
+                self.planes.append(PlayerPlane("oldy", 2000, 40, plane_2, [0], 4, **kwargs))
             if plane[0] == "speedy":
-                self.planes.append(PlayerPlane("speedy", 2000, 80, plane_2, [0], 3, **kwargs))
+                self.planes.append(PlayerPlane("speedy", 2000, 80, plane_2, [0], 1, **kwargs))
             if plane[0] == "yourMom":
-                self.planes.append(PlayerPlane("yourMom", 2000, 80, plane_2, [0], 4, **kwargs))
+                self.planes.append(PlayerPlane("yourMom", 2000, 80, plane_2, [0], 1, **kwargs))
         # self.plane1 = PlayerPlane(1200, 50, plane_1, [50, -50], **kwargs)
         #self.plane2 = PlayerPlane(2000, 80, plane_2, [0], **kwargs)
         # self.planes = [self.plane1, self.plane2]
@@ -23,6 +23,11 @@ class PlayerPlaneHandler():
 
     def getActivePlane(self):
         return self.planes[self.activePlane]
+
+    def getPlaneByNum(self, number):
+        for plane in self.planes:
+            if plane.planeNum == number:
+                return plane
 
     def setActivePlane(self, num, currPlane):
         if (len(self.planes) > num):

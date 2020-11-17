@@ -13,6 +13,7 @@ class PlayerPlane(PhysicalObject):
         self.user_owns = True
         self.moveSpeed = moveSpeed
         self.health = health
+        self.maxHealth = health
         self.planeImg = image
         self.bullet_speed = 10
         self.new_objects = []
@@ -38,9 +39,11 @@ class PlayerPlane(PhysicalObject):
             self.damage = 5
 
         if (planeNum == 4):
+            self.heal = True
             self.regen = 1
         else:
             self.regen = 0
+            self.heal = False
 
     def getImage(self):
         return self.planeImg
