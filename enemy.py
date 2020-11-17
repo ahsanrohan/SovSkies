@@ -21,7 +21,6 @@ class Enemy(physicalObject.PhysicalObject):
         self.scale = 0.7
         self.reacts_to_enemy_bullets = False
         self.canFire = False
-        self.collisionRadius = self.image.width * 0.5 * self.scale
 
     def move_not(self):
         #default don't move
@@ -49,14 +48,7 @@ class Enemy(physicalObject.PhysicalObject):
 
     def handle_collision_with(self, other_object):
         super(Enemy, self).handle_collision_with(other_object)
-
-    def collides_with_rotor(self, other_object):
-        collision_distance = self.collisionRadius \
-                             + other_object.rotorRadius
-
-        actual_distance = math.sqrt((self.position[0] - other_object.position[0]) ** 2 +
-                                    (self.position[1] - other_object.position[1]) ** 2)
-        return (actual_distance <= collision_distance)
+    
 
     def move_ellipse(self):
         a = self.movement.get('a',5)
@@ -91,6 +83,17 @@ class Enemy(physicalObject.PhysicalObject):
         self.velocity_x = 0
         self.velocity_y = -10 * speed
         self.rotation = 90
+
+
+    def stop_at(self):
+        speed = self.movement.get('speed', 1)
+        target_x = self.movement.get('x', 500)
+        target_y = self.movement.get('y', 900)
+        self.orientation = False
+        self.rotation = 180
+        if self.x == target_x and self.y == target_y:
+            self.velocity_x = 0
+            self.velocity_y = 0
 
     #fire bullet to a targetted x,y
     def fire_target(self, target_x, target_y):
@@ -142,9 +145,18 @@ class Enemy(physicalObject.PhysicalObject):
         self.fire_type['bullet_rotation'] = 90 - self.rotation + rand
         self.straight()
 
-    def burst(self, degree=0):
+    def burst(self):
         #cone with 360 degree spread, offset so that enemy isnt shooting directly in front of itself
         count = self.fire_type.get('count', 3)
         self.fire_type['spread'] = 360
         self.fire_type['offset'] = 360/count/2
+        self.cone()
+
+    def spiral(self):
+        count = self.fire_type.get('count', 3)
+        self.fire_type['spread'] = 360
+        if 'offset' in self.fire_type:
+            self.fire_type['offset'] += 5
+        else:
+            self.fire_type['offset'] = 0
         self.cone()

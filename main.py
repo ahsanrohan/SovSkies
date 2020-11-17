@@ -120,17 +120,25 @@ def start():
 
     # load level data
     level_filepath = 'resources/level_scripts.json'
-    level_number = 1 #hardcoded level
+    level_number = 2 #hardcoded level
     with open(level_filepath) as f:
         level = json.load(f)[level_number]
 
     # functions to add enemy objects to game objects
-    def enemy_fire(dt, enemy):
+    def enemy_fire(dt, enemy, name):
         if(enemy.canFire and not enemy.dead):
-            if( enemy.fire_type and enemy.fire_type['name'] == 'target_plane'):
+            if( enemy.fire_type and name == 'target_plane'):
                 enemy.target_plane(planeHandler.getActivePlane())
             else:
-                getattr(enemy, enemy.fire_type['name'])()
+                getattr(enemy, name)()
+
+    def enemy_fire_list(dt, enemy, fire_type):
+        curr_time = 0
+        for fire in fire_type:
+            new_enemy.fire_type = fire
+            for i in range(int(fire['duration']//fire['interval'])):
+                pyglet.clock.schedule_once(enemy_fire, curr_time, enemy=new_enemy, name=fire['name'])
+                curr_time += fire['interval']
 
     def add_enemy(dt, enemy):
         game_objects.append(enemy)
@@ -146,15 +154,20 @@ def start():
             hp = wave['enemy_obj']['hp']
             new_enemy = Enemy(img, hp, batch=level_batch, group=plane_layer, **wave['enemy_obj']['kwargs'])
             new_enemy.movement = wave.get('movement', {"name": 'move_not'})
-            new_enemy.fire_type = wave.get('fire', None)
+            fire_type = wave.get('fire')
             new_enemy.x += enemy_count*wave.get('spawn_dx', 0)
             new_enemy.y += enemy_count*wave.get('spawn_dy', 0)
             new_enemy.visible = False
             if (new_enemy.movement['name'] == 'move_down_follow'):
                 new_enemy.x = -500 #outside value to check for plane follow
-            if (new_enemy.fire_type):
+            if type(fire_type) is list:
                 new_enemy.canFire = True
-                pyglet.clock.schedule_interval(enemy_fire, new_enemy.fire_type['interval'], enemy=new_enemy)
+                repeat_fire_interval = sum([f['duration'] for f in fire_type])
+                pyglet.clock.schedule_interval(enemy_fire_list, repeat_fire_interval, enemy=new_enemy, fire_type=fire_type)
+            elif (fire_type):
+                new_enemy.fire_type = fire_type
+                new_enemy.canFire = True
+                pyglet.clock.schedule_interval(enemy_fire, new_enemy.fire_type['interval'], enemy=new_enemy, name=new_enemy.fire_type['name'])
                 #pyglet.clock.schedule_interval(new_enemy.enemyFire,
                                           #wave['fire']['interval'], planeHandler.getActivePlane())
             pyglet.clock.schedule_once(add_enemy, delay=wave['spawn_time']+enemy_count*wave['interval'], enemy = new_enemy)
@@ -323,7 +336,7 @@ def start():
 
     def update(dt):
         handle_move(dt)
-        checkCollision()
+        #checkCollision()
         if (planeHandler.getActivePlane().health <= 0):
             planeHandler.getActivePlane().dead = True
             checkEnd()
