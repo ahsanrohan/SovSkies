@@ -145,9 +145,18 @@ class Enemy(physicalObject.PhysicalObject):
         self.fire_type['bullet_rotation'] = 90 - self.rotation + rand
         self.straight()
 
-    def burst(self, degree=0):
+    def burst(self):
         #cone with 360 degree spread, offset so that enemy isnt shooting directly in front of itself
         count = self.fire_type.get('count', 3)
         self.fire_type['spread'] = 360
         self.fire_type['offset'] = 360/count/2
+        self.cone()
+
+    def spiral(self):
+        count = self.fire_type.get('count', 3)
+        self.fire_type['spread'] = 360
+        if 'offset' in self.fire_type:
+            self.fire_type['offset'] += 5
+        else:
+            self.fire_type['offset'] = 0
         self.cone()
