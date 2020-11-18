@@ -54,6 +54,7 @@ center_image(enemy_plane)
 sov_logo_image = pyglet.resource.image("SovLogo.png")
 center_image(sov_logo_image)
 
+
 laser = pyglet.resource.image("laser.png")
 center_image(laser)
 
@@ -112,6 +113,7 @@ center_image(store_button)
 
 store_map = start_map
 center_image(store_map)
+
 
 # The engine flame should not be centered on the ship. Rather, it should be shown 
 # behind it. To achieve this effect, we just set the anchor point outside the
