@@ -9,7 +9,7 @@ class PlayerPlane(PhysicalObject):
 
     #def __init__(self,name, moveSpeed, health, image, shoot_speed, collision_damage, special_ability, arr, **kwargs):
 
-    def __init__(self,name, moveSpeed, health, image, arr, planeNum, shoot_speed, collision_damage, special_ability, **kwargs):
+    def __init__(self,name, moveSpeed, health, image, planeNum, shoot_speed, collision_damage, special_ability, arr, **kwargs):
 
         super().__init__(img = image, **kwargs)
    # def __init__(self, *args, **kwargs):
@@ -90,6 +90,10 @@ class PlayerPlane(PhysicalObject):
 
 
         self.blue_progress_circle = pyglet.image.Animation.from_image_sequence(self.blue_progress_circle_images, duration=self.special_ability_shoot_speed, loop=False)
+    
+    def get_can_heal(self):
+        return self.heal
+    
     def getImage(self):
         return self.planeImg
 

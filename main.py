@@ -792,9 +792,10 @@ def start():
                             enemyObj.handle_collision_with(obj)
 
     def checkHeal():
-        if (planeHandler.getPlaneByNum(4).heal == True):
-            pyglet.clock.schedule_once(regeneratePlane, 1, False)
-            planeHandler.getPlaneByNum(4).heal = False
+        for i in planeHandler.getAllPlanes():
+            if i.get_name == "support_plane" and i.get_can_heal == True:
+                pyglet.clock.schedule_once(regeneratePlane, 1, False)
+                i.heal = False
 
     def update(dt):
         handle_move(dt)
