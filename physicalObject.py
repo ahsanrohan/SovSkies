@@ -27,6 +27,7 @@ class PhysicalObject(pyglet.sprite.Sprite):
         self.wrap = True
         self.bind = False #bind to screen, no wrap around
         self.orientation = False
+        self.level_map_height = 0;
 
     def update(self, dt):
         """This method should be called every frame."""
@@ -66,12 +67,12 @@ class PhysicalObject(pyglet.sprite.Sprite):
         max_y = 1000
         if self.x < min_x:
             self.x = max_x
-        if self.y < min_y:
-            self.y = max_y
+        if self.y + self.height/2 < self.level_map_height:
+            self.y = self.height/2
         if self.x > max_x:
             self.x = min_x
-        if self.y > max_y:
-            self.y = min_y
+        #if self.y > max_y:
+         #   self.y = min_y
 
     def bind_bounds(self):
         #print(self.x)

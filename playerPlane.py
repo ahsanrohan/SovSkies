@@ -110,7 +110,10 @@ class PlayerPlane(PhysicalObject):
             angle_radians = -math.radians(270)
             #print(self.shootVec)
             # Create a new bullet just in front of the player
-            ship_radius = self.planeImg.width / 2
+            if self.name == "helicopter":
+                ship_radius = 171
+            else: 
+                ship_radius = self.planeImg.width / 2
             for shootSlot in self.shootVec:
                 bullet_x = self.x + shootSlot #* ship_radius #+ math.cos(angle_radians) * ship_radius
                 bullet_y = self.y #* ship_radius #+ math.sin(angle_radians) * ship_radius

@@ -36,9 +36,10 @@ def create_square(batch, x, y, x2, y2, width=20):
 def init():
     # createPlayer("Peyton")
     # deletePlanes("Peyton")
+    # deleteUpgrades("Peyton")
     # createPlayerPlanes("Peyton", "fast_plane")
     # createPlayerPlanes("Peyton", "damage_plane")
-    #createPlaneUpgradeTable()
+    # createPlaneUpgradeTable()
 
     
     getPlayerPlanes(playerName)
@@ -521,10 +522,13 @@ def start():
     game_objects.append(test_enemy)
     enemies.append(test_enemy)
     # initializing the background
-    level_map_object = PhysicalObject(level_map, x=windowWidth / 2, batch=level_batch,
+    level_map_object = PhysicalObject(level_map,  x=windowWidth / 2, batch=level_batch,
                                       group=maps_layer)
+    level_map_object.level_map_height = windowHeight
+    level_map_object.y = level_map_object.height/2
     level_map_object.scale_x = windowWidth / level_map_object.width
-
+    #level_map_object.wrap = False
+    #level_map_object.bind = False
     game_objects.append(level_map_object)
     level_map_object.velocity_y = -1
 
