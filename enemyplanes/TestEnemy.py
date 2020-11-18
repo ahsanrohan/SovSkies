@@ -21,7 +21,6 @@ def update(dt):
 
 
 
-
 if __name__ == "__main__":
     # Update the game 120 times per second
     pyglet.clock.schedule_interval(update, 1 / 60.0)

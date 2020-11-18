@@ -36,7 +36,10 @@ center_image(exit_button)
 start_map = pyglet.resource.image("placeholdermap.jpg")
 center_image(start_map)
 
-level_map = pyglet.resource.image("level_background.png")
+#level_map = pyglet.resource.image("gainesville_background.png")
+#level_map = pyglet.resource.image("water_background.png")
+level_map = pyglet.resource.image("road_background.png")
+#level_map = pyglet.resource.image("level_background.png")
 center_image(level_map)
 
 sov_logo = pyglet.resource.image("SovLogo.png")
@@ -50,6 +53,7 @@ center_image(enemy_plane)
 
 sov_logo_image = pyglet.resource.image("SovLogo.png")
 center_image(sov_logo_image)
+
 
 laser = pyglet.resource.image("laser.png")
 center_image(laser)
@@ -92,12 +96,24 @@ center_image(progress_circle_1)
 progress_circle_0 = pyglet.resource.image('progressCircle0.png')
 center_image(progress_circle_0)
 
+helicopter_0 = pyglet.resource.image('helicopter1.png')
+center_image(helicopter_0)
+helicopter_1 = pyglet.resource.image('helicopter2.png')
+center_image(helicopter_1)
+helicopter_2 = pyglet.resource.image('helicopter3.png')
+center_image(helicopter_2)
+helicopter_3 = pyglet.resource.image('helicopter4.png')
+center_image(helicopter_3)
+helicopter_4 = pyglet.resource.image('helicopter5.png')
+center_image(helicopter_4)
+
 store_button = pyglet.resource.image("store.png")
 center_image(store_button)
 
 
 store_map = start_map
 center_image(store_map)
+
 
 # The engine flame should not be centered on the ship. Rather, it should be shown 
 # behind it. To achieve this effect, we just set the anchor point outside the
