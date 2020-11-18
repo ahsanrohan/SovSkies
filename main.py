@@ -295,7 +295,9 @@ def level_menu():
                                               batch=level_menu_batch,
                                               group=buttons_layer)
     stars_text = []
+    checks = []
     level_1 = level_button(1, 1)
+    checks += check_off(1)
     level_2 = level_button(2, 10)
     level_3 = level_button(3, 5)
     level_4 = level_button(4, 2)
@@ -330,6 +332,18 @@ def level_menu():
         if (windowWidth - exit_button.width) < x < windowWidth and y > (
                 windowHeight - exit_button.height):  # clicking X button
             menu()
+        if level_1[0].x - 100 < x < level_1[0].x + 100 and level_1[0].y - 100 < y < level_1[0].y + 100:
+            pass #click1
+        elif level_2[0].x - 100 < x < level_2[0].x + 100 and level_2[0].y - 100 < y < level_2[0].y + 100:
+            pass #click2
+        elif level_3[0].x - 100 < x < level_3[0].x + 100 and level_3[0].y - 100 < y < level_3[0].y + 100:
+            pass #click3
+        elif level_4[0].x - 100 < x < level_4[0].x + 100 and level_4[0].y - 100 < y < level_4[0].y + 100:
+            pass #click4
+        elif level_5[0].x - 100 < x < level_5[0].x + 100 and level_5[0].y - 100 < y < level_5[0].y + 100:
+            pass #click5
+        elif level_6[0].x - 100 < x < level_6[0].x + 100 and level_6[0].y - 100 < y < level_6[0].y + 100:
+            pass #click6
 
     def update(dt):
         level_menu_batch.draw()
