@@ -6,13 +6,18 @@ from resources import *
 
 
 class PlayerPlane(PhysicalObject):
-    def __init__(self,name, moveSpeed, health, image, shoot_speed, collision_damage, special_ability, arr, **kwargs):
+
+    #def __init__(self,name, moveSpeed, health, image, shoot_speed, collision_damage, special_ability, arr, **kwargs):
+
+    def __init__(self,name, moveSpeed, health, image, arr, planeNum, shoot_speed, collision_damage, special_ability, **kwargs):
+
         super().__init__(img = image, **kwargs)
    # def __init__(self, *args, **kwargs):
         self.name = name
         self.user_owns = True
         self.moveSpeed = moveSpeed
         self.health = health
+        self.maxHealth = health
         self.planeImg = image
         self.bullet_speed = 10
         self.bullet_damage = 10
@@ -20,15 +25,18 @@ class PlayerPlane(PhysicalObject):
         self.new_objects = []
         self.shootVec = arr
         self.visible = False
+        
         self.collision_damage = collision_damage
-
         self.laser = ""
+        self.damageable = True
 
         self.wrap = False
         self.bind = True
         # Player should not collide with own bullets
         self.reacts_to_bullets = False
+        self.reacts_to_enemy_bullets = True
         self.scale = 0.7
+
         self.shoot_speed = shoot_speed
         self.could_shoot = True
         
@@ -60,6 +68,26 @@ class PlayerPlane(PhysicalObject):
                     blue_progress_circle_6,
                     blue_progress_circle_7,
                     blue_progress_circle_8]
+
+        self.is_player = True
+        self.planeNum = planeNum
+        if (planeNum == 3):
+            self.rotorRadius = self.image.width * 0.35 * self.scale * 2
+            self.collisionRadius = self.image.width * 0.35 * self.scale
+            self.damage = 5
+            self.rotorDamage = 0.2
+        else:
+            self.rotorRadius = 1
+            self.collisionRadius = self.image.width * 0.35 * self.scale
+            self.damage = 5
+
+        if (planeNum == 4):
+            self.heal = True
+            self.regen = 1
+        else:
+            self.regen = 0
+            self.heal = False
+
 
         self.blue_progress_circle = pyglet.image.Animation.from_image_sequence(self.blue_progress_circle_images, duration=self.special_ability_shoot_speed, loop=False)
     def getImage(self):
@@ -93,14 +121,11 @@ class PlayerPlane(PhysicalObject):
             # print("plane x is: " + str(self.x))
             # print("plane y is: " + str(self.y))
             # print("diff x is: " +str(mouse_x - self.x))
+
             xdiff = mouse_x - self.x
             # print("diff y is: " +str(mouse_y - self.y))
             ydiff = mouse_y - self.y
 
-            print("math: " + str(- (180-math.radians(math.degrees(math.atan(xdiff/ydiff)) + 270))))
-            # print("FIRE")
-            # print(self.x)
-            # print(self.moveSpeed)
             # Note: pyglet's rotation attributes are in "negative degrees"
             if (ydiff > 0):
                 angle_radians = -math.radians(math.degrees(math.atan(xdiff/ydiff)) + 270)
@@ -114,15 +139,20 @@ class PlayerPlane(PhysicalObject):
             for shootSlot in self.shootVec:
                 bullet_x = self.x + shootSlot #* ship_radius #+ math.cos(angle_radians) * ship_radius
                 bullet_y = self.y #* ship_radius #+ math.sin(angle_radians) * ship_radius
+
                 new_bullet = Bullet(bullet, bullet_x , bullet_y , self.bullet_damage, batch = self.batch, group=self.group)
 
+                #new_bullet = Bullet(bullet_x, bullet_y + 5, batch = self.batch)
+
+
             # Give it some speed
-                bullet_vx = math.cos(angle_radians) * self.bullet_speed
-                bullet_vy = math.sin(angle_radians) * self.bullet_speed
+                bullet_vx = 0 #math.cos(angle_radians) * self.bullet_speed
+                bullet_vy = self.bullet_speed #math.sin(angle_radians) * self.bullet_speed
                 new_bullet.velocity_x, new_bullet.velocity_y = bullet_vx, bullet_vy
                 new_bullet.wrap = False
             # Add it to the list of objects to be added to the game_objects list
                 self.new_objects.append(new_bullet)
+
     
     def specialAbilityFire(self, mouse_x, mouse_y):
         if self.has_special_ability:
@@ -198,8 +228,25 @@ class PlayerPlane(PhysicalObject):
                 print("21")
             elif upgrade[0] == "revives_all_planes":
                 print("22")
+                
 
+    def collides_with(self, other_object):
 
-        
+        return super(PlayerPlane, self).collides_with(other_object)
 
+    def handle_collision_with(self, other_object):
+        self.damageable = False
+        pyglet.clock.schedule_once(self.revert_damageable, 0.5)
+        super(PlayerPlane, self).handle_collision_with(other_object)
+
+    def revert_damageable(self, dt):
+        self.damageable = True
+
+    #def update(self):
+        #if (self.health <= 0):
+            #print('plane die')
+            #self.dead = True
+            #self.destroyed = True
+            #self.visible = False
+            #self.reacts_to_bullets = False
 
