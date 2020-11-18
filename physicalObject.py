@@ -100,6 +100,31 @@ class PhysicalObject(pyglet.sprite.Sprite):
                                 (self.position[1] - other_object.position[1]) ** 2)
             return (actual_distance <= collision_distance)
 
+
+         # Calculate distance between object centers that would be a collision,
+         # assuming square resources
+
+
+
+         #collision_distance = self.image.width * 0.4 * self.scale \
+         #                     + other_object.image.width * 0.4 * other_object.scale
+        
+         #collision_distance_x = self.image.width * .03 * self.scale \
+         #                     + other_object.image.width *  other_object.scale
+
+         #collision_distance_y = self.image.height * .03 * self.scale \
+         #                     + other_object.image.height *  other_object.scale
+        
+
+         # Get distance using position tuples
+         #actual_distance_x = abs(self.position[0]- other_object.position[0])
+         #actual_distance_y = abs(self.position[1] - other_object.position[1])
+         #actual_distance = math.sqrt((self.position[0] - other_object.position[0]) ** 2 +
+         #                            (self.position[1] - other_object.position[1]) ** 2)
+         #util.distance(self.position, other_object.position)
+
+         #return (actual_distance <= collision_distance or actual_distance_x <= collision_distance_x and actual_distance_y <= collision_distance_y)
+
         elif (self.is_enemy or other_object.is_enemy):
             collision_distance = self.collisionRadius \
                                  + other_object.collisionRadius
@@ -119,7 +144,11 @@ class PhysicalObject(pyglet.sprite.Sprite):
             self.color = (255,100,100)
             pyglet.clock.schedule_once(self.revert_color, 0.1)
 
-        if other_object.is_bullet == True:
+
+        if other_object.is_bullet == True and other_object.die_on_impact == True:
+
+        #if other_object.is_bullet == True:
+
             pyglet.clock.schedule_once(other_object.die, 0)
         else: #reverse damage
             other_object.health -= other_object.health - self.damage
