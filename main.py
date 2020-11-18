@@ -336,7 +336,7 @@ def start():
 
     def update(dt):
         handle_move(dt)
-        #checkCollision()
+        checkCollision()
         if (planeHandler.getActivePlane().health <= 0):
             planeHandler.getActivePlane().dead = True
             checkEnd()

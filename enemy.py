@@ -21,6 +21,7 @@ class Enemy(physicalObject.PhysicalObject):
         self.scale = 0.7
         self.reacts_to_enemy_bullets = False
         self.canFire = False
+        self.collisionRadius = self.image.width * 0.5 * self.scale
 
     def move_not(self):
         #default don't move
@@ -48,7 +49,14 @@ class Enemy(physicalObject.PhysicalObject):
 
     def handle_collision_with(self, other_object):
         super(Enemy, self).handle_collision_with(other_object)
-    
+
+    def collides_with_rotor(self, other_object):
+        collision_distance = self.collisionRadius \
+                             + other_object.rotorRadius
+
+        actual_distance = math.sqrt((self.position[0] - other_object.position[0]) ** 2 +
+                                    (self.position[1] - other_object.position[1]) ** 2)
+        return (actual_distance <= collision_distance)
 
     def move_ellipse(self):
         a = self.movement.get('a',5)
