@@ -111,6 +111,13 @@ store_button = pyglet.resource.image("store.png")
 center_image(store_button)
 
 bullet_sound = pyglet.resource.media('Pop_Final.wav', streaming=False)
+two_bullets = pyglet.resource.media('Double_Pop_2.wav', streaming=False)
+fortunate_son = pyglet.resource.media('fortunate.wav')
+immigrant = pyglet.resource.media('immigrant.wav')
+kicks = pyglet.resource.media('kicks.wav')
+purple_haze = pyglet.resource.media('purple_haze.wav')
+background_music = pyglet.resource.media('background_music.wav')
+
 
 
 store_map = start_map

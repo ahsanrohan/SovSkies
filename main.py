@@ -16,6 +16,7 @@ windowWidth = window.width
 windowHeight = window.height
 maps_layer = pyglet.graphics.OrderedGroup(-2)
 buttons_layer = pyglet.graphics.OrderedGroup(-1)
+player = pyglet.media.Player()
 
 playerName = "Peyton"
 
@@ -41,12 +42,12 @@ def init():
     # createPlayerPlanes("Peyton", "damage_plane")
     # createPlaneUpgradeTable()
 
-    
     getPlayerPlanes(playerName)
     menu()
 
 
 def shop_upgrade(plane_choice_shopping, batch):
+
     upgrade_box_array = []
     if plane_choice_shopping == 1:
         # Tier 1
@@ -188,6 +189,12 @@ def shop_upgrade(plane_choice_shopping, batch):
 
 # menu funtion
 def menu():
+    # Sound
+    player.next_source()
+    player.queue(background_music)
+    player.play()
+
+    # Graphics
     start_screen_batch = pyglet.graphics.Batch()
 
     start_map_sprite = pyglet.sprite.Sprite(start_map, x=windowWidth / 2, y=windowHeight / 2,
@@ -246,6 +253,9 @@ def menu():
 
 
 def level_menu():
+    player.next_source()
+    player.queue(kicks)
+    player.play()
 
     level_menu_batch = pyglet.graphics.Batch()
     text_layer = pyglet.graphics.OrderedGroup(0)
@@ -278,7 +288,7 @@ def level_menu():
         strike_2 = pyglet.shapes.Line(window.width * ((number - 1) % 3) / 3 + window.width / 6,
                                       (window.height / (1 + ((number - 1) // 3)) * 1 / 2) + 1 / 8 * window.height - 95,
                                       window.width * ((number - 1) % 3) / 3 + window.width / 6 + 125,
-                                      (window.height / (1 + ((number - 1) // 3)) * 1 / 2) + 1 / 8 * window.height+100,
+                                      (window.height / (1 + ((number - 1) // 3)) * 1 / 2) + 1 / 8 * window.height + 100,
                                       color=(0, 255, 0), width=10, batch=level_menu_batch, group=check_layer)
         return [strike_1, strike_2]
 
@@ -298,6 +308,7 @@ def level_menu():
                                               group=buttons_layer)
     stars_text = []
     level_1 = level_button(1, 1)
+    check = check_off(1)
     level_2 = level_button(2, 10)
     level_3 = level_button(3, 5)
     level_4 = level_button(4, 2)
@@ -341,56 +352,62 @@ def level_menu():
 
 
 def store_menu():
+
+
     def item_buy(item):
         if item[0] == 1:
             print(item[1])
             if item[1] == 1:
                 createPlayerPlaneUpgrades("Peyton", "improved_movespeed", "fast_plane")
-            elif item [1] == 3:
+            elif item[1] == 3:
                 createPlayerPlaneUpgrades("Peyton", "improved_bullet_damage", "fast_plane")
-            elif item [1] == 4:
+            elif item[1] == 4:
                 createPlayerPlaneUpgrades("Peyton", "shorter_special_charge_time", "fast_plane")
-            elif item [1] == 6:
+            elif item[1] == 6:
                 createPlayerPlaneUpgrades("Peyton", "improved_fire_rate", "fast_plane")
-            elif item [1] == 8:
-                createPlayerPlaneUpgrades("Peyton", "increased_special_damage", "fast_plane") 
-            elif item [1] == 0:
+            elif item[1] == 8:
+                createPlayerPlaneUpgrades("Peyton", "increased_special_damage", "fast_plane")
+            elif item[1] == 0:
                 createPlayerPlaneUpgrades("Peyton", "increase_dodge_bullets", "fast_plane")
         elif item[0] == 2:
             if item[1] == 0:
                 createPlayerPlaneUpgrades("Peyton", "improved_bullet_damage", "damage_plane")
-            elif item [1] == 3:
+            elif item[1] == 3:
                 createPlayerPlaneUpgrades("Peyton", "bomb", "damage_plane")
-            elif item [1] == 5:
+            elif item[1] == 5:
                 createPlayerPlaneUpgrades("Peyton", "improved_bomb_damage", "damage_plane")
-            elif item [1] == 7:
+            elif item[1] == 7:
                 createPlayerPlaneUpgrades("Peyton", "improved_bomb_fire_rate", "damage_plane")
-            elif item [1] == 9:
+            elif item[1] == 9:
                 createPlayerPlaneUpgrades("Peyton", "triples_fire_rate", "damage_plane")
         elif item[0] == 3:
             if item[1] == 0:
                 createPlayerPlaneUpgrades("Peyton", "improved_collision_damage", "helicopter")
-            elif item [1] == 3:
+            elif item[1] == 3:
                 createPlayerPlaneUpgrades("Peyton", "improved_health", "helicopter")
-            elif item [1] == 5:
+            elif item[1] == 5:
                 createPlayerPlaneUpgrades("Peyton", "improved_movement_speed", "helicopter")
-            elif item [1] == 7:
+            elif item[1] == 7:
                 createPlayerPlaneUpgrades("Peyton", "increase_special_time", "helicopter")
-            elif item [1] == 9:
+            elif item[1] == 9:
                 createPlayerPlaneUpgrades("Peyton", "increased_special_damage", "helicopter")
-            elif item [1] == 0:
+            elif item[1] == 0:
                 createPlayerPlaneUpgrades("Peyton", "increased_damage_to_closer_enemies", "helicopter")
         elif item[0] == 4:
             if item[1] == 0:
                 createPlayerPlaneUpgrades("Peyton", "improved_regen_rate", "support_plane")
-            elif item [1] == 3:
+            elif item[1] == 3:
                 createPlayerPlaneUpgrades("Peyton", "regenerate_self", "support_plane")
-            elif item [1] == 5:
+            elif item[1] == 5:
                 createPlayerPlaneUpgrades("Peyton", "revive_planes_full_health", "support_plane")
-            elif item [1] == 7:
+            elif item[1] == 7:
                 createPlayerPlaneUpgrades("Peyton", "shorter_special_charge_time", "support_plane")
-            elif item [1] == 9:
+            elif item[1] == 9:
                 createPlayerPlaneUpgrades("Peyton", "revives_all_planes", "support_plane")
+
+    player.next_source()
+    player.queue(fortunate_son)
+    player.play()
 
     store_menu_batch = pyglet.graphics.Batch()
     store_menu_sprite = pyglet.sprite.Sprite(store_map, x=windowWidth / 2, y=windowHeight / 2,
@@ -456,11 +473,11 @@ def store_menu():
             item_buy([plane_choice_shopping, 5])
         elif windowWidth / 2 - 50 < x < windowWidth / 2 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom left
             item_buy([plane_choice_shopping, 6])
-        elif 2*windowWidth / 3 - 50 < x < 2*windowWidth / 3 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top right
+        elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top right
             item_buy([plane_choice_shopping, 7])
-        elif 2*windowWidth / 3 - 50 < x < 2*windowWidth / 3 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle right
+        elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle right
             item_buy([plane_choice_shopping, 8])
-        elif 2*windowWidth / 3 - 50 < x < 2*windowWidth / 3 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom right
+        elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom right
             item_buy([plane_choice_shopping, 9])
 
         elif windowWidth / 4 - 100 < x < windowWidth / 4 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 1
@@ -550,11 +567,10 @@ def start():
                               font_size=24, group=buttons_layer,
                               x=window.width - 200, y=window.height // 2, batch=level_batch)
 
-
     # initializing plane handler which holds all the planes
     planeHandler = PlayerPlaneHandler(getPlayerPlanes(playerName), batch=level_batch,
                                       group=plane_layer)
-    #createPlayerPlaneUpgrades("Peyton", "support_plane", "improved_movespeed")
+    # createPlayerPlaneUpgrades("Peyton", "support_plane", "improved_movespeed")
     for i in planeHandler.getAllPlanes():
         i.add_upgrades(getPlayerPlanesUpgrades("Peyton", i.get_name()))
     game_objects += planeHandler.getAllPlanes()
@@ -566,14 +582,14 @@ def start():
 
     # load level data
     level_filepath = 'resources/level_scripts.json'
-    level_number = 2 #hardcoded level
+    level_number = 2  # hardcoded level
     with open(level_filepath) as f:
         level = json.load(f)[level_number]
 
     # functions to add enemy objects to game objects
     def enemy_fire(dt, enemy, name):
-        if(enemy.canFire and not enemy.dead):
-            if( enemy.fire_type and name == 'target_plane'):
+        if (enemy.canFire and not enemy.dead):
+            if (enemy.fire_type and name == 'target_plane'):
                 enemy.target_plane(planeHandler.getActivePlane())
             else:
                 getattr(enemy, name)()
@@ -582,7 +598,7 @@ def start():
         curr_time = 0
         for fire in fire_type:
             new_enemy.fire_type = fire
-            for i in range(int(fire['duration']//fire['interval'])):
+            for i in range(int(fire['duration'] // fire['interval'])):
                 pyglet.clock.schedule_once(enemy_fire, curr_time, enemy=new_enemy, name=fire['name'])
                 curr_time += fire['interval']
 
@@ -590,10 +606,10 @@ def start():
         game_objects.append(enemy)
         enemies.append(enemy)
         enemy.visible = True
-        if(enemy.x == -500):
+        if (enemy.x == -500):
             enemy.x = planeHandler.getActivePlane().x
 
-    #read level data
+    # read level data
     for wave in level:
         for enemy_count in range(wave['enemy_count']):
             img = eval('resources.' + wave['enemy_obj']['img'])
@@ -601,11 +617,11 @@ def start():
             new_enemy = Enemy(img, hp, batch=level_batch, group=plane_layer, **wave['enemy_obj']['kwargs'])
             new_enemy.movement = wave.get('movement', {"name": 'move_not'})
             fire_type = wave.get('fire')
-            new_enemy.x += enemy_count*wave.get('spawn_dx', 0)
-            new_enemy.y += enemy_count*wave.get('spawn_dy', 0)
+            new_enemy.x += enemy_count * wave.get('spawn_dx', 0)
+            new_enemy.y += enemy_count * wave.get('spawn_dy', 0)
             new_enemy.visible = False
             if (new_enemy.movement['name'] == 'move_down_follow'):
-                new_enemy.x = -500 #outside value to check for plane follow
+                new_enemy.x = -500  # outside value to check for plane follow
             if type(fire_type) is list:
                 new_enemy.canFire = True
                 repeat_fire_interval = sum([f['duration'] for f in fire_type])
@@ -613,23 +629,22 @@ def start():
             elif (fire_type):
                 new_enemy.fire_type = fire_type
                 new_enemy.canFire = True
-                pyglet.clock.schedule_interval(enemy_fire, new_enemy.fire_type['interval'], enemy=new_enemy, name=new_enemy.fire_type['name'])
-                #pyglet.clock.schedule_interval(new_enemy.enemyFire,
-                                          #wave['fire']['interval'], planeHandler.getActivePlane())
-            pyglet.clock.schedule_once(add_enemy, delay=wave['spawn_time']+enemy_count*wave['interval'], enemy = new_enemy)
-    
+                pyglet.clock.schedule_interval(enemy_fire, new_enemy.fire_type['interval'], enemy=new_enemy,
+                                               name=new_enemy.fire_type['name'])
+                # pyglet.clock.schedule_interval(new_enemy.enemyFire,
+                # wave['fire']['interval'], planeHandler.getActivePlane())
+            pyglet.clock.schedule_once(add_enemy, delay=wave['spawn_time'] + enemy_count * wave['interval'], enemy=new_enemy)
 
-    #initialize wave
-    
+    # initialize wave
 
     # initializing the background
-    level_map_object = PhysicalObject(level_map,  x=windowWidth / 2, batch=level_batch,
+    level_map_object = PhysicalObject(level_map, x=windowWidth / 2, batch=level_batch,
                                       group=maps_layer)
     level_map_object.level_map_height = windowHeight
-    level_map_object.y = level_map_object.height/2
+    level_map_object.y = level_map_object.height / 2
     level_map_object.scale_x = windowWidth / level_map_object.width
-    #level_map_object.wrap = False
-    #level_map_object.bind = False
+    # level_map_object.wrap = False
+    # level_map_object.bind = False
     game_objects.append(level_map_object)
     level_map_object.velocity_y = -1
 
@@ -692,18 +707,18 @@ def start():
                                       planeHandler.getActivePlane().collisionRadius, color=(50, 225, 30), batch=level_batch)
         circle.opacity = 100
 
-        #rotorCircle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
+        # rotorCircle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
         #                             planeHandler.getActivePlane().rotorRadius, color=(255, 255, 255), batch=level_batch)
 
-        #rotorCircle.opacity = 100
+        # rotorCircle.opacity = 100
 
         circle.draw()
-        #rotorCircle.draw()
+        # rotorCircle.draw()
 
     def checkEnd():
         planes = planeHandler.getAllPlanes()
         currentPlane = planeHandler.getActivePlane()
-        if(planes[planeHandler.prevPlane].dead == False):
+        if (planes[planeHandler.prevPlane].dead == False):
             pyglet.clock.schedule_once(switchDeadPlane, num=planeHandler.prevPlane, currPlane=currentPlane, delay=0.1)
         else:
             pyglet.clock.schedule_once(end_screen, 0.4)
@@ -773,13 +788,13 @@ def start():
                 game_objects.remove(obj)
 
             if (obj.is_enemy):
-                if(planeHandler.getActivePlane().planeNum == 3):
+                if (planeHandler.getActivePlane().planeNum == 3):
                     if (obj.collides_with_rotor(planeHandler.getActivePlane())):
                         obj.health -= planeHandler.getActivePlane().rotorDamage
                         obj.color = (255, 100, 100)
                         pyglet.clock.schedule_once(obj.revert_color, 0.1)
 
-                if(obj.collides_with(planeHandler.getActivePlane()) and planeHandler.getActivePlane().damageable == True):
+                if (obj.collides_with(planeHandler.getActivePlane()) and planeHandler.getActivePlane().damageable == True):
                     planeHandler.getActivePlane().handle_collision_with(obj)
 
             if (obj.is_bullet):
@@ -810,7 +825,7 @@ def start():
             if obj.dead:
                 game_objects.remove(obj)
             obj.update(1)
-    
+
             to_add.extend(obj.new_objects)
             obj.new_objects = []
         # Add new objects to the list
