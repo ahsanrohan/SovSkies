@@ -12,7 +12,7 @@ class Bullet(PhysicalObject):
 
         self.life_time = 2.5
         pyglet.clock.schedule_once(self.die, self.life_time)
-        self.damage = 10
+        self.damage = bullet_damage
         # Flag as a bullet
         self.is_bullet = True
         self.is_enemyBullet = False

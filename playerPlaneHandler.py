@@ -19,16 +19,23 @@ class PlayerPlaneHandler():
 
         self.prevPlane = 1
         self.planes = []
-        for plane in ownedPlanes:
-            if plane[0] == "lightning":
-                self.planes.append(PlayerPlane("lightning", 1200, 40, plane_1, [50, -50], 3, 0.1, 10, "fire_rate_increase", **kwargs))
-            if plane[0] == "oldy":
-                self.planes.append(PlayerPlane("oldy", 2000, 40, plane_2, [0], 4, 0.1, 10, "laser", **kwargs))
-            if plane[0] == "speedy":
-                self.planes.append(PlayerPlane("speedy", 2000, 80, plane_2, [0], 1, 0.1, 40, "raming", **kwargs))
-            if plane[0] == "yourMom":
-                self.planes.append(PlayerPlane("yourMom", 2000, 80, plane_2, [0], 1, 0.1, 20, "revive", **kwargs))
 
+        helicopter =   [helicopter_0,
+            helicopter_1,
+            helicopter_2,
+            helicopter_3,
+            helicopter_4
+        ]
+        helicopter_animation = pyglet.image.Animation.from_image_sequence(helicopter, duration= .1, loop=True)
+        for plane in ownedPlanes:
+            if plane[0] == "fast_plane":
+                self.planes.append(PlayerPlane("fast_plane", 2000, 30, plane_2, 1, 0.1, 10, "laser",  [0], **kwargs))
+            if plane[0] == "damage_plane":
+                self.planes.append(PlayerPlane("damage_plane", 1200, 50, plane_1, 2, 0.1, 10, "fire_rate_increase",  [50, -50], **kwargs))
+            if plane[0] == "helicopter":
+                self.planes.append(PlayerPlane("helicopter", 1600, 40, helicopter_animation, 3, 0.1, 40, "raming", [0], **kwargs))
+            if plane[0] == "support_plane":
+                self.planes.append(PlayerPlane("support_plane", 1200, 80, plane_2, 40.1, 20, "revive", [0], **kwargs))
         # self.plane1 = PlayerPlane(1200, 50, plane_1, [50, -50], **kwargs)
         #self.plane2 = PlayerPlane(2000, 80, plane_2, [0], **kwargs)
         # self.planes = [self.plane1, self.plane2]
