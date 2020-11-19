@@ -72,8 +72,8 @@ class PlayerPlane(PhysicalObject):
         self.is_player = True
         self.planeNum = planeNum
         if (planeNum == 3):
-            self.rotorRadius = self.image.width * 0.35 * self.scale * 2
-            self.collisionRadius = self.image.width * 0.35 * self.scale
+            self.rotorRadius = 345 * 0.35 * self.scale * 2
+            self.collisionRadius = 345 * 0.35 * self.scale
             self.damage = 5
             self.rotorDamage = 0.2
         else:

@@ -65,6 +65,7 @@ def init():
     # deleteUpgrades("Peyton")
     # createPlayerPlanes("Peyton", "fast_plane")
     # createPlayerPlanes("Peyton", "damage_plane")
+    #createPlayerPlanes("Peyton", "helicopter")
     # createPlaneUpgradeTable()
     global mode
     mode = "menu"

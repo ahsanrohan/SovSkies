@@ -104,14 +104,24 @@ class PhysicalObject(pyglet.sprite.Sprite):
 
 
         if (self.reacts_to_bullets and other_object.is_bullet) or (self.reacts_to_enemy_bullets and other_object.is_enemyBullet):
-            collision_distance = self.image.width * 0.4 * self.scale \
-                                + other_object.image.width * 0.4 * other_object.scale
+            if(self.name == "helicopter"):
+                collision_distance = 345 * 0.4 * self.scale \
+                    + other_object.image.width * 0.4 * other_object.scale
         
-            collision_distance_x = self.image.width * .03 * self.scale \
-                                + other_object.image.width *  other_object.scale
+                collision_distance_x = 345 * .03 * self.scale \
+                                    + other_object.image.width *  other_object.scale
 
-            collision_distance_y = self.image.height * .03 * self.scale \
-                                + other_object.image.height *  other_object.scale
+                collision_distance_y = 345 * .03 * self.scale \
+                                    + other_object.image.height *  other_object.scale
+            else: 
+                collision_distance = self.image.width * 0.4 * self.scale \
+                                    + other_object.image.width * 0.4 * other_object.scale
+        
+                collision_distance_x = self.image.width * .03 * self.scale \
+                                    + other_object.image.width *  other_object.scale
+
+                collision_distance_y = self.image.height * .03 * self.scale \
+                                    + other_object.image.height *  other_object.scale
         
 
             # Get distance using position tuples
