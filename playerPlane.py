@@ -179,6 +179,7 @@ class PlayerPlane(PhysicalObject):
                 if self.special_ability == "laser":
                     print("laser")
                     new_bullet = Bullet(laser, self.x, self.y + 500, self.special_bullet_damage, batch=self.batch, group=self.group)
+                    new_bullet.color = (255, 85, 66)
                     angle_radians = -math.radians(270)
                     bullet_vx = math.cos(angle_radians) * 0
                     bullet_vy = math.sin(angle_radians) * 0
@@ -202,7 +203,7 @@ class PlayerPlane(PhysicalObject):
             if upgrade[0] == "improved_movespeed":
                 self.moveSpeed = self.moveSpeed * 1.5
             elif upgrade[0] == "improved_bullet_damage":
-                self.bullet_damage == self.bullet_damage * 1.5
+                self.bullet_damage = self.bullet_damage * 1.5
             elif upgrade[0] == "shorter_special_charge_time":
                 self.special_ability_shoot_speed = self.special_ability_shoot_speed * .5
             elif upgrade[0] == "improved_fire_rate":
