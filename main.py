@@ -9,7 +9,7 @@ from longTermData import *
 import json
 
 # createGame()
-mode = "menu"
+mode = "hi"
 quitCheck = False
 
 window = pyglet.window.Window(fullscreen=True)
@@ -19,21 +19,30 @@ maps_layer = pyglet.graphics.OrderedGroup(-2)
 buttons_layer = pyglet.graphics.OrderedGroup(-1)
 
 playerName = "Peyton"
-
+@window.event
+def on_close():
+    global mode
+    mode = "end"
 def modeCheck():
     while (mode != "end"):
         print(mode)
         if(mode == "menu"):
+            print(mode)
             menu()
         if(mode == "game"):
+            print(mode)
             start()
         if(mode == "store"):
+            print(mode)
             store_menu()
         if(mode == "level"):
+            print(mode)
             level_menu()
         if(mode == "quit"):
+            quitCheck = False
+            print(mode)
             #window.clear()
-            end_screen(0)
+            end_screen()
     closeConnection()
 
 def create_square(batch, x, y, x2, y2, width=20):
@@ -56,7 +65,8 @@ def init():
     # createPlayerPlanes("Peyton", "fast_plane")
     # createPlayerPlanes("Peyton", "damage_plane")
     # createPlaneUpgradeTable()
-
+    global mode
+    mode = "menu"
     
     getPlayerPlanes(playerName)
     modeCheck()
@@ -524,7 +534,7 @@ def store_menu():
     pyglet.app.run()
 
 
-def end_screen(dt):
+def end_screen():
     end_screen_batch = pyglet.graphics.Batch()
     #del game_objects
     #enemies = []
@@ -726,9 +736,9 @@ def start():
             #    enemies.remove(enemy)
             #del game_objects
             #del enemies
-            mode = "quit"
-            quitCheck = False
-            pyglet.app.exit()
+            #mode = "quit"
+            quitCheck = True
+            #pyglet.app.exit()
             #end_screen(0)
             #window.clear()
         if (button == 1):
@@ -743,8 +753,14 @@ def start():
         global quitCheck
         global mode
         if quitCheck == True:
+            print ("this is running IDK")
             mode = "quit"
             quitCheck = False
+            for obj in game_objects:
+                game_objects.remove(obj)
+            for enemy in enemies:
+                enemies.remove(enemy)
+            obj.update(1)
             pyglet.app.exit()
 
         window.clear()
@@ -770,7 +786,16 @@ def start():
         if(planes[planeHandler.prevPlane].dead == False):
             pyglet.clock.schedule_once(switchDeadPlane, num=planeHandler.prevPlane, currPlane=currentPlane, delay=0.1)
         else:
-            quitCheck = True
+            all_dead = True
+            for plane in planeHandler.getAllPlanes():
+                if plane.dead == False:
+                    all_dead = False
+            if all_dead == True:
+                for plane in planeHandler.getAllPlanes():
+                    plane.dead = False
+                quitCheck = True
+            #pass
+            #   PEYTON DID SOMEHTING HERE NEED TO FIX
             #for obj in game_objects:
             #    game_objects.remove(obj)
             #for enemy in enemies:
@@ -836,7 +861,7 @@ def start():
                     print(score_obj)
                     if score_obj['score'] >= score_obj[
                         'target_score']:  # change this to change the required score to win
-                        pyglet.clock.schedule_once(end_screen, 1)
+                        #pyglet.clock.schedule_once(end_screen, 1)
                         print("game end")
 
                 game_objects.remove(obj)
