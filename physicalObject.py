@@ -137,16 +137,6 @@ class PhysicalObject(pyglet.sprite.Sprite):
         else:
             return False
 
-
-
-
-
-
-
-
-
-
-  
     ''' 
     #     # Ignore bullet collisions if we're supposed to
 
@@ -196,9 +186,6 @@ class PhysicalObject(pyglet.sprite.Sprite):
         else:
             return False
     '''
-
-
-
 
     def handle_collision_with(self, other_object):
         if other_object.__class__ is not self.__class__:

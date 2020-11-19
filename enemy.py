@@ -114,7 +114,7 @@ class Enemy(physicalObject.PhysicalObject):
 
         bullet_x = self.x #* ship_radius #+ math.cos(angle_radians) * ship_radius
         bullet_y = self.y #* ship_radius #+ math.sin(angle_radians) * ship_radius
-        new_bullet = Bullet(bullet, bullet_x, bullet_y + 5, 10,  batch = self.batch)
+        new_bullet = Bullet(bullet, bullet_x, bullet_y + 5, 10,  batch = self.batch, group=self.group)
         new_bullet.is_enemyBullet = True
         # Give it some speed
         bullet_vx = unit_x * speed #math.cos(angle_radians) * self.bullet_speed
@@ -135,7 +135,7 @@ class Enemy(physicalObject.PhysicalObject):
         offset = self.fire_type.get('offset', 0) #degrees
         bullet_angle = self.fire_type.get('bullet_rotation', 90 - self.rotation) + offset
         speed = self.fire_type.get('speed', 10)
-        new_bullet = Bullet(bullet, self.x, self.y, 10, batch = self.batch)
+        new_bullet = Bullet(bullet, self.x, self.y, 10, batch = self.batch, group=self.group)
         new_bullet.is_enemyBullet = True
         new_bullet.velocity_x, new_bullet.velocity_y = speed*math.cos(math.radians(bullet_angle)), speed*math.sin(math.radians(bullet_angle))
         self.new_objects.append(new_bullet)
