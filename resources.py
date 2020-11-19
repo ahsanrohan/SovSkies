@@ -36,9 +36,9 @@ center_image(exit_button)
 start_map = pyglet.resource.image("placeholdermap.jpg")
 center_image(start_map)
 
-#level_map = pyglet.resource.image("gainesville_background.png")
+level_map = pyglet.resource.image("gainesville_background.png")
 #level_map = pyglet.resource.image("water_background.png")
-level_map = pyglet.resource.image("road_background.png")
+#level_map = pyglet.resource.image("road_background.png")
 #level_map = pyglet.resource.image("level_background.png")
 center_image(level_map)
 
@@ -50,6 +50,11 @@ center_image(end_image)
 
 enemy_plane = pyglet.resource.image("enemyPlane1.png")
 center_image(enemy_plane)
+
+enemy_boss = pyglet.resource.image("boss1.png")
+enemy_boss.height *= 2
+enemy_boss.width *= 2
+center_image(enemy_boss)
 
 sov_logo_image = pyglet.resource.image("SovLogo.png")
 center_image(sov_logo_image)
