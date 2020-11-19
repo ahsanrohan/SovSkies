@@ -108,7 +108,7 @@ class PhysicalObject(pyglet.sprite.Sprite):
 
 
         if (self.reacts_to_bullets and other_object.is_bullet) or (self.reacts_to_enemy_bullets and other_object.is_enemyBullet):
-            if(self.name == "helicopter"):
+            if(hasattr(self, 'name') and self.name == "helicopter"):
                 collision_distance = 345 * 0.4 * self.scale \
                     + other_object.image.width * 0.4 * other_object.scale
         
