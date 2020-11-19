@@ -31,7 +31,7 @@ class PlayerPlaneHandler():
             if plane[0] == "fast_plane":
                 self.planes.append(PlayerPlane("fast_plane", 2000, 30, plane_2, 1, 0.000001, 10, "laser",  [0], **kwargs))
             if plane[0] == "damage_plane":
-                self.planes.append(PlayerPlane("damage_plane", 1200, 50, plane_1, 2, 0.1, 10, "fire_rate_increase",  [50, -50], **kwargs))
+                self.planes.append(PlayerPlane("damage_plane", 1200, 50, plane_1, 3, 0.1, 10, "fire_rate_increase",  [50, -50], **kwargs))
             if plane[0] == "helicopter":
                 self.planes.append(PlayerPlane("helicopter", 1600, 40, helicopter_animation, 3, 0.1, 40, "raming", [0], **kwargs))
             if plane[0] == "support_plane":
