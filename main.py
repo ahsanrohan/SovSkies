@@ -25,22 +25,22 @@ def on_close():
     mode = "end"
 def modeCheck():
     while (mode != "end"):
-        print(mode)
+        #print(mode)
         if(mode == "menu"):
-            print(mode)
+            #print(mode)
             menu()
         if(mode == "game"):
-            print(mode)
+            #print(mode)
             start()
         if(mode == "store"):
-            print(mode)
+            #print(mode)
             store_menu()
         if(mode == "level"):
-            print(mode)
+            #print(mode)
             level_menu()
         if(mode == "quit"):
             quitCheck = False
-            print(mode)
+            #print(mode)
             #window.clear()
             end_screen()
     closeConnection()
@@ -887,7 +887,7 @@ def start():
 
     def checkHeal():
         for i in planeHandler.getAllPlanes():
-            if i.get_name == "support_plane" and i.get_can_heal == True:
+            if i.get_name() == "fast_plane" and i.get_can_heal() == True:
                 pyglet.clock.schedule_once(regeneratePlane, 1, False)
                 i.heal = False
 
