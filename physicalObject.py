@@ -1,5 +1,8 @@
 import pyglet
 import math
+import ctypes
+
+user32 = ctypes.windll.user32
 
 class PhysicalObject(pyglet.sprite.Sprite):
     """A sprite with physical properties such as velocity"""
@@ -64,24 +67,25 @@ class PhysicalObject(pyglet.sprite.Sprite):
     def check_bounds(self):
         min_x = 0
         min_y = 0
-        max_x = 1800
-        max_y = 1000
+        max_x = user32.GetSystemMetrics(0)
+        max_y = user32.GetSystemMetrics(1)
         if self.x < min_x:
             self.x = max_x
         if self.y + self.height/2 < self.level_map_height:
             self.y = self.height/2
         if self.x > max_x:
             self.x = min_x
-        #if self.y > max_y:
-         #   self.y = min_y
+        if self.y > max_y:
+            self.y = min_y
 
     def bind_bounds(self):
         #print(self.x)
 
+        #min_x = 50
         min_x = 50
         min_y = 50
-        max_x = 1500
-        max_y = 950
+        max_x = user32.GetSystemMetrics(0) - 50
+        max_y = user32.GetSystemMetrics(1) - 50
         if self.x <= min_x:
             self.x = min_x
         if self.y <= min_y:
@@ -148,15 +152,6 @@ class PhysicalObject(pyglet.sprite.Sprite):
             return False
 
 
-
-
-
-
-
-
-
-
-  
     ''' 
     #     # Ignore bullet collisions if we're supposed to
 

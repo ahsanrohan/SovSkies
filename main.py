@@ -28,23 +28,31 @@ def modeCheck():
     while (mode != "end"):
         print(mode)
         if(mode == "menu"):
-            print(mode)
+            #print(mode)
             menu()
         if(mode == "game"):
-            print(mode)
+            #print(mode)
             start()
         if(mode == "store"):
-            print(mode)
+            #print(mode)
             store_menu()
         if(mode == "level"):
-            print(mode)
+            #print(mode)
             level_menu()
         if(mode == "quit"):
-            quitCheck = False
-            print(mode)
+            #quitCheck = False
+            #print(mode)
             #window.clear()
+            for element in dir():
+                if element[0:2] != "__":
+                    del globals()[element]
+            print(dir())
             end_screen()
     closeConnection()
+    for element in dir():
+         if element[0:2] != "__":
+            del globals()[element]
+    #print(dir())
 
 def create_square(batch, x, y, x2, y2, width=20):
     line_left = pyglet.shapes.Line(x, y, x, y2,
@@ -348,7 +356,7 @@ def level_menu():
                                               group=buttons_layer)
     stars_text = []
     level_1 = level_button(1, 1)
-    check = check_off(1)
+    check = check_off(1) #Check against score for levels here
     level_2 = level_button(2, 10)
     level_3 = level_button(3, 5)
     level_4 = level_button(4, 2)
@@ -395,11 +403,9 @@ def level_menu():
 
 
 def store_menu():
-
-
     def item_buy(item):
         if item[0] == 1:
-            print(item[1])
+            #print(item[1])
             if item[1] == 1:
                 createPlayerPlaneUpgrades("Peyton", "improved_movespeed", "fast_plane")
             elif item[1] == 3:
@@ -770,7 +776,7 @@ def start():
         global quitCheck
         global mode
         if quitCheck == True:
-            print ("this is running IDK")
+            #print ("this is running IDK")
             mode = "quit"
             quitCheck = False
             for obj in game_objects:
@@ -904,7 +910,7 @@ def start():
 
     def checkHeal():
         for i in planeHandler.getAllPlanes():
-            if i.get_name == "support_plane" and i.get_can_heal == True:
+            if i.get_name() == "fast_plane" and i.get_can_heal() == True:
                 pyglet.clock.schedule_once(regeneratePlane, 1, False)
                 i.heal = False
 
@@ -928,7 +934,7 @@ def start():
         game_objects.extend(to_add)
 
         health.text = 'Health: ' + str(planeHandler.getActivePlane().health)
-
+    #print(dir())
     pyglet.clock.schedule_interval(update, 1 / 120.0)
 
     pyglet.app.run()

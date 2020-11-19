@@ -26,7 +26,7 @@ class PlayerPlaneHandler():
             helicopter_3,
             helicopter_4
         ]
-        helicopter_animation = pyglet.image.Animation.from_image_sequence(helicopter, duration= .1, loop=True)
+        helicopter_animation = pyglet.image.Animation.from_image_sequence(helicopter, duration=0.1, loop=True)
         for plane in ownedPlanes:
             if plane[0] == "fast_plane":
                 self.planes.append(PlayerPlane("fast_plane", 2000, 30, plane_2, 1, 0.05, 10, "laser",  [0], **kwargs))
