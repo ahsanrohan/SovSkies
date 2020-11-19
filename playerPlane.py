@@ -9,7 +9,7 @@ class PlayerPlane(PhysicalObject):
 
     #def __init__(self,name, moveSpeed, health, image, shoot_speed, collision_damage, special_ability, arr, **kwargs):
 
-    def __init__(self,name, moveSpeed, health, image, arr, planeNum, shoot_speed, collision_damage, special_ability, **kwargs):
+    def __init__(self,name, moveSpeed, health, image, planeNum, shoot_speed, collision_damage, special_ability, arr, **kwargs):
 
         super().__init__(img = image, **kwargs)
    # def __init__(self, *args, **kwargs):
@@ -90,6 +90,10 @@ class PlayerPlane(PhysicalObject):
 
 
         self.blue_progress_circle = pyglet.image.Animation.from_image_sequence(self.blue_progress_circle_images, duration=self.special_ability_shoot_speed, loop=False)
+    
+    def get_can_heal(self):
+        return self.heal
+    
     def getImage(self):
         return self.planeImg
 
@@ -135,7 +139,10 @@ class PlayerPlane(PhysicalObject):
             angle_radians = -math.radians(270)
             #print(self.shootVec)
             # Create a new bullet just in front of the player
-            ship_radius = self.planeImg.width / 2
+            if self.name == "helicopter":
+                ship_radius = 171
+            else: 
+                ship_radius = self.planeImg.width / 2
             for shootSlot in self.shootVec:
                 bullet_x = self.x + shootSlot #* ship_radius #+ math.cos(angle_radians) * ship_radius
                 bullet_y = self.y #* ship_radius #+ math.sin(angle_radians) * ship_radius
