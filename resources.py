@@ -51,6 +51,11 @@ center_image(end_image)
 enemy_plane = pyglet.resource.image("enemyPlane1.png")
 center_image(enemy_plane)
 
+enemy_boss = pyglet.resource.image("boss1.png")
+enemy_boss.height *= 2
+enemy_boss.width *= 2
+center_image(enemy_boss)
+
 sov_logo_image = pyglet.resource.image("SovLogo.png")
 center_image(sov_logo_image)
 

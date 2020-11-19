@@ -94,9 +94,9 @@
             "movement": {"name": "stop_at", "speed": 2, "x": 800, "y": 800},
             "fire": [
                 {"name": "target_plane", "interval": 0.5, "duration": 2},
-                {"name": "spiral", "interval":  0.1, "duration": 5, "speed": 5, "count": 9}
+                {"name": "spiral", "interval":  0.5, "duration": 5, "speed": 5, "count": 9}
             ],
-            "enemy_obj": {"img": "plane_1", "hp": 50, "kwargs": {"x": 800, "y": 1000, "velocity_y": -1}}
+            "enemy_obj": {"img": "enemy_boss", "hp": 1000, "kwargs": {"x": 800, "y": 1000, "velocity_y": -1}}
         }
     ]
 ]
