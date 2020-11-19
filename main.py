@@ -9,7 +9,8 @@ from longTermData import *
 import json
 
 # createGame()
-
+mode = "menu"
+quitCheck = False
 
 window = pyglet.window.Window(fullscreen=True)
 windowWidth = window.width
@@ -19,6 +20,21 @@ buttons_layer = pyglet.graphics.OrderedGroup(-1)
 
 playerName = "Peyton"
 
+def modeCheck():
+    while (mode != "end"):
+        print(mode)
+        if(mode == "menu"):
+            menu()
+        if(mode == "game"):
+            start()
+        if(mode == "store"):
+            store_menu()
+        if(mode == "level"):
+            level_menu()
+        if(mode == "quit"):
+            #window.clear()
+            end_screen(0)
+    closeConnection()
 
 def create_square(batch, x, y, x2, y2, width=20):
     line_left = pyglet.shapes.Line(x, y, x, y2,
@@ -43,7 +59,8 @@ def init():
 
     
     getPlayerPlanes(playerName)
-    menu()
+    modeCheck()
+    #menu()
 
 
 def shop_upgrade(plane_choice_shopping, batch):
@@ -221,21 +238,32 @@ def menu():
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
+        global mode
         if windowWidth / 4 - 150 < x < (
                 windowWidth / 4) + 150 and windowHeight / 4 - 50 < y < windowHeight / 4 + 50:  # start game
             inGame = True
             # live_batch = level_batch
             window.clear()
             # print(level_batch)
-            start()
+            mode = "game"
+            pyglet.app.exit()
+            #return
+            #start()
         elif ((3 * windowWidth / 4 - 150) < x < (3 * windowWidth / 4) + 150) and (
                 windowHeight / 4 - 50 < y < windowHeight / 4 + 50):  # goto store
             window.clear()
-            store_menu()
+            mode = "store"
+            pyglet.app.exit()
+            #return
+            #store_menu()
         elif ((windowWidth / 2 - 200) < x < (windowWidth / 2 + 200)) and (
                 windowHeight / 4 - 40 < y < windowHeight / 4 + 40):  # goto store
             window.clear()
-            level_menu()
+            mode = "level"
+            pyglet.app.exit()
+            #return
+            #level_menu()
+    #return
 
     @window.event
     def on_draw():
@@ -329,9 +357,12 @@ def level_menu():
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
+        global mode
         if (windowWidth - exit_button.width) < x < windowWidth and y > (
                 windowHeight - exit_button.height):  # clicking X button
-            menu()
+            mode = "menu"
+            pyglet.app.exit()
+            #menu()
 
     def update(dt):
         level_menu_batch.draw()
@@ -443,6 +474,7 @@ def store_menu():
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
+        global mode
         nonlocal temp_upgrades, plane_choice_shopping
         if windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom left
             item_buy([plane_choice_shopping, 3])
@@ -466,7 +498,7 @@ def store_menu():
         elif windowWidth / 4 - 100 < x < windowWidth / 4 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 1
             plane_choice_shopping = 1
             temp_upgrades = shop_upgrade(1, store_menu_batch)
-            print("plane choice change to 1")
+            #print("plane choice change to 1")
         elif windowWidth / 2 - 100 < x < windowWidth / 2 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 2
             plane_choice_shopping = 2
             temp_upgrades = shop_upgrade(2, store_menu_batch)
@@ -494,7 +526,8 @@ def store_menu():
 
 def end_screen(dt):
     end_screen_batch = pyglet.graphics.Batch()
-
+    #del game_objects
+    #enemies = []
     # start_map = pyglet.sprite.Sprite(mapHandler.start_map.map_Image, batch=start_screen_batch,
     # group=maps_layer)
     end_sprite = pyglet.sprite.Sprite(end_image, x=windowWidth / 2, y=windowHeight * 3 / 4,
@@ -513,14 +546,23 @@ def end_screen(dt):
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
+        global mode
+        global quitCheck
         if windowWidth / 2 - 150 < x < (windowWidth / 2) + 150 and y < 100:
             window.clear()
             # print(level_batch)
-            start()
+            mode = "game"
+            quitCheck = False
+            pyglet.app.exit()
+            #start()
 
         if windowWidth / 2 - 150 < x < (windowWidth / 2) + 150 and 150 < y < 250:
-            closeConnection()
-            window.close()
+            window.clear()
+            mode = "menu"
+            quitCheck = False
+            pyglet.app.exit()
+            #closeConnection()
+            #window.close()
             # print(level_batch)
 
     @window.event
@@ -533,6 +575,8 @@ def end_screen(dt):
 
 # Game function
 def start():
+    global mode
+
     level_batch = pyglet.graphics.Batch()
     mouse_x = 1
     mouse_y = 1
@@ -672,11 +716,21 @@ def start():
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
-
+        global mode
+        global quitCheck
         if (windowWidth - exit_button.width) < x < windowWidth and y > (
                 windowHeight - exit_button.height):  # clicking X button
-            end_screen(0)
-            window.clear()
+            #for obj in game_objects:
+            #        game_objects.remove(obj)
+            #for enemy in enemies:
+            #    enemies.remove(enemy)
+            #del game_objects
+            #del enemies
+            mode = "quit"
+            quitCheck = False
+            pyglet.app.exit()
+            #end_screen(0)
+            #window.clear()
         if (button == 1):
             planeHandler.getActivePlane().fire(mouse_x, mouse_y)
         if (button == 4):
@@ -686,6 +740,13 @@ def start():
 
     @window.event
     def on_draw():
+        global quitCheck
+        global mode
+        if quitCheck == True:
+            mode = "quit"
+            quitCheck = False
+            pyglet.app.exit()
+
         window.clear()
         level_batch.draw()
         circle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
@@ -700,13 +761,21 @@ def start():
         circle.draw()
         #rotorCircle.draw()
 
+
     def checkEnd():
+        #global mode
+        global quitCheck
         planes = planeHandler.getAllPlanes()
         currentPlane = planeHandler.getActivePlane()
         if(planes[planeHandler.prevPlane].dead == False):
             pyglet.clock.schedule_once(switchDeadPlane, num=planeHandler.prevPlane, currPlane=currentPlane, delay=0.1)
         else:
-            pyglet.clock.schedule_once(end_screen, 0.4)
+            quitCheck = True
+            #for obj in game_objects:
+            #    game_objects.remove(obj)
+            #for enemy in enemies:
+            #    enemies.remove(enemy)
+            #pyglet.clock.schedule_once(end_screen, 0.4)
 
     def switchDeadPlane(dt, num, currPlane):
         planeHandler.setActivePlane(num, currPlane)
@@ -825,3 +894,4 @@ def start():
 
 if __name__ == '__main__':
     init()
+
