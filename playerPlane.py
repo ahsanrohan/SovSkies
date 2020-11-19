@@ -193,9 +193,9 @@ class PlayerPlane(PhysicalObject):
                     self.shoot_speed = self.shoot_speed / 100
                     self.progress_circle = pyglet.image.Animation.from_image_sequence(self.progress_circle_images,
                                                                                       duration=self.shoot_speed, loop=False)
-                    print("fire_rate_increse")
-                if self.special_ability == "raming":
-                    print("raming")
+                    print("fire_rate_increase")
+                if self.special_ability == "ramming":
+                    print("ramming")
 
     def add_upgrades(self, upgrades):
         for upgrade in upgrades:
