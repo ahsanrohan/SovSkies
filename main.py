@@ -66,13 +66,9 @@ def init():
     # createPlayerPlanes("Peyton", "fast_plane")
     # createPlayerPlanes("Peyton", "damage_plane")
     # createPlaneUpgradeTable()
-<<<<<<< HEAD
-
-=======
     global mode
     mode = "menu"
     
->>>>>>> origin/sprint2postMerge
     getPlayerPlanes(playerName)
     modeCheck()
     #menu()
