@@ -117,6 +117,7 @@ center_image(store_button)
 
 bullet_sound = pyglet.resource.media('Pop_Final.wav', streaming=False)
 two_bullets = pyglet.resource.media('Double_Pop_2.wav', streaming=False)
+laser = pyglet.resource.media('laser.wav', streaming=False)
 fortunate_son = pyglet.resource.media('fortunate.wav')
 immigrant = pyglet.resource.media('immigrant.wav')
 kicks = pyglet.resource.media('kicks.wav')
