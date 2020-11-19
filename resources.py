@@ -96,6 +96,8 @@ center_image(progress_circle_0)
 store_button = pyglet.resource.image("store.png")
 center_image(store_button)
 
+bullet_sound = pyglet.resource.media('Pop_Final.wav', streaming=False)
+
 
 store_map = start_map
 center_image(store_map)
