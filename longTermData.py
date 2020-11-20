@@ -37,11 +37,37 @@ def createPlayerPlaneUpgrades(owner, upgrade, planeName):
     cur.execute(sqlite_insert_with_param, data_tuple)
     print("inserted player plane upgrade new")
 
+def createLevel(owner, level):
+    sqlite_insert_with_param = """INSERT INTO LEVELS
+                              (Owner, StarsEarned, Level, Completed) 
+                              VALUES (?, ?, ?, ?);"""
+    data_tuple = (owner, 0, level, False)
+    cur.execute(sqlite_insert_with_param, data_tuple)
+    print("inserted new level")
+
+
 def getPlayers():
     cur.execute("""SELECT * FROM PLAYER""")
     before = cur.fetchall()
     for i in before:
         print(i)
+
+def printLevels():
+    cur.execute("""SELECT * FROM LEVELS""")
+    before = cur.fetchall()
+    for i in before:
+        print(i)
+
+def printPlayerPlanes():
+    cur.execute("""SELECT * FROM PLAYERPLANES""")
+    before = cur.fetchall()
+    for i in before:
+        print(i)
+
+def getLevels(name):
+    cur.execute("Select Name FROM LEVELS WHERE Owner LIKE '%'||?||'%';", (name, ))
+    before = cur.fetchall()
+    return before
 
 def getPlayerPlanes(name):
     cur.execute("Select Name FROM PLAYERPLANES WHERE Owner LIKE '%'||?||'%';", (name, ))
@@ -52,6 +78,12 @@ def getPlayerPlanesUpgrades(name, plane):
     cur.execute("Select Upgrade FROM PLAYERPLANEUPGRADES WHERE Owner LIKE '%'||?||'%' AND Plane LIKE '%'||?||'%' ;", (name,plane ))
     before = cur.fetchall()
     return before
+
+def printAllPlayerPlanesUpgrades():
+    cur.execute("""SELECT * FROM PLAYERPLANEUPGRADES""")
+    before = cur.fetchall()
+    for i in before:
+        print(i)
 
 
 
@@ -85,6 +117,18 @@ def createPlaneUpgradeTable():
             Owner CHAR(20),
             upgrade CHAR(20),
             plane CHAR(20)
+        )
+        """
+                        )
+    print("Successfully created player plane upgrade")
+
+def createLevelTable():
+    table = cur.execute("""
+        CREATE TABLE LEVELS(
+            Owner CHAR(20),
+            StarsEarned INT,
+            Level INT,
+            Completed BOOLEAN
         )
         """
                         )

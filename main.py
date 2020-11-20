@@ -73,12 +73,26 @@ def create_square(batch, x, y, x2, y2, width=20):
 
 # this is where values are initialized
 def init():
+    #createLevelTable()
+    # createLevel("Peyton", 1)
+    # createLevel("Peyton", 2)
+    # createLevel("Peyton", 3)
+    # createLevel("Peyton", 4)
+    # createLevel("Peyton", 5)
+    print("database planes: ")
+    printPlayerPlanes()
+    print("database Levels: ")
+    printLevels()
+    print("database upgrades: ")
+    printAllPlayerPlanesUpgrades()
+
     # createPlayer("Peyton")
-    # deletePlanes("Peyton")
+    #deletePlanes("Peyton")
     # deleteUpgrades("Peyton")
-    # createPlayerPlanes("Peyton", "fast_plane")
-    # createPlayerPlanes("Peyton", "damage_plane")
-    # createPlayerPlanes("Peyton", "helicopter")
+    #createPlayerPlanes("Peyton", "fast_plane")
+    #createPlayerPlanes("Peyton", "damage_plane")
+    #createPlayerPlanes("Peyton", "helicopter")
+    #createPlayerPlanes("Peyton", "support_plane")
     # createPlaneUpgradeTable()
     global mode
     mode = "menu"

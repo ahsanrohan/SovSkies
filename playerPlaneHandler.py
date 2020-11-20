@@ -35,7 +35,7 @@ class PlayerPlaneHandler():
             if plane[0] == "helicopter":
                 self.planes.append(PlayerPlane("helicopter", 1600, 40, helicopter_animation, 3, 0.1, 40, "raming", [0], **kwargs))
             if plane[0] == "support_plane":
-                self.planes.append(PlayerPlane("support_plane", 1200, 80, plane_2, 40.1, 20, "revive", [0], **kwargs))
+                self.planes.append(PlayerPlane("support_plane", 1200, 80, plane_2, 4, 40.1, 20, "revive", [0], **kwargs))
         # self.plane1 = PlayerPlane(1200, 50, plane_1, [50, -50], **kwargs)
         #self.plane2 = PlayerPlane(2000, 80, plane_2, [0], **kwargs)
         # self.planes = [self.plane1, self.plane2]
