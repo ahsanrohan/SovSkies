@@ -265,16 +265,21 @@ def menu():
                                                batch=start_screen_batch,
                                                group=buttons_layer)
 
-    level_select_square = create_square(start_screen_batch, x=windowWidth / 2 - 200,
-                                        y=windowHeight / 4 - 40,
-                                        x2=windowWidth / 2 + 200, y2=windowHeight / 4 + 40, width=2)
+    levels_button_sprite = pyglet.sprite.Sprite(levels_button, x=2 * windowWidth / 4,
+                                              y=windowHeight / 4,
+                                              batch=start_screen_batch,
+                                              group=buttons_layer)
 
-    plane_1_label = pyglet.text.Label('Level Select', color=(0, 0, 0, 255),
-                                      font_name='Times New Roman',
-                                      font_size=50, group=buttons_layer,
-                                      x=window.width / 2, y=windowHeight / 4 - 20,
-                                      batch=start_screen_batch)
-    plane_1_label.x = plane_1_label.x - plane_1_label.content_width / 2
+    # level_select_square = create_square(start_screen_batch, x=windowWidth / 2 - 200,
+    #                                     y=windowHeight / 4 - 40,
+    #                                     x2=windowWidth / 2 + 200, y2=windowHeight / 4 + 40, width=2)
+
+    # plane_1_label = pyglet.text.Label('Level Select', color=(0, 0, 0, 255),
+    #                                   font_name='Times New Roman',
+    #                                   font_size=50, group=buttons_layer,
+    #                                   x=window.width / 2, y=windowHeight / 4 - 20,
+    #                                   batch=start_screen_batch)
+    #plane_1_label.x = plane_1_label.x - plane_1_label.content_width / 2
 
     sov_logo_sprite = pyglet.sprite.Sprite(sov_logo_image, x=windowWidth / 2,
                                            y=windowHeight * 3 / 4,
@@ -369,8 +374,8 @@ def level_menu():
                                             y=windowHeight / 2, group=maps_layer)
     level_map_sprite.scale_x = windowWidth / level_map_sprite.width
     level_map_sprite.scale_y = windowHeight / level_map_sprite.height
-    exit_button_sprite = pyglet.sprite.Sprite(exit_button, x=windowWidth - exit_button.anchor_x,
-                                              y=windowHeight - exit_button.anchor_y,
+    exit_button_sprite = pyglet.sprite.Sprite(x_button, x=windowWidth - x_button.anchor_x,
+                                              y=windowHeight - x_button.anchor_y,
                                               batch=level_menu_batch,
                                               group=buttons_layer)
     stars_text = []
@@ -408,8 +413,8 @@ def level_menu():
     @window.event
     def on_mouse_press(x, y, button, modifiers):
         global mode
-        if (windowWidth - exit_button.width) < x < windowWidth and y > (
-                windowHeight - exit_button.height):  # clicking X button
+        if (windowWidth - x_button.width) < x < windowWidth and y > (
+                windowHeight - x_button.height):  # clicking X button
             mode = "menu"
             pyglet.app.exit()
             # menu()
@@ -517,8 +522,8 @@ def store_menu():
                                       x=3 * window.width / 4, y=window.height * 0.82,
                                       batch=store_menu_batch)
     plane_3_label.x = plane_3_label.x - plane_3_label.content_width / 2
-    exit_button_sprite = pyglet.sprite.Sprite(exit_button, x=windowWidth - exit_button.anchor_x,
-                                              y=windowHeight - exit_button.anchor_y,
+    exit_button_sprite = pyglet.sprite.Sprite(x_button, x=windowWidth - x_button.anchor_x,
+                                              y=windowHeight - x_button.anchor_y,
                                               batch=store_menu_batch,
                                               group=buttons_layer)
     plane_choice_shopping = 2
@@ -561,8 +566,8 @@ def store_menu():
             plane_choice_shopping = 3
             temp_upgrades = shop_upgrade(3, store_menu_batch)
 
-        elif (windowWidth - exit_button.width) < x < windowWidth and y > (
-                windowHeight - exit_button.height):  # clicking X button
+        elif (windowWidth - x_button.width) < x < windowWidth and y > (
+                windowHeight - x_button.height):  # clicking X button
             menu()
             window.clear()
 
@@ -730,8 +735,8 @@ def start():
     level_map_object.velocity_y = -1
 
     # initialize the exit button
-    exit_button_sprite = pyglet.sprite.Sprite(exit_button, x=windowWidth - exit_button.anchor_x,
-                                              y=windowHeight - exit_button.anchor_y,
+    exit_button_sprite = pyglet.sprite.Sprite(x_button, x=windowWidth - x_button.anchor_x,
+                                              y=windowHeight - x_button.anchor_y,
                                               batch=level_batch,
                                               group=buttons_layer)
 
@@ -770,8 +775,8 @@ def start():
     def on_mouse_press(x, y, button, modifiers):
         global mode
         global quitCheck
-        if (windowWidth - exit_button.width) < x < windowWidth and y > (
-                windowHeight - exit_button.height):  # clicking X button
+        if (windowWidth - x_button.width) < x < windowWidth and y > (
+                windowHeight - x_button.height):  # clicking X button
             # for obj in game_objects:
             #        game_objects.remove(obj)
             # for enemy in enemies:

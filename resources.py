@@ -21,17 +21,30 @@ center_image(plane_1)
 plane_2 = pyglet.resource.image("planeTest2.png")
 center_image(plane_2)
 
-start_button = pyglet.resource.image("start_button.png")
+start_button = pyglet.resource.image("start.png")
 center_image(start_button)
 
-quit_button = pyglet.resource.image("quit_button.png")
+quit_button = pyglet.resource.image("quit.png")
 center_image(quit_button)
 
-exit_button = pyglet.resource.image("exit_button.png")
+exit_button = pyglet.resource.image("exit.png")
 center_image(exit_button)
 
-exit_button = pyglet.resource.image("exit_button.png")
-center_image(exit_button)
+x_button = pyglet.resource.image("exit_button.png")
+center_image(x_button)
+
+levels_button = pyglet.resource.image("levels.png")
+center_image(levels_button)
+
+store_button = pyglet.resource.image("shop.png")
+center_image(store_button)
+
+resume_button = pyglet.resource.image("Resume.png")
+center_image(resume_button)
+
+menu_button = pyglet.resource.image("menu.png")
+center_image(menu_button)
+
 
 start_map = pyglet.resource.image("placeholdermap.jpg")
 center_image(start_map)
@@ -112,8 +125,7 @@ center_image(helicopter_3)
 helicopter_4 = pyglet.resource.image('helicopter5.png')
 center_image(helicopter_4)
 
-store_button = pyglet.resource.image("store.png")
-center_image(store_button)
+
 
 bullet_sound = pyglet.resource.media('Pop_Final.wav', streaming=False)
 two_bullets = pyglet.resource.media('Double_Pop_2.wav', streaming=False)
