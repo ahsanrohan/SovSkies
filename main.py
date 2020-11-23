@@ -665,6 +665,33 @@ def start():
                                font_name='Times New Roman',
                                font_size=24, group=buttons_layer,
                                x=window.width - 200, y=(window.height // 2) - 50, batch=level_batch)
+    
+    count = 0
+    planeIcons = []
+    healthBarIcons = []
+    print("peyton")
+    print(len(planeHandler.getAllPlanes()))
+    for i in planeHandler.getAllPlanes():
+        print(count)
+        planeIcons.append(pyglet.sprite.Sprite(i.getImage(), x=windowWidth - 30,
+                                              y=windowHeight/2 - 100 *count ,
+                                              batch=level_batch,
+                                              group=buttons_layer))
+        planeIcons[count].scale = i.get_width/ windowWidth
+        healthBarIcons.append(pyglet.sprite.Sprite(healthbar_7, x=windowWidth - 30,
+                                              y=windowHeight/2 - 50 - 100 *count ,
+                                              batch=level_batch,
+                                              group=buttons_layer))
+        #planeIcons[count].scale_y = windowHeight / i.get_height
+        count += 1
+
+    # planeTest = pyglet.sprite.Sprite(planeHandler.getActivePlane().getImage(), x=windowWidth/2,
+    #                                         y=windowHeight/2 - 200,
+    #                                         batch=level_batch,
+    #                                         group=buttons_layer)
+            
+        
+        #HerePeyton
 
     # load level data
     level_filepath = 'resources/level_scripts.json'
@@ -926,6 +953,7 @@ def start():
                 if (obj.is_enemyBullet):
                     if (planeHandler.getActivePlane().collides_with(obj) == True and planeHandler.getActivePlane().damageable == True):
                         planeHandler.getActivePlane().handle_collision_with(obj)
+                        #updateHealthBar()
                 else:
                     for enemyObj in enemies:
                         if (enemyObj.collides_with(obj) == True):
@@ -936,8 +964,34 @@ def start():
             if i.get_name() == "fast_plane" and i.get_can_heal() == True:
                 pyglet.clock.schedule_once(regeneratePlane, 1, False)
                 i.heal = False
+                #updateHealthBar()
+                
+
+    def updateHealthBar():
+        count = 0
+        for i in planeHandler.getAllPlanes():
+            if i.maxHealth * 7/8 < i.health:
+                healthBarIcons[count].image = healthbar_7
+            elif i.maxHealth * 6/8 < i.health:
+                healthBarIcons[count].image = healthbar_6
+            elif i.maxHealth * 5/8 < i.health:
+                healthBarIcons[count].image = healthbar_5
+            elif i.maxHealth * 4/8 < i.health:
+                healthBarIcons[count].image = healthbar_4
+            elif i.maxHealth * 3/8 < i.health:
+                healthBarIcons[count].image = healthbar_3
+            elif i.maxHealth * 2/8 < i.health:
+                healthBarIcons[count].image = healthbar_2
+            elif i.maxHealth * 0/8 < i.health:
+                healthBarIcons[count].image = healthbar_1
+            else:
+                healthBarIcons[count].image = healthbar_0
+            count += 1
+            #peytonhere
+
 
     def update(dt):
+        updateHealthBar()
         handle_move(dt)
         checkCollision()
         if (planeHandler.getActivePlane().health <= 0):

@@ -35,7 +35,7 @@ class PlayerPlane(PhysicalObject):
         # Player should not collide with own bullets
         self.reacts_to_bullets = False
         self.reacts_to_enemy_bullets = True
-        self.scale = 0.7
+        self.scale = .7
 
         self.shoot_speed = shoot_speed
         self.could_shoot = True
@@ -69,6 +69,13 @@ class PlayerPlane(PhysicalObject):
                                             blue_progress_circle_7,
                                             blue_progress_circle_8]
 
+        if(self.name == "helicopter"):
+            self.get_width = 345
+            self.get_height = 345
+        else:
+            self.get_width = self.image.width
+            self.get_height = self.image.height
+
         self.is_player = True
         self.planeNum = planeNum
         if (planeNum == 3):
@@ -90,6 +97,11 @@ class PlayerPlane(PhysicalObject):
 
         self.blue_progress_circle = pyglet.image.Animation.from_image_sequence(self.blue_progress_circle_images,
                                                                                duration=self.special_ability_shoot_speed, loop=False)
+
+    def get_width(self):
+        return self.get_width
+    def get_height(self):
+        return self.get_height
 
     def get_can_heal(self):
         return self.heal
