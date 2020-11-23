@@ -856,8 +856,12 @@ def start():
         global quitCheck
         planes = planeHandler.getAllPlanes()
         currentPlane = planeHandler.getActivePlane()
-        if (planes[planeHandler.prevPlane].dead == False):
-            pyglet.clock.schedule_once(switchDeadPlane, num=planeHandler.prevPlane, currPlane=currentPlane, delay=0.1)
+        for plane in planeHandler.getAllPlanes():
+            if (plane.dead == False):
+                planeTemp = plane.planeNum
+                break
+        if (planes[planeTemp -1].dead == False):
+           pyglet.clock.schedule_once(switchDeadPlane, num=planeTemp -1, currPlane=currentPlane, delay=0.1)#planeHandler.prevPlane
         else:
             all_dead = True
             for plane in planeHandler.getAllPlanes():
