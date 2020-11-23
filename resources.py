@@ -115,6 +115,9 @@ center_image(helicopter_4)
 store_button = pyglet.resource.image("store.png")
 center_image(store_button)
 
+lock_icon = pyglet.resource.image("lock.png")
+center_image(lock_icon)
+
 bullet_sound = pyglet.resource.media('Pop_Final.wav', streaming=False)
 two_bullets = pyglet.resource.media('Double_Pop_2.wav', streaming=False)
 laser = pyglet.resource.media('laser.wav', streaming=False)

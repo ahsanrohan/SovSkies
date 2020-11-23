@@ -73,12 +73,12 @@ def create_square(batch, x, y, x2, y2, width=20):
 
 # this is where values are initialized
 def init():
-    # createPlayer("Peyton")
-    # deletePlanes("Peyton")
-    # deleteUpgrades("Peyton")
-    # createPlayerPlanes("Peyton", "fast_plane")
-    # createPlayerPlanes("Peyton", "damage_plane")
-    # createPlayerPlanes("Peyton", "helicopter")
+    createPlayer("Peyton")
+    deletePlanes("Peyton")
+    deleteUpgrades("Peyton")
+    createPlayerPlanes("Peyton", "fast_plane")
+    createPlayerPlanes("Peyton", "damage_plane")
+    createPlayerPlanes("Peyton", "helicopter")
     # createPlaneUpgradeTable()
     global mode
     mode = "menu"
@@ -233,7 +233,7 @@ def menu():
     # Sound
     player.next_source()
     player.queue(background_music)
-    #player.play()
+    # player.play()
 
     # Graphics
     start_screen_batch = pyglet.graphics.Batch()
@@ -308,7 +308,7 @@ def menu():
 def level_menu():
     player.next_source()
     player.queue(kicks)
-    #player.play()
+    # player.play()
 
     level_menu_batch = pyglet.graphics.Batch()
     text_layer = pyglet.graphics.OrderedGroup(0)
@@ -345,6 +345,13 @@ def level_menu():
                                       color=(0, 255, 0), width=10, batch=level_menu_batch, group=check_layer)
         return [strike_1, strike_2]
 
+    def lock_off(number):
+        lock_sprite = pyglet.sprite.Sprite(lock_icon, x=(window.width * ((number - 1) % 3) / 3 + window.width / 6),
+                                       y=(window.height / (1 + ((number - 1) // 3)) * 1 / 2) + 1 / 8 * window.height,
+                                                batch=level_menu_batch,
+                                                group=check_layer)
+        return lock_sprite
+
     store_label = pyglet.text.Label('Level Selection',
                                     font_name='Times New Roman',
                                     font_size=50, group=buttons_layer,
@@ -359,14 +366,16 @@ def level_menu():
                                               y=windowHeight - exit_button.anchor_y,
                                               batch=level_menu_batch,
                                               group=buttons_layer)
+
     stars_text = []
-    level_1 = level_button(1, 1)
+    level_1 = level_button(1, stars=1)  # add dynamic stars. Needs database
     check = check_off(1)  # Check against score for levels here
-    level_2 = level_button(2, 10)
-    level_3 = level_button(3, 5)
-    level_4 = level_button(4, 2)
-    level_5 = level_button(5, 3)
-    level_6 = level_button(6, 1)
+    level_2 = level_button(2, stars=10)
+    level_3 = level_button(3, stars=5)
+    level_4 = level_button(4, stars=2)
+    level_5 = level_button(5, stars=3)
+    level_6 = level_button(6, stars=1)
+    lock_6 = lock_off(6)
 
     @window.event
     def on_draw():
@@ -399,6 +408,18 @@ def level_menu():
             mode = "menu"
             pyglet.app.exit()
             # menu()
+        elif level_1[0].x - 100 < x < level_1[0].x + 100 and level_1[0].y - 100 < y < level_1[0].y + 100:
+            start(1)
+        elif level_2[0].x - 100 < x < level_2[0].x + 100 and level_2[0].y - 100 < y < level_2[0].y + 100:
+            start(2)
+        elif level_3[0].x - 100 < x < level_3[0].x + 100 and level_3[0].y - 100 < y < level_3[0].y + 100:
+            start(3)
+        elif level_4[0].x - 100 < x < level_4[0].x + 100 and level_4[0].y - 100 < y < level_4[0].y + 100:
+            start(4)
+        elif level_5[0].x - 100 < x < level_5[0].x + 100 and level_5[0].y - 100 < y < level_5[0].y + 100:
+            start(5)
+        elif level_6[0].x - 100 < x < level_6[0].x + 100 and level_6[0].y - 100 < y < level_6[0].y + 100:
+            start(6)
 
     def update(dt):
         level_menu_batch.draw()
@@ -461,7 +482,7 @@ def store_menu():
 
     player.next_source()
     player.queue(fortunate_son)
-    #player.play()
+    # player.play()
 
     store_menu_batch = pyglet.graphics.Batch()
     store_menu_sprite = pyglet.sprite.Sprite(store_map, x=windowWidth / 2, y=windowHeight / 2,
@@ -614,7 +635,7 @@ def end_screen():
 
 
 # Game function
-def start():
+def start(level_number):
     global mode
 
     level_batch = pyglet.graphics.Batch()
@@ -649,7 +670,7 @@ def start():
 
     # load level data
     level_filepath = 'resources/level_scripts.json'
-    level_number = 2  # hardcoded level
+
     with open(level_filepath) as f:
         level = json.load(f)[level_number]
 
