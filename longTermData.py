@@ -65,7 +65,7 @@ def printPlayerPlanes():
         print(i)
 
 def getLevels(name):
-    cur.execute("Select Name FROM LEVELS WHERE Owner LIKE '%'||?||'%';", (name, ))
+    cur.execute("Select * FROM LEVELS WHERE Owner LIKE '%'||?||'%';", (name, ))
     before = cur.fetchall()
     return before
 

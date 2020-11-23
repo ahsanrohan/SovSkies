@@ -12,7 +12,7 @@ import json
 mode = "hi"
 quitCheck = False
 
-window = pyglet.window.Window(fullscreen=True)
+window = pyglet.window.Window(fullscreen=False, width=1800, height=1000)
 windowWidth = window.width
 windowHeight = window.height
 maps_layer = pyglet.graphics.OrderedGroup(-2)
@@ -73,7 +73,7 @@ def create_square(batch, x, y, x2, y2, width=20):
 
 # this is where values are initialized
 def init():
-    #createLevelTable()
+    # createLevelTable()
     # createLevel("Peyton", 1)
     # createLevel("Peyton", 2)
     # createLevel("Peyton", 3)
@@ -87,12 +87,12 @@ def init():
     printAllPlayerPlanesUpgrades()
 
     # createPlayer("Peyton")
-    #deletePlanes("Peyton")
+    # deletePlanes("Peyton")
     # deleteUpgrades("Peyton")
-    #createPlayerPlanes("Peyton", "fast_plane")
-    #createPlayerPlanes("Peyton", "damage_plane")
-    #createPlayerPlanes("Peyton", "helicopter")
-    #createPlayerPlanes("Peyton", "support_plane")
+    # createPlayerPlanes("Peyton", "fast_plane")
+    # createPlayerPlanes("Peyton", "damage_plane")
+    # createPlayerPlanes("Peyton", "helicopter")
+    # createPlayerPlanes("Peyton", "support_plane")
     # createPlaneUpgradeTable()
     global mode
     mode = "menu"
@@ -242,7 +242,7 @@ def shop_upgrade(plane_choice_shopping, batch):
     return upgrade_box_array
 
 
-# menu funtion
+# menu function
 def menu():
     # Sound
     player.next_source()
@@ -266,9 +266,9 @@ def menu():
                                                group=buttons_layer)
 
     levels_button_sprite = pyglet.sprite.Sprite(levels_button, x=2 * windowWidth / 4,
-                                              y=windowHeight / 4,
-                                              batch=start_screen_batch,
-                                              group=buttons_layer)
+                                                y=windowHeight / 4,
+                                                batch=start_screen_batch,
+                                                group=buttons_layer)
 
     # level_select_square = create_square(start_screen_batch, x=windowWidth / 2 - 200,
     #                                     y=windowHeight / 4 - 40,
@@ -279,7 +279,7 @@ def menu():
     #                                   font_size=50, group=buttons_layer,
     #                                   x=window.width / 2, y=windowHeight / 4 - 20,
     #                                   batch=start_screen_batch)
-    #plane_1_label.x = plane_1_label.x - plane_1_label.content_width / 2
+    # plane_1_label.x = plane_1_label.x - plane_1_label.content_width / 2
 
     sov_logo_sprite = pyglet.sprite.Sprite(sov_logo_image, x=windowWidth / 2,
                                            y=windowHeight * 3 / 4,
@@ -328,12 +328,13 @@ def level_menu():
     player.next_source()
     player.queue(kicks)
     # player.play()
+    levels_array = getLevels(playerName)
 
     level_menu_batch = pyglet.graphics.Batch()
     text_layer = pyglet.graphics.OrderedGroup(0)
     check_layer = pyglet.graphics.OrderedGroup(1)
 
-    def level_button(number, stars):
+    def level_button(number, stars, completed):
         shape = pyglet.shapes.Circle(window.width * ((number - 1) % 3) / 3 + window.width / 6,
                                      (window.height / (1 + ((number - 1) // 3)) * 1 / 2) + 1 / 8 * window.height,
                                      100, color=(237, 177, 47),
@@ -342,7 +343,9 @@ def level_menu():
                                  x=shape.x, y=shape.y, batch=level_menu_batch)
         text.x = text.x - (text.content_width / 2)
         text.y = text.y - (text.content_height / 3)
-        return [shape, text, stars]
+        if completed == 1:
+            completed = check_off(number)
+        return [shape, text, stars, completed]
 
     def show_stars(number, stars):
         text_stars = pyglet.text.Label("Stars: " + str(stars), font_name='Comic Sans', font_size=50, group=text_layer,
@@ -366,9 +369,9 @@ def level_menu():
 
     def lock_off(number):
         lock_sprite = pyglet.sprite.Sprite(lock_icon, x=(window.width * ((number - 1) % 3) / 3 + window.width / 6),
-                                       y=(window.height / (1 + ((number - 1) // 3)) * 1 / 2) + 1 / 8 * window.height,
-                                                batch=level_menu_batch,
-                                                group=check_layer)
+                                           y=(window.height / (1 + ((number - 1) // 3)) * 1 / 2) + 1 / 8 * window.height,
+                                           batch=level_menu_batch,
+                                           group=check_layer)
         return lock_sprite
 
     store_label = pyglet.text.Label('Level Selection',
@@ -387,14 +390,12 @@ def level_menu():
                                               group=buttons_layer)
 
     stars_text = []
-    level_1 = level_button(1, stars=1)  # add dynamic stars. Needs database
-    check = check_off(1)  # Check against score for levels here
-    level_2 = level_button(2, stars=10)
-    level_3 = level_button(3, stars=5)
-    level_4 = level_button(4, stars=2)
-    level_5 = level_button(5, stars=3)
-    level_6 = level_button(6, stars=1)
-    lock_6 = lock_off(6)
+    level_1 = level_button(1, stars=levels_array[0][1], completed=levels_array[0][3])
+    level_2 = level_button(2, stars=levels_array[1][1], completed=levels_array[1][3])
+    level_3 = level_button(3, stars=levels_array[2][1], completed=levels_array[2][3])
+    level_4 = level_button(4, stars=levels_array[3][1], completed=levels_array[3][3])
+    level_5 = level_button(5, stars=levels_array[4][1], completed=levels_array[4][3])
+    level_6 = level_button(6, stars=0, completed=1)
 
     @window.event
     def on_draw():
@@ -416,6 +417,7 @@ def level_menu():
             stars_text += show_stars(4, level_4[2])
         elif level_5[0].x - 100 < x < level_5[0].x + 100 and level_5[0].y - 100 < y < level_5[0].y + 100:
             stars_text += show_stars(5, level_5[2])
+        # level 6 doesnt have stars as it is the last level
         elif level_6[0].x - 100 < x < level_6[0].x + 100 and level_6[0].y - 100 < y < level_6[0].y + 100:
             stars_text += show_stars(6, level_6[2])
 
@@ -686,7 +688,7 @@ def start(level_number=1):
                                font_name='Times New Roman',
                                font_size=24, group=buttons_layer,
                                x=window.width - 200, y=(window.height // 2) - 50, batch=level_batch)
-    
+
     count = 0
     planeIcons = []
     healthBarIcons = []
@@ -695,24 +697,23 @@ def start(level_number=1):
     for i in planeHandler.getAllPlanes():
         print(count)
         planeIcons.append(pyglet.sprite.Sprite(i.getImage(), x=windowWidth - 30,
-                                              y=windowHeight/2 - 100 *count ,
-                                              batch=level_batch,
-                                              group=buttons_layer))
-        planeIcons[count].scale = i.get_width/ windowWidth
+                                               y=windowHeight / 2 - 100 * count,
+                                               batch=level_batch,
+                                               group=buttons_layer))
+        planeIcons[count].scale = i.get_width / windowWidth
         healthBarIcons.append(pyglet.sprite.Sprite(healthbar_7, x=windowWidth - 30,
-                                              y=windowHeight/2 - 50 - 100 *count ,
-                                              batch=level_batch,
-                                              group=buttons_layer))
-        #planeIcons[count].scale_y = windowHeight / i.get_height
+                                                   y=windowHeight / 2 - 50 - 100 * count,
+                                                   batch=level_batch,
+                                                   group=buttons_layer))
+        # planeIcons[count].scale_y = windowHeight / i.get_height
         count += 1
 
     # planeTest = pyglet.sprite.Sprite(planeHandler.getActivePlane().getImage(), x=windowWidth/2,
     #                                         y=windowHeight/2 - 200,
     #                                         batch=level_batch,
     #                                         group=buttons_layer)
-            
-        
-        #HerePeyton
+
+    # HerePeyton
 
     # load level data
     level_filepath = 'resources/level_scripts.json'
@@ -888,7 +889,7 @@ def start(level_number=1):
                 planeTemp = plane.planeNum
                 break
         if (planeTemp != -1):
-           pyglet.clock.schedule_once(switchDeadPlane, num=planeTemp -1, currPlane=currentPlane, delay=0.1)#planeHandler.prevPlane
+            pyglet.clock.schedule_once(switchDeadPlane, num=planeTemp - 1, currPlane=currentPlane, delay=0.1)  # planeHandler.prevPlane
         else:
             quitCheck = True
 
@@ -970,7 +971,7 @@ def start(level_number=1):
                 if (obj.is_enemyBullet):
                     if (planeHandler.getActivePlane().collides_with(obj) == True and planeHandler.getActivePlane().damageable == True):
                         planeHandler.getActivePlane().handle_collision_with(obj)
-                        #updateHealthBar()
+                        # updateHealthBar()
                 else:
                     for enemyObj in enemies:
                         if (enemyObj.collides_with(obj) == True):
@@ -981,31 +982,29 @@ def start(level_number=1):
             if i.get_name() == "fast_plane" and i.get_can_heal() == True:
                 pyglet.clock.schedule_once(regeneratePlane, 1, False)
                 i.heal = False
-                #updateHealthBar()
-                
+                # updateHealthBar()
 
     def updateHealthBar():
         count = 0
         for i in planeHandler.getAllPlanes():
-            if i.maxHealth * 7/8 < i.health:
+            if i.maxHealth * 7 / 8 < i.health:
                 healthBarIcons[count].image = healthbar_7
-            elif i.maxHealth * 6/8 < i.health:
+            elif i.maxHealth * 6 / 8 < i.health:
                 healthBarIcons[count].image = healthbar_6
-            elif i.maxHealth * 5/8 < i.health:
+            elif i.maxHealth * 5 / 8 < i.health:
                 healthBarIcons[count].image = healthbar_5
-            elif i.maxHealth * 4/8 < i.health:
+            elif i.maxHealth * 4 / 8 < i.health:
                 healthBarIcons[count].image = healthbar_4
-            elif i.maxHealth * 3/8 < i.health:
+            elif i.maxHealth * 3 / 8 < i.health:
                 healthBarIcons[count].image = healthbar_3
-            elif i.maxHealth * 2/8 < i.health:
+            elif i.maxHealth * 2 / 8 < i.health:
                 healthBarIcons[count].image = healthbar_2
-            elif i.maxHealth * 0/8 < i.health:
+            elif i.maxHealth * 0 / 8 < i.health:
                 healthBarIcons[count].image = healthbar_1
             else:
                 healthBarIcons[count].image = healthbar_0
             count += 1
-            #peytonhere
-
+            # peytonhere
 
     def update(dt):
         updateHealthBar()
