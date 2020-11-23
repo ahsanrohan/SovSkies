@@ -830,6 +830,11 @@ def start():
             # print ("this is running IDK")
             mode = "quit"
             quitCheck = False
+            all_dead = False
+            all_dead = False
+            for plane in planeHandler.getAllPlanes():
+                plane.health = plane.maxHealth
+                plane.dead = False
             for obj in game_objects:
                 game_objects.remove(obj)
             for enemy in enemies:
@@ -856,28 +861,15 @@ def start():
         global quitCheck
         planes = planeHandler.getAllPlanes()
         currentPlane = planeHandler.getActivePlane()
+        planeTemp = -1
         for plane in planeHandler.getAllPlanes():
             if (plane.dead == False):
                 planeTemp = plane.planeNum
                 break
-        if (planes[planeTemp -1].dead == False):
+        if (planeTemp != -1):
            pyglet.clock.schedule_once(switchDeadPlane, num=planeTemp -1, currPlane=currentPlane, delay=0.1)#planeHandler.prevPlane
         else:
-            all_dead = True
-            for plane in planeHandler.getAllPlanes():
-                if plane.dead == False:
-                    all_dead = False
-            if all_dead == True:
-                for plane in planeHandler.getAllPlanes():
-                    plane.dead = False
-                quitCheck = True
-            # pass
-            #   PEYTON DID SOMEHTING HERE NEED TO FIX
-            # for obj in game_objects:
-            #    game_objects.remove(obj)
-            # for enemy in enemies:
-            #    enemies.remove(enemy)
-            # pyglet.clock.schedule_once(end_screen, 0.4)
+            quitCheck = True
 
     def switchDeadPlane(dt, num, currPlane):
         planeHandler.setActivePlane(num, currPlane)

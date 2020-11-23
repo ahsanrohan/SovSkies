@@ -60,9 +60,9 @@ center_image(menu_button)
 start_map = pyglet.resource.image("placeholdermap.jpg")
 center_image(start_map)
 
-level_map = pyglet.resource.image("gainesville_background.png")
+#level_map = pyglet.resource.image("gainesville_background.png")
 #level_map = pyglet.resource.image("water_background.png")
-#level_map = pyglet.resource.image("road_background.png")
+level_map = pyglet.resource.image("road_background.png")
 #level_map = pyglet.resource.image("level_background.png")
 center_image(level_map)
 
