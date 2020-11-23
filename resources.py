@@ -21,24 +21,48 @@ center_image(plane_1)
 plane_2 = pyglet.resource.image("planeTest2.png")
 center_image(plane_2)
 
-start_button = pyglet.resource.image("start_button.png")
+helicopter_0 = pyglet.resource.image('helicopter1.png')
+center_image(helicopter_0)
+helicopter_1 = pyglet.resource.image('helicopter2.png')
+center_image(helicopter_1)
+helicopter_2 = pyglet.resource.image('helicopter3.png')
+center_image(helicopter_2)
+helicopter_3 = pyglet.resource.image('helicopter4.png')
+center_image(helicopter_3)
+helicopter_4 = pyglet.resource.image('helicopter5.png')
+center_image(helicopter_4)
+
+start_button = pyglet.resource.image("start.png")
 center_image(start_button)
 
-quit_button = pyglet.resource.image("quit_button.png")
+quit_button = pyglet.resource.image("quit.png")
 center_image(quit_button)
 
-exit_button = pyglet.resource.image("exit_button.png")
+exit_button = pyglet.resource.image("exit.png")
 center_image(exit_button)
 
-exit_button = pyglet.resource.image("exit_button.png")
-center_image(exit_button)
+x_button = pyglet.resource.image("exit_button.png")
+center_image(x_button)
+
+levels_button = pyglet.resource.image("levels.png")
+center_image(levels_button)
+
+store_button = pyglet.resource.image("shop.png")
+center_image(store_button)
+
+resume_button = pyglet.resource.image("Resume.png")
+center_image(resume_button)
+
+menu_button = pyglet.resource.image("menu.png")
+center_image(menu_button)
+
 
 start_map = pyglet.resource.image("placeholdermap.jpg")
 center_image(start_map)
 
-level_map = pyglet.resource.image("gainesville_background.png")
+#level_map = pyglet.resource.image("gainesville_background.png")
 #level_map = pyglet.resource.image("water_background.png")
-#level_map = pyglet.resource.image("road_background.png")
+level_map = pyglet.resource.image("road_background.png")
 #level_map = pyglet.resource.image("level_background.png")
 center_image(level_map)
 
@@ -101,19 +125,26 @@ center_image(progress_circle_1)
 progress_circle_0 = pyglet.resource.image('progressCircle0.png')
 center_image(progress_circle_0)
 
-helicopter_0 = pyglet.resource.image('helicopter1.png')
-center_image(helicopter_0)
-helicopter_1 = pyglet.resource.image('helicopter2.png')
-center_image(helicopter_1)
-helicopter_2 = pyglet.resource.image('helicopter3.png')
-center_image(helicopter_2)
-helicopter_3 = pyglet.resource.image('helicopter4.png')
-center_image(helicopter_3)
-helicopter_4 = pyglet.resource.image('helicopter5.png')
-center_image(helicopter_4)
 
-store_button = pyglet.resource.image("store.png")
-center_image(store_button)
+
+healthbar_0 = pyglet.resource.image('health0.png')
+center_image(healthbar_0)
+healthbar_1 = pyglet.resource.image('health1.png')
+center_image(healthbar_1)
+healthbar_2 = pyglet.resource.image('health2.png')
+center_image(healthbar_2)
+healthbar_3 = pyglet.resource.image('health3.png')
+center_image(healthbar_3)
+healthbar_4 = pyglet.resource.image('health4.png')
+center_image(healthbar_4)
+healthbar_5 = pyglet.resource.image('health5.png')
+center_image(healthbar_5)
+healthbar_6 = pyglet.resource.image('health6.png')
+center_image(healthbar_6)
+healthbar_7 = pyglet.resource.image('health7.png')
+center_image(healthbar_7)
+
+
 
 lock_icon = pyglet.resource.image("lock.png")
 center_image(lock_icon)

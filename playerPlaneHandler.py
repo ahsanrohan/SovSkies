@@ -31,11 +31,11 @@ class PlayerPlaneHandler():
             if plane[0] == "fast_plane":
                 self.planes.append(PlayerPlane("fast_plane", 2000, 30, plane_2, 1, 0.05, 10, "laser",  [0], **kwargs))
             if plane[0] == "damage_plane":
-                self.planes.append(PlayerPlane("damage_plane", 1200, 50, plane_1, 3, 0.1, 10, "fire_rate_increase",  [50, -50], **kwargs))
+                self.planes.append(PlayerPlane("damage_plane", 1200, 50, plane_1, 2, 0.1, 10, "fire_rate_increase",  [50, -50], **kwargs))
             if plane[0] == "helicopter":
                 self.planes.append(PlayerPlane("helicopter", 1600, 40, helicopter_animation, 3, 0.1, 40, "raming", [0], **kwargs))
             if plane[0] == "support_plane":
-                self.planes.append(PlayerPlane("support_plane", 1200, 80, plane_2, 40.1, 20, "revive", [0], **kwargs))
+                self.planes.append(PlayerPlane("support_plane", 1200, 80, plane_2, 4, 40.1, 20, "revive", [0], **kwargs))
         # self.plane1 = PlayerPlane(1200, 50, plane_1, [50, -50], **kwargs)
         #self.plane2 = PlayerPlane(2000, 80, plane_2, [0], **kwargs)
         # self.planes = [self.plane1, self.plane2]
@@ -50,19 +50,16 @@ class PlayerPlaneHandler():
                 return plane
 
     def setActivePlane(self, num, currPlane):
-        if (len(self.planes) > num):
-            if self.getActivePlane().dead == False:
-                self.prevPlane = self.activePlane
-            if (self.planes[num].dead == False):
-                self.planes[self.activePlane].visible = False
-                self.activePlane = num
-                self.planes[self.activePlane].x = currPlane.x
-                self.planes[self.activePlane].y = currPlane.y
-                self.planes[self.activePlane].visible = True
-            else:
-                print('dead plane')
+        if self.getActivePlane().dead == False:
+            self.prevPlane = self.activePlane
+        if (self.planes[num].dead == False):
+            self.planes[self.activePlane].visible = False
+            self.activePlane = num
+            self.planes[self.activePlane].x = currPlane.x
+            self.planes[self.activePlane].y = currPlane.y
+            self.planes[self.activePlane].visible = True
         else:
-            print ("player does not own")
+            print('dead plane')
 
     def getAllPlanes(self):
         return self.planes

@@ -73,12 +73,26 @@ def create_square(batch, x, y, x2, y2, width=20):
 
 # this is where values are initialized
 def init():
-    createPlayer("Peyton")
-    deletePlanes("Peyton")
-    deleteUpgrades("Peyton")
-    createPlayerPlanes("Peyton", "fast_plane")
-    createPlayerPlanes("Peyton", "damage_plane")
-    createPlayerPlanes("Peyton", "helicopter")
+    #createLevelTable()
+    # createLevel("Peyton", 1)
+    # createLevel("Peyton", 2)
+    # createLevel("Peyton", 3)
+    # createLevel("Peyton", 4)
+    # createLevel("Peyton", 5)
+    print("database planes: ")
+    printPlayerPlanes()
+    print("database Levels: ")
+    printLevels()
+    print("database upgrades: ")
+    printAllPlayerPlanesUpgrades()
+
+    # createPlayer("Peyton")
+    #deletePlanes("Peyton")
+    # deleteUpgrades("Peyton")
+    #createPlayerPlanes("Peyton", "fast_plane")
+    #createPlayerPlanes("Peyton", "damage_plane")
+    #createPlayerPlanes("Peyton", "helicopter")
+    #createPlayerPlanes("Peyton", "support_plane")
     # createPlaneUpgradeTable()
     global mode
     mode = "menu"
@@ -251,16 +265,21 @@ def menu():
                                                batch=start_screen_batch,
                                                group=buttons_layer)
 
-    level_select_square = create_square(start_screen_batch, x=windowWidth / 2 - 200,
-                                        y=windowHeight / 4 - 40,
-                                        x2=windowWidth / 2 + 200, y2=windowHeight / 4 + 40, width=2)
+    levels_button_sprite = pyglet.sprite.Sprite(levels_button, x=2 * windowWidth / 4,
+                                              y=windowHeight / 4,
+                                              batch=start_screen_batch,
+                                              group=buttons_layer)
 
-    plane_1_label = pyglet.text.Label('Level Select', color=(0, 0, 0, 255),
-                                      font_name='Times New Roman',
-                                      font_size=50, group=buttons_layer,
-                                      x=window.width / 2, y=windowHeight / 4 - 20,
-                                      batch=start_screen_batch)
-    plane_1_label.x = plane_1_label.x - plane_1_label.content_width / 2
+    # level_select_square = create_square(start_screen_batch, x=windowWidth / 2 - 200,
+    #                                     y=windowHeight / 4 - 40,
+    #                                     x2=windowWidth / 2 + 200, y2=windowHeight / 4 + 40, width=2)
+
+    # plane_1_label = pyglet.text.Label('Level Select', color=(0, 0, 0, 255),
+    #                                   font_name='Times New Roman',
+    #                                   font_size=50, group=buttons_layer,
+    #                                   x=window.width / 2, y=windowHeight / 4 - 20,
+    #                                   batch=start_screen_batch)
+    #plane_1_label.x = plane_1_label.x - plane_1_label.content_width / 2
 
     sov_logo_sprite = pyglet.sprite.Sprite(sov_logo_image, x=windowWidth / 2,
                                            y=windowHeight * 3 / 4,
@@ -362,8 +381,8 @@ def level_menu():
                                             y=windowHeight / 2, group=maps_layer)
     level_map_sprite.scale_x = windowWidth / level_map_sprite.width
     level_map_sprite.scale_y = windowHeight / level_map_sprite.height
-    exit_button_sprite = pyglet.sprite.Sprite(exit_button, x=windowWidth - exit_button.anchor_x,
-                                              y=windowHeight - exit_button.anchor_y,
+    exit_button_sprite = pyglet.sprite.Sprite(x_button, x=windowWidth - x_button.anchor_x,
+                                              y=windowHeight - x_button.anchor_y,
                                               batch=level_menu_batch,
                                               group=buttons_layer)
 
@@ -403,8 +422,8 @@ def level_menu():
     @window.event
     def on_mouse_press(x, y, button, modifiers):
         global mode
-        if (windowWidth - exit_button.width) < x < windowWidth and y > (
-                windowHeight - exit_button.height):  # clicking X button
+        if (windowWidth - x_button.width) < x < windowWidth and y > (
+                windowHeight - x_button.height):  # clicking X button
             mode = "menu"
             pyglet.app.exit()
             # menu()
@@ -524,8 +543,8 @@ def store_menu():
                                       x=3 * window.width / 4, y=window.height * 0.82,
                                       batch=store_menu_batch)
     plane_3_label.x = plane_3_label.x - plane_3_label.content_width / 2
-    exit_button_sprite = pyglet.sprite.Sprite(exit_button, x=windowWidth - exit_button.anchor_x,
-                                              y=windowHeight - exit_button.anchor_y,
+    exit_button_sprite = pyglet.sprite.Sprite(x_button, x=windowWidth - x_button.anchor_x,
+                                              y=windowHeight - x_button.anchor_y,
                                               batch=store_menu_batch,
                                               group=buttons_layer)
     plane_choice_shopping = 2
@@ -568,8 +587,8 @@ def store_menu():
             plane_choice_shopping = 3
             temp_upgrades = shop_upgrade(3, store_menu_batch)
 
-        elif (windowWidth - exit_button.width) < x < windowWidth and y > (
-                windowHeight - exit_button.height):  # clicking X button
+        elif (windowWidth - x_button.width) < x < windowWidth and y > (
+                windowHeight - x_button.height):  # clicking X button
             menu()
             window.clear()
 
@@ -667,6 +686,33 @@ def start(level_number):
                                font_name='Times New Roman',
                                font_size=24, group=buttons_layer,
                                x=window.width - 200, y=(window.height // 2) - 50, batch=level_batch)
+    
+    count = 0
+    planeIcons = []
+    healthBarIcons = []
+    print("peyton")
+    print(len(planeHandler.getAllPlanes()))
+    for i in planeHandler.getAllPlanes():
+        print(count)
+        planeIcons.append(pyglet.sprite.Sprite(i.getImage(), x=windowWidth - 30,
+                                              y=windowHeight/2 - 100 *count ,
+                                              batch=level_batch,
+                                              group=buttons_layer))
+        planeIcons[count].scale = i.get_width/ windowWidth
+        healthBarIcons.append(pyglet.sprite.Sprite(healthbar_7, x=windowWidth - 30,
+                                              y=windowHeight/2 - 50 - 100 *count ,
+                                              batch=level_batch,
+                                              group=buttons_layer))
+        #planeIcons[count].scale_y = windowHeight / i.get_height
+        count += 1
+
+    # planeTest = pyglet.sprite.Sprite(planeHandler.getActivePlane().getImage(), x=windowWidth/2,
+    #                                         y=windowHeight/2 - 200,
+    #                                         batch=level_batch,
+    #                                         group=buttons_layer)
+            
+        
+        #HerePeyton
 
     # load level data
     level_filepath = 'resources/level_scripts.json'
@@ -737,8 +783,8 @@ def start(level_number):
     level_map_object.velocity_y = -1
 
     # initialize the exit button
-    exit_button_sprite = pyglet.sprite.Sprite(exit_button, x=windowWidth - exit_button.anchor_x,
-                                              y=windowHeight - exit_button.anchor_y,
+    exit_button_sprite = pyglet.sprite.Sprite(x_button, x=windowWidth - x_button.anchor_x,
+                                              y=windowHeight - x_button.anchor_y,
                                               batch=level_batch,
                                               group=buttons_layer)
 
@@ -777,8 +823,8 @@ def start(level_number):
     def on_mouse_press(x, y, button, modifiers):
         global mode
         global quitCheck
-        if (windowWidth - exit_button.width) < x < windowWidth and y > (
-                windowHeight - exit_button.height):  # clicking X button
+        if (windowWidth - x_button.width) < x < windowWidth and y > (
+                windowHeight - x_button.height):  # clicking X button
             # for obj in game_objects:
             #        game_objects.remove(obj)
             # for enemy in enemies:
@@ -805,6 +851,11 @@ def start(level_number):
             # print ("this is running IDK")
             mode = "quit"
             quitCheck = False
+            all_dead = False
+            all_dead = False
+            for plane in planeHandler.getAllPlanes():
+                plane.health = plane.maxHealth
+                plane.dead = False
             for obj in game_objects:
                 game_objects.remove(obj)
             for enemy in enemies:
@@ -831,24 +882,15 @@ def start(level_number):
         global quitCheck
         planes = planeHandler.getAllPlanes()
         currentPlane = planeHandler.getActivePlane()
-        if (planes[planeHandler.prevPlane].dead == False):
-            pyglet.clock.schedule_once(switchDeadPlane, num=planeHandler.prevPlane, currPlane=currentPlane, delay=0.1)
+        planeTemp = -1
+        for plane in planeHandler.getAllPlanes():
+            if (plane.dead == False):
+                planeTemp = plane.planeNum
+                break
+        if (planeTemp != -1):
+           pyglet.clock.schedule_once(switchDeadPlane, num=planeTemp -1, currPlane=currentPlane, delay=0.1)#planeHandler.prevPlane
         else:
-            all_dead = True
-            for plane in planeHandler.getAllPlanes():
-                if plane.dead == False:
-                    all_dead = False
-            if all_dead == True:
-                for plane in planeHandler.getAllPlanes():
-                    plane.dead = False
-                quitCheck = True
-            # pass
-            #   PEYTON DID SOMEHTING HERE NEED TO FIX
-            # for obj in game_objects:
-            #    game_objects.remove(obj)
-            # for enemy in enemies:
-            #    enemies.remove(enemy)
-            # pyglet.clock.schedule_once(end_screen, 0.4)
+            quitCheck = True
 
     def switchDeadPlane(dt, num, currPlane):
         planeHandler.setActivePlane(num, currPlane)
@@ -928,6 +970,7 @@ def start(level_number):
                 if (obj.is_enemyBullet):
                     if (planeHandler.getActivePlane().collides_with(obj) == True and planeHandler.getActivePlane().damageable == True):
                         planeHandler.getActivePlane().handle_collision_with(obj)
+                        #updateHealthBar()
                 else:
                     for enemyObj in enemies:
                         if (enemyObj.collides_with(obj) == True):
@@ -938,8 +981,34 @@ def start(level_number):
             if i.get_name() == "fast_plane" and i.get_can_heal() == True:
                 pyglet.clock.schedule_once(regeneratePlane, 1, False)
                 i.heal = False
+                #updateHealthBar()
+                
+
+    def updateHealthBar():
+        count = 0
+        for i in planeHandler.getAllPlanes():
+            if i.maxHealth * 7/8 < i.health:
+                healthBarIcons[count].image = healthbar_7
+            elif i.maxHealth * 6/8 < i.health:
+                healthBarIcons[count].image = healthbar_6
+            elif i.maxHealth * 5/8 < i.health:
+                healthBarIcons[count].image = healthbar_5
+            elif i.maxHealth * 4/8 < i.health:
+                healthBarIcons[count].image = healthbar_4
+            elif i.maxHealth * 3/8 < i.health:
+                healthBarIcons[count].image = healthbar_3
+            elif i.maxHealth * 2/8 < i.health:
+                healthBarIcons[count].image = healthbar_2
+            elif i.maxHealth * 0/8 < i.health:
+                healthBarIcons[count].image = healthbar_1
+            else:
+                healthBarIcons[count].image = healthbar_0
+            count += 1
+            #peytonhere
+
 
     def update(dt):
+        updateHealthBar()
         handle_move(dt)
         checkCollision()
         if (planeHandler.getActivePlane().health <= 0):
