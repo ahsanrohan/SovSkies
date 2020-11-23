@@ -654,7 +654,7 @@ def end_screen():
 
 
 # Game function
-def start(level_number):
+def start(level_number=1):
     global mode
 
     level_batch = pyglet.graphics.Batch()
