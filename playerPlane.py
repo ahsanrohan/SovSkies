@@ -3,6 +3,7 @@ import math
 from bullet import *
 from physicalObject import *
 from resources import *
+import random
 
 
 class PlayerPlane(PhysicalObject):
@@ -46,6 +47,8 @@ class PlayerPlane(PhysicalObject):
         self.special_ability_shoot_duration = .175
         self.could_shoot_special_ability = True
         self.special_ability_time_multiplier = 8
+        self.specialInvulnerableTime = 3
+        self.dodgeChange = 0
 
         self.progress_circle_images = [progress_circle_0,
                                        progress_circle_1,
@@ -71,15 +74,15 @@ class PlayerPlane(PhysicalObject):
                                             blue_progress_circle_8]
 
         if(self.name == "helicopter"):
-            self.get_width = 345
-            self.get_height = 345
+            self.get_width = 300 #345
+            self.get_height = 300 #345
         else:
             self.get_width = self.image.width
             self.get_height = self.image.height
 
         self.is_player = True
         self.planeNum = planeNum
-        if (planeNum == 3):
+        if (self.name == "helicopter"):
             self.rotorRadius = 345 * 0.35 * self.scale * 2
             self.collisionRadius = 300 * 0.35 * self.scale
             self.damage = 5
@@ -89,7 +92,7 @@ class PlayerPlane(PhysicalObject):
             self.collisionRadius = self.image.width * 0.35 * self.scale
             self.damage = 5
 
-        if (planeNum == 4):
+        if (self.name == "support_plane"):
             self.heal = True
             self.regen = 1
             self.canRevive = True
@@ -222,6 +225,11 @@ class PlayerPlane(PhysicalObject):
                                                                                       duration=self.shoot_speed, loop=False)
                     print("fire_rate_increase")
                 if self.special_ability == "ramming":
+                    self.color = (255, 50, 50) #Need revisiting
+                    self.damageable = False
+                    pyglet.clock.unschedule(self.revert_damageable)
+                    pyglet.clock.schedule_once(self.revert_damageable, self.specialInvulnerableTime)
+                    pyglet.clock.schedule_once(self.revert_color, self.specialInvulnerableTime)
                     print("ramming")
                 if self.special_ability == "revive":
                     self.canRevive = True
@@ -246,7 +254,7 @@ class PlayerPlane(PhysicalObject):
             elif upgrade[0] == "increased_special_damage":
                 self.special_bullet_damage = self.special_bullet_damage * 1.5
             elif upgrade[0] == "increase_dodge_bullets":
-                print("6")
+                self.dodgeChange = 0.3
             elif upgrade[0] == "improved_bullet_damage":
                 self.bullet_damage = self.bullet_damage * 1.5
             elif upgrade[0] == "bomb":
@@ -258,23 +266,26 @@ class PlayerPlane(PhysicalObject):
             elif upgrade[0] == "triples_fire_rate":
                 print("11")
             elif upgrade[0] == "improved_collision_damage":
-                print("12")
+                self.rotorDamage = self.rotorDamage * 2
             elif upgrade[0] == "improved_health":
                 self.health = self.health * 1.5
+                self.maxHealth = self.maxHealth * 1.5
             elif upgrade[0] == "improved_movement_speed":
-                print("14")
+                self.moveSpeed = self.moveSpeed * 1.5
             elif upgrade[0] == "increase_special_time":
-                self.special_ability_shoot_duration = self.special_ability_shoot_duration * 1.5
+                self.specialInvulnerableTime += 3
+                #self.special_ability_shoot_duration = self.special_ability_shoot_duration * 1.5
             elif upgrade[0] == "increased_damage_to_closer_enemies":
-                print("17")
+                self.rotorRadius = self.rotorRadius * 1.5
+                self.rotorDamage = self.rotorDamage * 1.5
             elif upgrade[0] == "improved_regen_rate":
-                self.regen = 2
+                self.regen += 1
             elif upgrade[0] == "regenerate_self":
                 self.selfHeal = True
             elif upgrade[0] == "revive_planes_full_health":
                 self.revivePercentage = 1
             elif upgrade[0] == "shorter_special_charge_time":
-                self.special_ability_time_multiplier = 6
+                self.special_ability_time_multiplier -= 2
             elif upgrade[0] == "revives_all_planes":
                 self.revAll = True
 
@@ -285,6 +296,13 @@ class PlayerPlane(PhysicalObject):
     def handle_collision_with(self, other_object):
         self.damageable = False
         pyglet.clock.schedule_once(self.revert_damageable, 0.5)
+        if (self.dodgeChange > 0):
+            randomNum = random.randrange(1, 10)
+            if randomNum <= 10 * self.dodgeChange:
+                self.color = (150, 150, 200)
+                pyglet.clock.schedule_once(self.revert_color, 0.25)
+                return
+
         super(PlayerPlane, self).handle_collision_with(other_object)
 
     def revert_damageable(self, dt):

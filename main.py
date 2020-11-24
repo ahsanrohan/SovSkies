@@ -15,7 +15,7 @@ user32 = ctypes.windll.user32
 mode = "hi"
 quitCheck = False
 
-window = pyglet.window.Window(fullscreen=True)#, width=1800, height=1000)
+window = pyglet.window.Window(fullscreen=False, width=user32.GetSystemMetrics(0), height=user32.GetSystemMetrics(1))
 windowWidth = window.width
 windowHeight = window.height
 maps_layer = pyglet.graphics.OrderedGroup(-2)
@@ -985,7 +985,7 @@ def start(level_number=0):
                 game_objects.remove(obj)
 
             if (obj.is_enemy):
-                if (planeHandler.getActivePlane().planeNum == 3):
+                if (planeHandler.getActivePlane().name == "helicopter"):
                     if (obj.collides_with_rotor(planeHandler.getActivePlane())):
                         obj.health = obj.health - planeHandler.getActivePlane().rotorDamage
                         obj.color = (255, 100, 100)
