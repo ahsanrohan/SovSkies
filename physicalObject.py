@@ -137,7 +137,7 @@ class PhysicalObject(pyglet.sprite.Sprite):
                         actual_distance <= collision_distance or actual_distance_x <= collision_distance_x and actual_distance_y <= collision_distance_y)
 
 
-        elif (self.is_enemy or other_object.is_enemy):
+        elif ((self.is_enemy or other_object.is_enemy) and not (self.is_bullet or other_object.is_bullet)):
             collision_distance = self.collisionRadius \
                                  + other_object.collisionRadius
             # collision_distance = self.image.width * 0.4 * self.scale \

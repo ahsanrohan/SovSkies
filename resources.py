@@ -144,7 +144,8 @@ center_image(healthbar_6)
 healthbar_7 = pyglet.resource.image('health7.png')
 center_image(healthbar_7)
 
-
+bomb = pyglet.resource.image('Bomb.png')
+center_image(bomb)
 
 lock_icon = pyglet.resource.image("lock.png")
 center_image(lock_icon)

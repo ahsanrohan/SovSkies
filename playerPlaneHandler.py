@@ -19,7 +19,7 @@ class PlayerPlaneHandler():
 
         self.prevPlane = 1
         self.planes = []
-
+        self.autoFire = False
         helicopter =   [helicopter_0,
             helicopter_1,
             helicopter_2,

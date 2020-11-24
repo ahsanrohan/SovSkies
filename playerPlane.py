@@ -38,17 +38,27 @@ class PlayerPlane(PhysicalObject):
         self.reacts_to_enemy_bullets = True
         self.scale = .7
 
+        self.shootSpeedUp = 2
         self.shoot_speed = shoot_speed
         self.could_shoot = True
 
         self.has_special_ability = True
         self.special_ability = special_ability
         self.special_ability_shoot_speed = .7
-        self.special_ability_shoot_duration = .175
+        self.special_ability_shoot_duration = 0.25
         self.could_shoot_special_ability = True
         self.special_ability_time_multiplier = 8
         self.specialInvulnerableTime = 3
         self.dodgeChange = 0
+        #if self.name == "damage_plane":
+        #    self.bombShot = True
+        #    self.bombDamage = self.bullet_damage * 1.5
+        #    self.bombRate = 5
+        #else:
+        self.bombShot = False
+        self.bombDamage = 0
+        self.bombRate = 0
+        self.bombCounter = 0
 
         self.progress_circle_images = [progress_circle_0,
                                        progress_circle_1,
@@ -142,7 +152,6 @@ class PlayerPlane(PhysicalObject):
     def fire(self, mouse_x, mouse_y):
 
         if (self.could_shoot):
-
             self.could_shoot = False
             pyglet.clock.schedule_once(self.enableShoot, self.shoot_speed * 8)
             progress_circle_sprite = pyglet.sprite.Sprite(self.progress_circle, x=61, y=61,
@@ -189,6 +198,19 @@ class PlayerPlane(PhysicalObject):
                 # Add it to the list of objects to be added to the game_objects list
                 self.new_objects.append(new_bullet)
             # play bullet
+            if (self.bombShot == True and self.bombCounter % self.bombRate == 0):
+                new_bomb = Bullet(bomb, self.x, self.y + 30, self.bullet_damage, batch=self.batch,
+                                  group=self.group)
+                bullet_vx = 0  # math.cos(angle_radians) * self.bullet_speed
+                bullet_vy = self.bullet_speed
+                new_bomb.velocity_x, new_bomb.velocity_y = bullet_vx, bullet_vy
+                new_bomb.wrap = False
+                # Add it to the list of objects to be added to the game_objects list
+                self.new_objects.append(new_bomb)
+                self.bombCounter += 1
+            else:
+                self.bombCounter += 1
+
             if len(self.shootVec) == 1:
                 bullet_sound.play()
             elif len(self.shootVec) == 2:
@@ -220,7 +242,7 @@ class PlayerPlane(PhysicalObject):
                 if self.special_ability == "fire_rate_increase":
                     print("fire_rate_increase")
                     pyglet.clock.schedule_once(self.revert_fire_rate_increase, self.special_ability_shoot_duration * 8, self.shoot_speed)
-                    self.shoot_speed = self.shoot_speed / 100
+                    self.shoot_speed = self.shoot_speed / self.shootSpeedUp
                     self.progress_circle = pyglet.image.Animation.from_image_sequence(self.progress_circle_images,
                                                                                       duration=self.shoot_speed, loop=False)
                     print("fire_rate_increase")
@@ -258,13 +280,15 @@ class PlayerPlane(PhysicalObject):
             elif upgrade[0] == "improved_bullet_damage":
                 self.bullet_damage = self.bullet_damage * 1.5
             elif upgrade[0] == "bomb":
-                print("8")
+                self.bombShot = True
+                self.bombDamage = self.bullet_damage * 1.5
+                self.bombRate = 5
             elif upgrade[0] == "improved_bomb_damage":
-                print("9")
+                self.bombDamage = self.bullet_damage * 2
             elif upgrade[0] == "improved_bomb_fire_rate":
-                print("10")
+                self.bombRate = 3
             elif upgrade[0] == "triples_fire_rate":
-                print("11")
+                self.shootSpeedUp = 3
             elif upgrade[0] == "improved_collision_damage":
                 self.rotorDamage = self.rotorDamage * 2
             elif upgrade[0] == "improved_health":

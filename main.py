@@ -818,6 +818,9 @@ def start(level_number=0):
         if symbol == pyglet.window.key._4:
             # planeHandler.getActivePlane(0).x = currPlane.x
             planeHandler.setActivePlane(3, currPlane)
+        if symbol == pyglet.window.key.E:
+            planeHandler.autoFire = not planeHandler.autoFire
+            #print("e pressed")
 
     @window.event
     def on_mouse_drag(x, y, dx, dy, button, modifiers):
@@ -1046,6 +1049,8 @@ def start(level_number=0):
             planeHandler.getActivePlane().dead = True
             checkEnd()
         checkHeal()
+        if (planeHandler.autoFire):
+            planeHandler.getActivePlane().fire(mouse_x, mouse_y)
 
         to_add = []
         for obj in game_objects:
