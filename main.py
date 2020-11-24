@@ -7,12 +7,15 @@ import math
 import pyglet
 from longTermData import *
 import json
+import ctypes
+
+user32 = ctypes.windll.user32
 
 # createGame()
 mode = "hi"
 quitCheck = False
 
-window = pyglet.window.Window(fullscreen=False, width=1800, height=1000)
+window = pyglet.window.Window(fullscreen=True)#, width=1800, height=1000)
 windowWidth = window.width
 windowHeight = window.height
 maps_layer = pyglet.graphics.OrderedGroup(-2)
@@ -430,17 +433,17 @@ def level_menu():
             pyglet.app.exit()
             # menu()
         elif level_1[0].x - 100 < x < level_1[0].x + 100 and level_1[0].y - 100 < y < level_1[0].y + 100:
-            start(1)
+            start(0)
         elif level_2[0].x - 100 < x < level_2[0].x + 100 and level_2[0].y - 100 < y < level_2[0].y + 100:
-            start(2)
+            start(1)
         elif level_3[0].x - 100 < x < level_3[0].x + 100 and level_3[0].y - 100 < y < level_3[0].y + 100:
-            start(3)
+            start(2)
         elif level_4[0].x - 100 < x < level_4[0].x + 100 and level_4[0].y - 100 < y < level_4[0].y + 100:
-            start(4)
+            start(3)
         elif level_5[0].x - 100 < x < level_5[0].x + 100 and level_5[0].y - 100 < y < level_5[0].y + 100:
-            start(5)
+            start(4)
         elif level_6[0].x - 100 < x < level_6[0].x + 100 and level_6[0].y - 100 < y < level_6[0].y + 100:
-            start(6)
+            start(5)
 
     def update(dt):
         level_menu_batch.draw()
@@ -656,7 +659,7 @@ def end_screen():
 
 
 # Game function
-def start(level_number=1):
+def start(level_number=0):
     global mode
 
     level_batch = pyglet.graphics.Batch()
@@ -840,7 +843,11 @@ def start(level_number=1):
         if (button == 1):
             planeHandler.getActivePlane().fire(mouse_x, mouse_y)
         if (button == 4):
-            planeHandler.getActivePlane().specialAbilityFire(mouse_x, mouse_y)
+            if (len(planeHandler.deadPlaneNum) != 0 and planeHandler.getActivePlane().planeNum == 4
+                    and planeHandler.getActivePlane().canRevive == True):
+                revivePlane()
+            elif (planeHandler.getActivePlane().planeNum != 4):
+                planeHandler.getActivePlane().specialAbilityFire(mouse_x, mouse_y)
 
         # print(game_objects)
 
@@ -870,13 +877,13 @@ def start(level_number=1):
                                       planeHandler.getActivePlane().collisionRadius, color=(50, 225, 30), batch=level_batch)
         circle.opacity = 100
 
-        # rotorCircle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
+        #rotorCircle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
         #                             planeHandler.getActivePlane().rotorRadius, color=(255, 255, 255), batch=level_batch)
 
-        # rotorCircle.opacity = 100
+        #rotorCircle.opacity = 100
 
         circle.draw()
-        # rotorCircle.draw()
+        #rotorCircle.draw()
 
     def checkEnd():
         # global mode
@@ -893,7 +900,27 @@ def start(level_number=1):
         else:
             quitCheck = True
 
+    def revivePlane():
+        suppPlane = planeHandler.getActivePlane()
+        suppPlane.canRevive = False
+        suppPlane.specialAbilityFire(mouse_x, mouse_y)
+        #pyglet.clock.schedule_once(suppPlane.enableSpecialAbilityShoot, suppPlane.special_ability_shoot_speed * suppPlane.special_ability_time_multiplier)
+        if (suppPlane.revAll == True):
+            while (len(planeHandler.deadPlaneNum) > 0):
+                currPlane = planeHandler.getPlaneByNum(planeHandler.deadPlaneNum.pop(0))
+                currPlane.dead = False
+                currPlane.health = math.ceil(currPlane.maxHealth * planeHandler.getActivePlane().revivePercentage)
+                game_objects.append(currPlane)
+        else:
+            currPlane = planeHandler.getPlaneByNum(planeHandler.deadPlaneNum.pop(0))
+            currPlane.dead = False
+            currPlane.health = math.ceil(currPlane.maxHealth * planeHandler.getActivePlane().revivePercentage)
+            game_objects.append(currPlane)
+        #print(game_objects)
+
     def switchDeadPlane(dt, num, currPlane):
+        if (planeHandler.getActivePlane().health <= 0):
+            planeHandler.deadPlaneNum.append(planeHandler.getActivePlane().planeNum)
         planeHandler.setActivePlane(num, currPlane)
 
     def regeneratePlane(dt, selfHeal):
@@ -901,13 +928,13 @@ def start(level_number=1):
         planeNum = 0
         if (planeHandler.getActivePlane().planeNum == 4):
             for plane in planeHandler.getAllPlanes():
-                if (plane.health / plane.maxHealth) < low:
+                if ((plane.health / plane.maxHealth) < low) and plane.dead == False:
                     low = plane.health / plane.maxHealth
                     planeNum = plane.planeNum
             if (low < 1):
                 planeHandler.getPlaneByNum(planeNum).health += planeHandler.getPlaneByNum(4).regen
 
-        elif (planeHandler.getActivePlane().planeNum != 4 and selfHeal == True
+        elif (planeHandler.getActivePlane().planeNum != 4 and planeHandler.getPlaneByNum(4).selfHeal == True
               and planeHandler.getPlaneByNum(4).health < planeHandler.getPlaneByNum(4).maxHealth):
             planeHandler.getPlaneByNum(4).health += planeHandler.getPlaneByNum(4).regen
 
@@ -920,14 +947,14 @@ def start(level_number=1):
         vector_y = mouse_y - planeHandler.getActivePlane().y
         magnitude_velocity = math.sqrt(vector_x ** 2 + vector_y ** 2)
         if (
-                magnitude_velocity > 200 and planeHandler.getActivePlane().x <= 1800 and planeHandler.getActivePlane().x >= 0):
+                magnitude_velocity >= 200 and planeHandler.getActivePlane().x <= user32.GetSystemMetrics(0) and planeHandler.getActivePlane().x >= 0):
             unit_x = vector_x / magnitude_velocity
             unit_y = vector_y / magnitude_velocity
 
             planeHandler.getActivePlane().velocity_x = unit_x * planeHandler.getActivePlane().moveSpeed * dt * 0.8
             planeHandler.getActivePlane().velocity_y = unit_y * planeHandler.getActivePlane().moveSpeed * dt * 0.8
         elif (
-                magnitude_velocity > 20 and magnitude_velocity < 200 and planeHandler.getActivePlane().x <= 1800 and planeHandler.getActivePlane().x >= 0):
+                magnitude_velocity >= 30 and magnitude_velocity <= 200 and planeHandler.getActivePlane().x <= user32.GetSystemMetrics(0) and planeHandler.getActivePlane().x >= 0):
             unit_x = vector_x / magnitude_velocity
             unit_y = vector_y / magnitude_velocity
 
@@ -960,7 +987,7 @@ def start(level_number=1):
             if (obj.is_enemy):
                 if (planeHandler.getActivePlane().planeNum == 3):
                     if (obj.collides_with_rotor(planeHandler.getActivePlane())):
-                        obj.health -= planeHandler.getActivePlane().rotorDamage
+                        obj.health = obj.health - planeHandler.getActivePlane().rotorDamage
                         obj.color = (255, 100, 100)
                         pyglet.clock.schedule_once(obj.revert_color, 0.1)
 
@@ -979,10 +1006,15 @@ def start(level_number=1):
 
     def checkHeal():
         for i in planeHandler.getAllPlanes():
-            if i.get_name() == "fast_plane" and i.get_can_heal() == True:
+            if i.get_name() == "support_plane" and i.get_can_heal() == True:
                 pyglet.clock.schedule_once(regeneratePlane, 1, False)
                 i.heal = False
                 # updateHealthBar()
+
+    #def rotorCollide(dt, obj, damage):
+    #    print('before: ' + str(obj.health))
+    #    obj.health = obj.health - damage
+    #    print('after: ' + str(obj.health))
 
     def updateHealthBar():
         count = 0

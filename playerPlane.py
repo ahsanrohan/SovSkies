@@ -45,6 +45,7 @@ class PlayerPlane(PhysicalObject):
         self.special_ability_shoot_speed = .7
         self.special_ability_shoot_duration = .175
         self.could_shoot_special_ability = True
+        self.special_ability_time_multiplier = 8
 
         self.progress_circle_images = [progress_circle_0,
                                        progress_circle_1,
@@ -80,9 +81,9 @@ class PlayerPlane(PhysicalObject):
         self.planeNum = planeNum
         if (planeNum == 3):
             self.rotorRadius = 345 * 0.35 * self.scale * 2
-            self.collisionRadius = 345 * 0.35 * self.scale
+            self.collisionRadius = 300 * 0.35 * self.scale
             self.damage = 5
-            self.rotorDamage = 0.2
+            self.rotorDamage = 0.5
         else:
             self.rotorRadius = 1
             self.collisionRadius = self.image.width * 0.35 * self.scale
@@ -91,10 +92,19 @@ class PlayerPlane(PhysicalObject):
         if (planeNum == 4):
             self.heal = True
             self.regen = 1
+            self.canRevive = True
+            self.revivePercentage = 0.5
+            self.revAll = False
+            self.revRecharge = 30
         else:
             self.regen = 0
             self.heal = False
+            self.canRevive = False
+            self.revivePercentage = 0
+            self.revAll = False
+            self.revRecharge = 999
 
+        self.selfHeal = False
         self.blue_progress_circle = pyglet.image.Animation.from_image_sequence(self.blue_progress_circle_images,
                                                                                duration=self.special_ability_shoot_speed, loop=False)
 
@@ -114,6 +124,9 @@ class PlayerPlane(PhysicalObject):
 
     def enableShoot(self, dt):
         self.could_shoot = True
+
+    def enableRevive(self, dt):
+        self.canRevive = True
 
     def enableSpecialAbilityShoot(self, dt):
         self.could_shoot_special_ability = True
@@ -150,6 +163,7 @@ class PlayerPlane(PhysicalObject):
                 angle_radians = math.radians(-(math.degrees(math.atan(xdiff / ydiff)) + 90))
 
             angle_radians = -math.radians(270)
+            angle_radians = -math.radians(270)
             # print(self.shootVec)
             # Create a new bullet just in front of the player
             if self.name == "helicopter":
@@ -182,7 +196,7 @@ class PlayerPlane(PhysicalObject):
         if self.has_special_ability:
             if (self.could_shoot_special_ability):
                 self.could_shoot_special_ability = False
-                pyglet.clock.schedule_once(self.enableSpecialAbilityShoot, self.special_ability_shoot_speed * 8)
+                pyglet.clock.schedule_once(self.enableSpecialAbilityShoot, self.special_ability_shoot_speed * self.special_ability_time_multiplier)
 
                 progress_circle_sprite = pyglet.sprite.Sprite(self.blue_progress_circle, x=61, y=61,
                                                               batch=self.batch,
@@ -209,6 +223,15 @@ class PlayerPlane(PhysicalObject):
                     print("fire_rate_increase")
                 if self.special_ability == "ramming":
                     print("ramming")
+                if self.special_ability == "revive":
+                    self.canRevive = True
+                    print("revived")
+                #if self.special_ability == "revive" and deadPlaneNum != -1:
+
+                    #print("deadplaneNUm")
+                    #print(deadPlaneNum)
+
+                    #print("revive")
 
     def add_upgrades(self, upgrades):
         for upgrade in upgrades:
@@ -219,7 +242,7 @@ class PlayerPlane(PhysicalObject):
             elif upgrade[0] == "shorter_special_charge_time":
                 self.special_ability_shoot_speed = self.special_ability_shoot_speed * .5
             elif upgrade[0] == "improved_fire_rate":
-                self.shoot_speed = self.shoot_speed * .5;
+                self.shoot_speed = self.shoot_speed * .5
             elif upgrade[0] == "increased_special_damage":
                 self.special_bullet_damage = self.special_bullet_damage * 1.5
             elif upgrade[0] == "increase_dodge_bullets":
@@ -245,15 +268,15 @@ class PlayerPlane(PhysicalObject):
             elif upgrade[0] == "increased_damage_to_closer_enemies":
                 print("17")
             elif upgrade[0] == "improved_regen_rate":
-                print("18")
+                self.regen = 2
             elif upgrade[0] == "regenerate_self":
-                print("19")
+                self.selfHeal = True
             elif upgrade[0] == "revive_planes_full_health":
-                print("20")
+                self.revivePercentage = 1
             elif upgrade[0] == "shorter_special_charge_time":
-                print("21")
+                self.special_ability_time_multiplier = 6
             elif upgrade[0] == "revives_all_planes":
-                print("22")
+                self.revAll = True
 
     def collides_with(self, other_object):
 

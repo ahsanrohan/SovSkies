@@ -214,7 +214,7 @@ class PhysicalObject(pyglet.sprite.Sprite):
         elif other_object.is_bullet == True and other_object.die_on_impact == False:
             pass
         else:  # reverse damage
-            other_object.health -= other_object.health - self.damage
+            other_object.health -= self.damage
             other_object.color = (255, 100, 100)
             pyglet.clock.schedule_once(other_object.revert_color, 0.1)
 
