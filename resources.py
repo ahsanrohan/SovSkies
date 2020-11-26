@@ -92,9 +92,13 @@ center_image(enemy_plane_1)
 
 enemy_plane_2 = pyglet.resource.image("enemyPlane2.png")
 center_image(enemy_plane_2)
+enemy_plane_2.height *= 1.4
+enemy_plane_2.width *= 1.4
 
 enemy_plane_3 = pyglet.resource.image("enemyPlane3.png")
 center_image(enemy_plane_3)
+enemy_plane_3.height *= 1.4
+enemy_plane_3.width *= 1.4
 
 enemy_plane_4 = pyglet.resource.image("enemyPlane4.png")
 center_image(enemy_plane_4)

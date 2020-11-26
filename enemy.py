@@ -33,9 +33,9 @@ class Enemy(physicalObject.PhysicalObject):
             self.destroyed = True
             self.visible = False
             self.reacts_to_bullets = False
-        elif (self.y <= 100 or self.y >= 900):
+        elif (self.y <= 100 or self.y >= 1100):
             self.canFire = False
-        elif (self.x <= 0 or self.x >= 1400):
+        elif (self.x <= 0 or self.x >= 1900):
             self.canFire = False
         else:
             self.canFire = True
