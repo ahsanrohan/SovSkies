@@ -15,7 +15,8 @@ user32 = ctypes.windll.user32
 mode = "hi"
 quitCheck = False
 
-window = pyglet.window.Window(fullscreen=False, width=user32.GetSystemMetrics(0), height=user32.GetSystemMetrics(1))
+#window = pyglet.window.Window(fullscreen=False, width=user32.GetSystemMetrics(0), height=user32.GetSystemMetrics(1))
+window = pyglet.window.Window(fullscreen=True)
 windowWidth = window.width
 windowHeight = window.height
 maps_layer = pyglet.graphics.OrderedGroup(-2)
