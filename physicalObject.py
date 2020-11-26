@@ -209,7 +209,7 @@ class PhysicalObject(pyglet.sprite.Sprite):
         if other_object.is_bullet == True and other_object.die_on_impact == True:
 
             # if other_object.is_bullet == True:
-
+            # pass
             pyglet.clock.schedule_once(other_object.die, 0)
         elif other_object.is_bullet == True and other_object.die_on_impact == False:
             pass

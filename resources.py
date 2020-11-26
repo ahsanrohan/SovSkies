@@ -56,6 +56,18 @@ center_image(resume_button)
 menu_button = pyglet.resource.image("menu.png")
 center_image(menu_button)
 
+plane1_button = pyglet.resource.image("plane1.png")
+center_image(plane1_button)
+
+plane2_button = pyglet.resource.image("plane2.png")
+center_image(plane2_button)
+
+plane3_button = pyglet.resource.image("plane3.png")
+center_image(plane3_button)
+
+plane4_button = pyglet.resource.image("plane4.png")
+center_image(plane4_button)
+
 
 start_map = pyglet.resource.image("placeholdermap.jpg")
 center_image(start_map)
