@@ -33,7 +33,7 @@ class Enemy(physicalObject.PhysicalObject):
             self.destroyed = True
             self.visible = False
             self.reacts_to_bullets = False
-        elif (self.y <= 100 or self.y >= 1100):
+        elif (self.y <= 100 or self.y >= 1200):
             self.canFire = False
         elif (self.x <= 0 or self.x >= 1900):
             self.canFire = False
@@ -165,8 +165,9 @@ class Enemy(physicalObject.PhysicalObject):
     def spiral(self):
         count = self.fire_type.get('count', 3)
         self.fire_type['spread'] = 360
+        spiral_speed = self.fire_type.get('spiral_speed', 5)
         if 'offset' in self.fire_type:
-            self.fire_type['offset'] += 5
+            self.fire_type['offset'] += spiral_speed
         else:
             self.fire_type['offset'] = 0
         self.cone()
