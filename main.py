@@ -14,8 +14,10 @@ user32 = ctypes.windll.user32
 # createGame()
 mode = "hi"
 quitCheck = False
+time = 0
+finalTime = 0
 
-window = pyglet.window.Window(fullscreen=True, width=user32.GetSystemMetrics(0), height=user32.GetSystemMetrics(1))
+window = pyglet.window.Window(fullscreen=True)#, width=user32.GetSystemMetrics(0), height=user32.GetSystemMetrics(1))
 windowWidth = window.width
 windowHeight = window.height
 maps_layer = pyglet.graphics.OrderedGroup(-2)
@@ -672,11 +674,12 @@ def end_screen():
 
     pyglet.app.run()
 
-paused = False;
+paused = False
 # Game function
 def start(level_number=0):
     global mode
     global paused
+    global finalTime
 
     level_batch = pyglet.graphics.Batch()
     paused_batch = pyglet.graphics.Batch()
@@ -746,6 +749,9 @@ def start(level_number=0):
     with open(level_filepath) as f:
         level = json.load(f)[level_number]
 
+    with open(level_filepath) as f:
+        scores = json.load(f)[6]
+
     # functions to add enemy objects to game objects
     def enemy_fire(dt, enemy, name):
         if (enemy.canFire and not enemy.dead):
@@ -796,7 +802,10 @@ def start(level_number=0):
             pyglet.clock.schedule_once(add_enemy, delay=wave['spawn_time'] + enemy_count * wave['interval'], enemy=new_enemy)
 
     # initialize wave
-
+    #finalTime = level[-1]['spawn_time'] + (level[-1]['enemy_count'] * level[-1]['interval']) + 5
+    finalTime = scores[level_number]['end_time']
+    #testTime = scores[level_number]
+    print(finalTime)
     # initializing the background
     level_map_object = PhysicalObject(level_map, x=windowWidth / 2, batch=level_batch,
                                       group=maps_layer)
@@ -828,6 +837,7 @@ def start(level_number=0):
     # key press event
     @window.event
     def on_key_press(symbol, modifier):
+        global paused
         if paused == False:
             currPlane = planeHandler.getActivePlane()
             if symbol == pyglet.window.key._1:
@@ -844,6 +854,8 @@ def start(level_number=0):
                 planeHandler.setActivePlane(3, currPlane)
             if symbol == pyglet.window.key.E:
                 planeHandler.autoFire = not planeHandler.autoFire
+            if symbol == pyglet.window.key.P:
+                paused = not paused
                 #print("e pressed")
 
     @window.event
@@ -1027,17 +1039,18 @@ def start(level_number=0):
         global quitCheck
         for obj in game_objects:
             if (obj.dead == True):
-                if obj.is_enemy == True and obj.destroyed == True:
+                if obj.is_enemy == True:
                     enemies.remove(obj)
-                    score_obj['score'] += 1
+                    if (obj.destroyed == True):
+                        score_obj['score'] += 1
 
-                    label.text = 'Score: ' + str(score_obj['score'])
+                        label.text = 'Score: ' + str(score_obj['score'])
 
-                    print(score_obj)
-                    if score_obj['score'] >= score_obj['target_score']:  # change this to change the required score to win
+                        print(score_obj)
+                        if score_obj['score'] >= score_obj['target_score']:  # change this to change the required score to win
                         # pyglet.clock.schedule_once(end_screen, 1)
                         #quitCheck = True
-                        print("game end")
+                            print("game end")
 
                 game_objects.remove(obj)
 
@@ -1096,7 +1109,21 @@ def start(level_number=0):
             # peytonhere
 
     def update(dt):
+        global time
+        global finalTime
+        global mode
+        global quitCheck
+
+        #print(enemies)
+        #print(time)
+        #print(finalTime)
+        if (time >= finalTime):# and len(enemies) == 0:
+            mode = 'menu'
+            #quitCheck = False
+            modeCheck()
         if paused == False:
+            time += dt
+            #print(time)
             updateHealthBar()
             handle_move(dt)
             checkCollision()
