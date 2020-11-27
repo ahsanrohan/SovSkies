@@ -184,7 +184,14 @@ bomb_icon = pyglet.resource.image('bomb_shop.png')
 center_image(bomb_icon)
 triple_icon = pyglet.resource.image('triple.jpg')
 center_image(triple_icon)
-
+regen_icon = pyglet.resource.image('regen.png')
+center_image(regen_icon)
+self_regen_icon = pyglet.resource.image('self_regen.png')
+center_image(self_regen_icon)
+revive_icon = pyglet.resource.image('revive.png')
+center_image(revive_icon)
+revive_all_icon = pyglet.resource.image('revive_all.png')
+center_image(revive_all_icon)
 
 store_map = start_map
 center_image(store_map)

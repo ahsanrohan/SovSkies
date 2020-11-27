@@ -285,27 +285,36 @@ def shop_upgrade(plane_choice_shopping, batch):
         upgrade_box_array += create_square(batch, x=windowWidth / 3 - 50,
                                            y=windowHeight / 3 - 50,
                                            x2=windowWidth / 3 + 50, y2=windowHeight / 3 + 50)
+        icon_array += [pyglet.sprite.Sprite(self_regen_icon, x=windowWidth / 3,
+                                            y=windowHeight / 3, batch=batch, group=buttons_layer)]
         upgrade_box_array += create_square(batch, x=windowWidth / 3 - 50,
                                            y=2 * windowHeight / 3 - 50,
                                            x2=windowWidth / 3 + 50,
                                            y2=2 * windowHeight / 3 + 50)
+        icon_array += [pyglet.sprite.Sprite(regen_icon, x=windowWidth / 3,
+                                            y=2 * windowHeight / 3, batch=batch, group=buttons_layer)]
+
         # Tier 2
         upgrade_box_array += create_square(batch,
                                            x=windowWidth / 2 - 50, x2=windowWidth / 2 + 50,
                                            y=windowHeight / 2 + 50, y2=windowHeight / 2 - 50)
-
+        icon_array += [pyglet.sprite.Sprite(revive_icon, x=windowWidth / 2,
+                                            y=windowHeight / 2, batch=batch, group=buttons_layer)]
         # Tier 3
         upgrade_box_array += create_square(batch,
                                            x=2 * windowWidth / 3 - 50,
                                            x2=2 * windowWidth / 3 + 50,
                                            y=windowHeight / 3 - 50, y2=windowHeight / 3 + 50)
-        icon_array += [pyglet.sprite.Sprite(charge_time_icon, x=2 * windowWidth / 3,
-                                            y=2 * windowHeight / 3, batch=batch, group=buttons_layer)]
+        icon_array += [pyglet.sprite.Sprite(revive_all_icon, x=2 * windowWidth / 3,
+                                            y=windowHeight / 3, batch=batch, group=buttons_layer)]
         upgrade_box_array += create_square(batch,
                                            x=2 * windowWidth / 3 - 50,
                                            x2=2 * windowWidth / 3 + 50,
                                            y=2 * windowHeight / 3 - 50,
                                            y2=2 * windowHeight / 3 + 50)
+
+        icon_array += [pyglet.sprite.Sprite(charge_time_icon, x=2 * windowWidth / 3,
+                                            y=2 * windowHeight / 3, batch=batch, group=buttons_layer)]
 
         # Connections 1
         upgrade_box_array += create_square(batch,
