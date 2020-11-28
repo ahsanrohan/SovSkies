@@ -17,11 +17,12 @@ quitCheck = False
 time = 0
 finalTime = 0
 
-window = pyglet.window.Window(fullscreen=True)#, width=user32.GetSystemMetrics(0), height=user32.GetSystemMetrics(1))
+window = pyglet.window.Window(fullscreen=True)  # , width=user32.GetSystemMetrics(0), height=user32.GetSystemMetrics(1))
 windowWidth = window.width
 windowHeight = window.height
-maps_layer = pyglet.graphics.OrderedGroup(-2)
-buttons_layer = pyglet.graphics.OrderedGroup(-1)
+maps_layer = pyglet.graphics.OrderedGroup(-3)
+buttons_layer = pyglet.graphics.OrderedGroup(-2)
+label_layer = pyglet.graphics.OrderedGroup(-1)
 player = pyglet.media.Player()
 
 playerName = "Peyton"
@@ -31,6 +32,7 @@ playerName = "Peyton"
 def on_close():
     global mode
     mode = "end"
+
 
 def modeCheck():
     while (mode != "end"):
@@ -198,7 +200,7 @@ def shop_upgrade(plane_choice_shopping, batch):
                                            y=2 * windowHeight / 3 - 50,
                                            y2=2 * windowHeight / 3 + 50)
         icon_array += [pyglet.sprite.Sprite(fire_rate, x=2 * windowWidth / 3,
-                                            y=2*windowHeight / 3, batch=batch, group=buttons_layer)]
+                                            y=2 * windowHeight / 3, batch=batch, group=buttons_layer)]
 
         # Connections 1
         upgrade_box_array += create_square(batch,
@@ -343,6 +345,7 @@ def shop_upgrade(plane_choice_shopping, batch):
                                            y=windowHeight / 2, y2=windowHeight / 2)
 
     return [upgrade_box_array, icon_array]
+
 
 # menu function
 def menu():
@@ -575,12 +578,12 @@ def store_menu():
                 createPlayerPlaneUpgrades("Peyton", "shorter_special_charge_time", "fast_plane")
             elif item[1] == 6:
                 createPlayerPlaneUpgrades("Peyton", "improved_fire_rate", "fast_plane")
-            elif item[1] == 8:
+            elif item[1] == 7:
                 createPlayerPlaneUpgrades("Peyton", "increased_special_damage", "fast_plane")
-            elif item[1] == 0:
+            elif item[1] == 9:
                 createPlayerPlaneUpgrades("Peyton", "increase_dodge_bullets", "fast_plane")
         elif item[0] == 2:
-            if item[1] == 0:
+            if item[1] == 1:
                 createPlayerPlaneUpgrades("Peyton", "improved_bullet_damage", "damage_plane")
             elif item[1] == 3:
                 createPlayerPlaneUpgrades("Peyton", "bomb", "damage_plane")
@@ -591,20 +594,20 @@ def store_menu():
             elif item[1] == 9:
                 createPlayerPlaneUpgrades("Peyton", "triples_fire_rate", "damage_plane")
         elif item[0] == 3:
-            if item[1] == 0:
+            if item[1] == 1:
                 createPlayerPlaneUpgrades("Peyton", "improved_collision_damage", "helicopter")
             elif item[1] == 3:
                 createPlayerPlaneUpgrades("Peyton", "improved_health", "helicopter")
-            elif item[1] == 5:
+            elif item[1] == 4:
                 createPlayerPlaneUpgrades("Peyton", "improved_movement_speed", "helicopter")
-            elif item[1] == 7:
+            elif item[1] == 6:
                 createPlayerPlaneUpgrades("Peyton", "increase_special_time", "helicopter")
-            elif item[1] == 9:
+            elif item[1] == 7:
                 createPlayerPlaneUpgrades("Peyton", "increased_special_damage", "helicopter")
-            elif item[1] == 0:
+            elif item[1] == 9:
                 createPlayerPlaneUpgrades("Peyton", "increased_damage_to_closer_enemies", "helicopter")
         elif item[0] == 4:
-            if item[1] == 0:
+            if item[1] == 1:
                 createPlayerPlaneUpgrades("Peyton", "improved_regen_rate", "support_plane")
             elif item[1] == 3:
                 createPlayerPlaneUpgrades("Peyton", "regenerate_self", "support_plane")
@@ -614,6 +617,187 @@ def store_menu():
                 createPlayerPlaneUpgrades("Peyton", "shorter_special_charge_time", "support_plane")
             elif item[1] == 9:
                 createPlayerPlaneUpgrades("Peyton", "revives_all_planes", "support_plane")
+
+    def get_upgrade_text(plane, item, text_color=(255, 255, 255, 255)):
+
+        if plane == 1:
+            if item == 1:
+                store_label = pyglet.text.Label('Increased Movement Speed',
+                                                font_name='Times New Roman',
+                                                font_size=50, group=label_layer,
+                                                x=windowWidth / 3, y=2 * windowHeight / 3+55,
+                                                batch=store_menu_batch, color=text_color)
+                store_label.x = store_label.x - store_label.content_width / 2
+                return [store_label]
+            elif item == 3:
+                store_label = pyglet.text.Label('Increased Bullet Damage',
+                                                font_name='Times New Roman',
+                                                font_size=50, group=label_layer,
+                                                x=windowWidth / 3, y=windowHeight / 3+55,
+                                                batch=store_menu_batch, color=text_color)
+                store_label.x = store_label.x - store_label.content_width / 2
+                return [store_label]
+            elif item == 4:
+                store_label = pyglet.text.Label('Decreased Special Cooldown',
+                                                font_name='Times New Roman',
+                                                font_size=50, group=label_layer,
+                                                x=windowWidth / 2, y=2 * windowHeight / 3+55,
+                                                batch=store_menu_batch, color=text_color)
+                store_label.x = store_label.x - store_label.content_width / 2
+                return [store_label]
+            elif item == 6:
+                store_label = pyglet.text.Label('Increased Fire Rate',
+                                                font_name='Times New Roman',
+                                                font_size=50, group=label_layer,
+                                                x=windowWidth / 2, y=windowHeight / 3+55,
+                                                batch=store_menu_batch, color=text_color)
+                store_label.x = store_label.x - store_label.content_width / 2
+                return [store_label]
+            elif item == 7:
+                store_label = pyglet.text.Label('Increased Special Damage',
+                                                font_name='Times New Roman',
+                                                font_size=50, group=label_layer,
+                                                x=2*windowWidth / 3, y=2 * windowHeight / 3+55,
+                                                batch=store_menu_batch, color=text_color)
+                store_label.x = store_label.x - store_label.content_width / 2
+                return [store_label]
+            elif item == 9:
+                store_label = pyglet.text.Label('Chance to Dodge Bullets',
+                                                font_name='Times New Roman',
+                                                font_size=50, group=label_layer,
+                                                x=2*windowWidth / 3, y=windowHeight / 3+55,
+                                                batch=store_menu_batch, color=text_color)
+                store_label.x = store_label.x - store_label.content_width / 2
+                return [store_label]
+        elif plane == 2:
+            if item == 1:
+                store_label = pyglet.text.Label('Increased Bullet Damage', font_name='Times New Roman', font_size=50, group=label_layer,
+                                                x=windowWidth / 3, y=2 * windowHeight / 3+55, batch=store_menu_batch, color=text_color)
+                store_label.x = store_label.x - store_label.content_width / 2
+                return [store_label]
+            elif item == 3:
+                store_label = pyglet.text.Label('Added Bombs Every 5 Shots',
+                                                font_name='Times New Roman',
+                                                font_size=50, group=label_layer,
+                                                x=windowWidth / 3, y=windowHeight / 3+55,
+                                                batch=store_menu_batch, color=text_color)
+                store_label.x = store_label.x - store_label.content_width / 2
+                return [store_label]
+            elif item == 5:
+                store_label = pyglet.text.Label('Bombs Do More Damage',
+                                                font_name='Times New Roman',
+                                                font_size=50, group=label_layer,
+                                                x=windowWidth / 2, y=windowHeight / 2+55,
+                                                batch=store_menu_batch, color=text_color)
+                store_label.x = store_label.x - store_label.content_width / 2
+                return [store_label]
+            elif item == 7:
+                store_label = pyglet.text.Label('Increased Bomb Fire Rate',
+                                                font_name='Times New Roman',
+                                                font_size=50, group=label_layer,
+                                                x=2*windowWidth / 3, y=2 * windowHeight / 3+55,
+                                                batch=store_menu_batch, color=text_color)
+                store_label.x = store_label.x - store_label.content_width / 2
+                return [store_label]
+            elif item == 9:
+                store_label = pyglet.text.Label('Tripled Fire Rate',
+                                                font_name='Times New Roman',
+                                                font_size=50, group=label_layer,
+                                                x=2*windowWidth / 3, y=windowHeight / 3+55,
+                                                batch=store_menu_batch, color=text_color)
+                store_label.x = store_label.x - store_label.content_width / 2
+                return [store_label]
+        elif plane == 3:
+            if item == 1:
+                store_label = pyglet.text.Label('Increased Collision Damage',
+                                                font_name='Times New Roman',
+                                                font_size=50, group=label_layer,
+                                                x=windowWidth / 3, y=2 * windowHeight / 3+55,
+                                                batch=store_menu_batch, color=text_color)
+                store_label.x = store_label.x - store_label.content_width / 2
+                return [store_label]
+            elif item == 3:
+                store_label = pyglet.text.Label('Increased Health',
+                                                font_name='Times New Roman',
+                                                font_size=50, group=label_layer,
+                                                x=windowWidth / 3, y=windowHeight / 3+55,
+                                                batch=store_menu_batch, color=text_color)
+                store_label.x = store_label.x - store_label.content_width / 2
+                return [store_label]
+            elif item == 4:
+                store_label = pyglet.text.Label('Increased Movement Speed',
+                                                font_name='Times New Roman',
+                                                font_size=50, group=label_layer,
+                                                x=windowWidth / 2, y=2 * windowHeight / 3+55,
+                                                batch=store_menu_batch, color=text_color)
+                store_label.x = store_label.x - store_label.content_width / 2
+                return [store_label]
+            elif item == 6:
+                store_label = pyglet.text.Label('Increased Special Duration',
+                                                font_name='Times New Roman',
+                                                font_size=50, group=label_layer,
+                                                x=windowWidth / 2, y=windowHeight / 3+55,
+                                                batch=store_menu_batch, color=text_color)
+                store_label.x = store_label.x - store_label.content_width / 2
+                return [store_label]
+            elif item == 7:
+                store_label = pyglet.text.Label('Increased Special Damage',
+                                                font_name='Times New Roman',
+                                                font_size=50, group=label_layer,
+                                                x=2 * windowWidth / 3, y=2 * windowHeight / 3+55,
+                                                batch=store_menu_batch, color=text_color)
+                store_label.x = store_label.x - store_label.content_width / 2
+                return [store_label]
+            elif item == 9:
+                store_label = pyglet.text.Label('Increased Damage to Close Enemies',
+                                                font_name='Times New Roman',
+                                                font_size=50, group=label_layer,
+                                                x=2 * windowWidth / 3, y=windowHeight / 3+55,
+                                                batch=store_menu_batch, color=text_color)
+                store_label.x = store_label.x - store_label.content_width / 2
+                return [store_label]
+        elif plane == 4:
+            if item == 1:
+                store_label = pyglet.text.Label('Improved Regeneration',
+                                                font_name='Times New Roman',
+                                                font_size=50, group=label_layer,
+                                                x=windowWidth / 3, y=2 * windowHeight / 3+55,
+                                                batch=store_menu_batch, color=text_color)
+                store_label.x = store_label.x - store_label.content_width / 2
+                return [store_label]
+            elif item == 3:
+                store_label = pyglet.text.Label('Self Regenerating',
+                                                font_name='Times New Roman',
+                                                font_size=50, group=label_layer,
+                                                x=windowWidth / 3, y=windowHeight / 3+55,
+                                                batch=store_menu_batch, color=text_color)
+                store_label.x = store_label.x - store_label.content_width / 2
+                return [store_label]
+            elif item == 5:
+                store_label = pyglet.text.Label('Revives Planes With Full HP',
+                                                font_name='Times New Roman',
+                                                font_size=50, group=label_layer,
+                                                x=windowWidth / 2, y=windowHeight / 2+55,
+                                                batch=store_menu_batch, color=text_color)
+                store_label.x = store_label.x - store_label.content_width / 2
+                return [store_label]
+            elif item == 7:
+                store_label = pyglet.text.Label('Increased Special Damage',
+                                                font_name='Times New Roman',
+                                                font_size=50, group=label_layer,
+                                                x=2 * windowWidth / 3, y=2 * windowHeight / 3+55,
+                                                batch=store_menu_batch, color=text_color)
+                store_label.x = store_label.x - store_label.content_width / 2
+                return [store_label]
+            elif item == 9:
+                store_label = pyglet.text.Label('Revives All Planes At Once',
+                                                font_name='Times New Roman',
+                                                font_size=50, group=label_layer,
+                                                x=2 * windowWidth / 3, y=windowHeight / 3+55,
+                                                batch=store_menu_batch, color=text_color)
+                store_label.x = store_label.x - store_label.content_width / 2
+                return [store_label]
+        return []
 
     player.next_source()
     player.queue(fortunate_son)
@@ -635,23 +819,23 @@ def store_menu():
     # plane_square_1 = create_square(store_menu_batch, x=windowWidth / 4 - 100, y=windowHeight * 0.80,
     #                                x2=windowWidth / 4 + 100, y2=windowHeight * 0.85, width=2)
     plane_1_label = pyglet.sprite.Sprite(plane1_button, group=buttons_layer,
-                                      x=window.width / 8, y=window.height * 0.82,
-                                      batch=store_menu_batch)
+                                         x=window.width / 8, y=window.height * 0.82,
+                                         batch=store_menu_batch)
     # plane_1_label = pyglet.text.Label('P L A N E 1', color=(0, 0, 255, 255),
     #                                   font_name='Times New Roman',
     #                                   font_size=20, group=buttons_layer,
     #                                   x=window.width / 4, y=window.height * 0.82,
     #                                   batch=store_menu_batch)
-    #plane_1_label.x = plane_1_label.x - plane_1_label.content_width / 2
+    # plane_1_label.x = plane_1_label.x - plane_1_label.content_width / 2
     plane_2_label = pyglet.sprite.Sprite(plane2_button, group=buttons_layer,
-                                      x=window.width *3/ 8, y=window.height * 0.82,
-                                      batch=store_menu_batch)
+                                         x=window.width * 3 / 8, y=window.height * 0.82,
+                                         batch=store_menu_batch)
     plane_3_label = pyglet.sprite.Sprite(plane3_button, group=buttons_layer,
-                                      x=window.width *5/ 8, y=window.height * 0.82,
-                                      batch=store_menu_batch)
+                                         x=window.width * 5 / 8, y=window.height * 0.82,
+                                         batch=store_menu_batch)
     plane_4_label = pyglet.sprite.Sprite(plane4_button, group=buttons_layer,
-                                      x=window.width *7/ 8, y=window.height * 0.82,
-                                      batch=store_menu_batch)
+                                         x=window.width * 7 / 8, y=window.height * 0.82,
+                                         batch=store_menu_batch)
 
     exit_button_sprite = pyglet.sprite.Sprite(x_button, x=windowWidth - x_button.anchor_x,
                                               y=windowHeight - x_button.anchor_y,
@@ -689,15 +873,15 @@ def store_menu():
             plane_choice_shopping = 1
             temp_upgrades = shop_upgrade(1, store_menu_batch)
             # print("plane choice change to 1")
-        elif windowWidth *3 / 8 - 100 < x < windowWidth *3 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 2
+        elif windowWidth * 3 / 8 - 100 < x < windowWidth * 3 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 2
             plane_choice_shopping = 2
             temp_upgrades = shop_upgrade(2, store_menu_batch)
 
-        elif windowWidth *5/ 8 - 100 < x < windowWidth *5 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 3
+        elif windowWidth * 5 / 8 - 100 < x < windowWidth * 5 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 3
             plane_choice_shopping = 3
             temp_upgrades = shop_upgrade(3, store_menu_batch)
 
-        elif windowWidth *7/ 8 - 100 < x < windowWidth *7 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 3
+        elif windowWidth * 7 / 8 - 100 < x < windowWidth * 7 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 3
             plane_choice_shopping = 4
             temp_upgrades = shop_upgrade(4, store_menu_batch)
 
@@ -705,6 +889,32 @@ def store_menu():
                 windowHeight - x_button.height):  # clicking X button
             menu()
             window.clear()
+
+    upgrade_text = []
+
+    @window.event
+    def on_mouse_motion(x, y, dx, dy):
+        nonlocal upgrade_text
+        for temp in upgrade_text:
+            temp.delete()
+        if windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom left
+            upgrade_text = get_upgrade_text(plane=plane_choice_shopping, item=3)
+        elif windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top left
+            upgrade_text = get_upgrade_text(plane=plane_choice_shopping, item=1)
+        elif windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle left
+            upgrade_text = get_upgrade_text(plane=plane_choice_shopping, item=2)
+        elif windowWidth / 2 - 50 < x < windowWidth / 2 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top middle
+            upgrade_text = get_upgrade_text(plane=plane_choice_shopping, item=4)
+        elif windowWidth / 2 - 50 < x < windowWidth / 2 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle middle
+            upgrade_text = get_upgrade_text(plane=plane_choice_shopping, item=5)
+        elif windowWidth / 2 - 50 < x < windowWidth / 2 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom left
+            upgrade_text = get_upgrade_text(plane=plane_choice_shopping, item=6)
+        elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top right
+            upgrade_text = get_upgrade_text(plane=plane_choice_shopping, item=7)
+        elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle right
+            upgrade_text = get_upgrade_text(plane=plane_choice_shopping, item=8)
+        elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom right
+            upgrade_text = get_upgrade_text(plane=plane_choice_shopping, item=9)
 
     @window.event
     def on_draw():
@@ -766,7 +976,10 @@ def end_screen():
 
     pyglet.app.run()
 
+
 paused = False
+
+
 # Game function
 def start(level_number=0):
     global mode
@@ -806,16 +1019,16 @@ def start(level_number=0):
 
     pause_button_sprite = pyglet.sprite.Sprite(resume_button, x=windowWidth / 2, y=windowHeight / 4,
                                                batch=paused_batch)
-    quit_button_sprite = pyglet.sprite.Sprite(quit_button, x=windowWidth / 2, y=windowHeight *2 / 4,
-                                               batch=paused_batch)
+    quit_button_sprite = pyglet.sprite.Sprite(quit_button, x=windowWidth / 2, y=windowHeight * 2 / 4,
+                                              batch=paused_batch)
 
     count = 0
     planeIcons = []
     healthBarIcons = []
-    #print("peyton")
-    #print(len(planeHandler.getAllPlanes()))
+    # print("peyton")
+    # print(len(planeHandler.getAllPlanes()))
     for i in planeHandler.getAllPlanes():
-        #print(count)
+        # print(count)
         planeIcons.append(pyglet.sprite.Sprite(i.getImage(), x=windowWidth - 30,
                                                y=windowHeight / 2 - 100 * count,
                                                batch=level_batch,
@@ -896,9 +1109,9 @@ def start(level_number=0):
             pyglet.clock.schedule_once(add_enemy, delay=wave['spawn_time'] + enemy_count * wave['interval'], enemy=new_enemy)
 
     # initialize wave
-    #finalTime = level[-1]['spawn_time'] + (level[-1]['enemy_count'] * level[-1]['interval']) + 5
+    # finalTime = level[-1]['spawn_time'] + (level[-1]['enemy_count'] * level[-1]['interval']) + 5
     finalTime = scores[level_number]['end_time']
-    #testTime = scores[level_number]
+    # testTime = scores[level_number]
     print(finalTime)
     # initializing the background
     level_map_object = PhysicalObject(level_map, x=windowWidth / 2, batch=level_batch,
@@ -950,7 +1163,7 @@ def start(level_number=0):
                 planeHandler.autoFire = not planeHandler.autoFire
             if symbol == pyglet.window.key.P:
                 paused = not paused
-                #print("e pressed")
+                # print("e pressed")
 
     @window.event
     def on_mouse_drag(x, y, dx, dy, button, modifiers):
@@ -987,7 +1200,7 @@ def start(level_number=0):
                     planeHandler.getActivePlane().specialAbilityFire(mouse_x, mouse_y)
         else:
             if windowWidth / 2 - 150 < x < (
-                windowWidth / 2) + 150 and windowHeight *2 / 4 - 50 < y < windowHeight *2 / 4 + 50:  # quitButton
+                    windowWidth / 2) + 150 and windowHeight * 2 / 4 - 50 < y < windowHeight * 2 / 4 + 50:  # quitButton
                 paused = False
                 mode = "menu"
                 quitCheck = False
@@ -1005,7 +1218,7 @@ def start(level_number=0):
             # live_batch = level_batch
             # print(level_batch)
             if windowWidth / 2 - 150 < x < (
-                windowWidth / 2) + 150 and windowHeight  / 4 - 50 < y < windowHeight / 4 + 50:  # ResumeButtons
+                    windowWidth / 2) + 150 and windowHeight / 4 - 50 < y < windowHeight / 4 + 50:  # ResumeButtons
                 paused = False
 
         # print(game_objects)
@@ -1017,7 +1230,7 @@ def start(level_number=0):
         if quitCheck == True:
             # print ("this is running IDK")
             mode = "quit"
-            #planeHandler.autoFire = False
+            # planeHandler.autoFire = False
             quitCheck = False
             all_dead = False
             all_dead = False
@@ -1028,33 +1241,34 @@ def start(level_number=0):
                 game_objects.remove(obj)
             for enemy in enemies:
                 enemies.remove(enemy)
-            #print(dir())
-            #obj.update(1)
-            #window.clear()
+            # print(dir())
+            # obj.update(1)
+            # window.clear()
             pyglet.clock.unschedule(add_enemy)
             pyglet.clock.unschedule(enemy_fire)
-            #return
+            # return
             pyglet.app.exit()
         if paused == False:
             window.clear()
             level_batch.draw()
             circle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
-                                        planeHandler.getActivePlane().collisionRadius, color=(50, 225, 30), batch=level_batch)
+                                          planeHandler.getActivePlane().collisionRadius, color=(50, 225, 30), batch=level_batch)
             circle.opacity = 100
 
-            #rotorCircle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
+            # rotorCircle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
             #                             planeHandler.getActivePlane().rotorRadius, color=(255, 255, 255), batch=level_batch)
 
-            #rotorCircle.opacity = 100
+            # rotorCircle.opacity = 100
             for enemy in enemies:
                 if enemy.boss == True:
-                    rectangle = pyglet.shapes.Rectangle(enemy.x - enemy.image.width/4, enemy.y-enemy.image.height/4, enemy.image.width/2, enemy.image.height/2,
-                                color = (50, 225, 30), batch = level_batch)
+                    rectangle = pyglet.shapes.Rectangle(enemy.x - enemy.image.width / 4, enemy.y - enemy.image.height / 4,
+                                                        enemy.image.width / 2, enemy.image.height / 2,
+                                                        color=(50, 225, 30), batch=level_batch)
                     rectangle.opacity = 100
                     rectangle.draw()
 
             circle.draw()
-            #rotorCircle.draw()
+            # rotorCircle.draw()
         else:
             window.clear()
             paused_batch.draw()
@@ -1072,11 +1286,11 @@ def start(level_number=0):
             quitCheck = False
             pyglet.clock.schedule_once(switchDeadPlane, num=planeTemp - 1, currPlane=currentPlane, delay=0.1)  # planeHandler.prevPlane
         else:
-            #print('bug here?')
-            #print(dir())
+            # print('bug here?')
+            # print(dir())
             quitCheck = True
 
-            #planeHandler.autoFire = False
+            # planeHandler.autoFire = False
 
     def revivePlane():
         suppPlane = planeHandler.getActivePlane()
@@ -1152,7 +1366,7 @@ def start(level_number=0):
         for obj in game_objects:
             if (obj.dead == True):
                 if obj.is_enemy == True:
-                    #enemies.remove(obj)
+                    # enemies.remove(obj)
                     if (obj.destroyed == True):
                         score_obj['score'] += 1
 
@@ -1160,8 +1374,8 @@ def start(level_number=0):
 
                         print(score_obj)
                         if score_obj['score'] >= score_obj['target_score']:  # change this to change the required score to win
-                        # pyglet.clock.schedule_once(end_screen, 1)
-                        #quitCheck = True
+                            # pyglet.clock.schedule_once(end_screen, 1)
+                            # quitCheck = True
                             print("game end")
 
                 game_objects.remove(obj)
@@ -1233,24 +1447,24 @@ def start(level_number=0):
         global mode
         global quitCheck
 
-        #print(enemies)
-        #print(time)
-        #print(finalTime)
-        #print(planeHandler.autoFire)
-        #print(mode)
-        #print(game_objects)
-        #print(enemies)
-        if (time >= finalTime):# and len(enemies) == 0:
-            #mode = 'menu'
+        # print(enemies)
+        # print(time)
+        # print(finalTime)
+        # print(planeHandler.autoFire)
+        # print(mode)
+        # print(game_objects)
+        # print(enemies)
+        if (time >= finalTime):  # and len(enemies) == 0:
+            # mode = 'menu'
             planeHandler.autoFire = False
             quitCheck = True
-            #modeCheck()
+            # modeCheck()
         if paused == False:
             time += dt
             if (mode != "game"):
                 planeHandler.autoFire = False
-                #return
-            #print(time)
+                # return
+            # print(time)
             updateHealthBar()
             handle_move(dt)
             checkCollision()
