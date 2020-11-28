@@ -96,7 +96,7 @@ class PlayerPlane(PhysicalObject):
             self.rotorRadius = 345 * 0.35 * self.scale * 2
             self.collisionRadius = 300 * 0.35 * self.scale
             self.damage = 5
-            self.rotorDamage = 0.5
+            self.rotorDamage = 2
         else:
             self.rotorRadius = 1
             self.collisionRadius = self.image.width * 0.35 * self.scale
@@ -169,6 +169,7 @@ class PlayerPlane(PhysicalObject):
             ydiff = mouse_y - self.y
 
             # Note: pyglet's rotation attributes are in "negative degrees"
+
             if (ydiff > 0):
                 angle_radians = -math.radians(math.degrees(math.atan(xdiff / ydiff)) + 270)
             elif(ydiff< 0):
@@ -176,8 +177,14 @@ class PlayerPlane(PhysicalObject):
             else:
                 angle_radians = math.radians(-(math.degrees(math.atan(0)) + 90))
 
-            angle_radians = -math.radians(270)
-            angle_radians = -math.radians(270)
+
+            #if (ydiff > 0):
+            #    angle_radians = -math.radians(math.degrees(math.atan(xdiff / ydiff)) + 270)
+            #else:
+            #    angle_radians = math.radians(-(math.degrees(math.atan(xdiff / ydiff)) + 90))
+
+            #angle_radians = -math.radians(270)
+            #angle_radians = -math.radians(270)
             # print(self.shootVec)
             # Create a new bullet just in front of the player
             if self.name == "helicopter":

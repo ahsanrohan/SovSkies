@@ -46,7 +46,7 @@ class PhysicalObject(pyglet.sprite.Sprite):
             self.check_bounds()
 
         if not self.wrap and not self.bind:  # destroy object once it leaves screen + buffer
-            buffer = 500
+            buffer = 250
             min_x = 0
             min_y = 0
             max_x = 1800
