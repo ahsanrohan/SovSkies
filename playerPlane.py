@@ -230,7 +230,7 @@ class PlayerPlane(PhysicalObject):
                 if self.special_ability == "laser":
                     print("laser")
                     new_bullet = Bullet(laser, self.x, self.y + 500, self.special_bullet_damage, batch=self.batch, group=self.group)
-                    new_bullet.color = (255, 85, 66)
+                    #new_bullet.color = (255, 85, 66)
                     angle_radians = -math.radians(270)
                     bullet_vx = math.cos(angle_radians) * 0
                     bullet_vy = math.sin(angle_radians) * 0

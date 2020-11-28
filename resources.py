@@ -56,6 +56,18 @@ center_image(resume_button)
 menu_button = pyglet.resource.image("menu.png")
 center_image(menu_button)
 
+plane1_button = pyglet.resource.image("plane1.png")
+center_image(plane1_button)
+
+plane2_button = pyglet.resource.image("plane2.png")
+center_image(plane2_button)
+
+plane3_button = pyglet.resource.image("plane3.png")
+center_image(plane3_button)
+
+plane4_button = pyglet.resource.image("plane4.png")
+center_image(plane4_button)
+
 
 start_map = pyglet.resource.image("placeholdermap.jpg")
 center_image(start_map)
@@ -74,6 +86,28 @@ center_image(end_image)
 
 enemy_plane = pyglet.resource.image("enemyPlane1.png")
 center_image(enemy_plane)
+
+enemy_plane_1 = pyglet.resource.image("enemyPlane1.png")
+center_image(enemy_plane_1)
+
+enemy_plane_2 = pyglet.resource.image("enemyPlane2.png")
+center_image(enemy_plane_2)
+
+enemy_plane_3 = pyglet.resource.image("enemyPlane3.png")
+center_image(enemy_plane_3)
+
+enemy_plane_4 = pyglet.resource.image("enemyPlane4.png")
+center_image(enemy_plane_4)
+enemy_plane_4.height *= 1.4
+enemy_plane_4.width *= 1.4
+
+enemy_plane_5 = pyglet.resource.image("enemyPlane5.png")
+center_image(enemy_plane_5)
+enemy_plane_5.height *= 1.4
+enemy_plane_5.width *= 1.4
+
+enemy_plane_6 = pyglet.resource.image("enemyPlane6.png")
+center_image(enemy_plane_6)
 
 enemy_boss = pyglet.resource.image("boss1.png")
 enemy_boss.height *= 2

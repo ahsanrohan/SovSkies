@@ -127,6 +127,7 @@ def createLevelTable():
         CREATE TABLE LEVELS(
             Owner CHAR(20),
             StarsEarned INT,
+            MaxScore INT,
             Level INT,
             Completed BOOLEAN
         )

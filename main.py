@@ -15,7 +15,7 @@ user32 = ctypes.windll.user32
 mode = "hi"
 quitCheck = False
 
-window = pyglet.window.Window(fullscreen=False, width=user32.GetSystemMetrics(0), height=user32.GetSystemMetrics(1))
+window = pyglet.window.Window(fullscreen=True, width=user32.GetSystemMetrics(0), height=user32.GetSystemMetrics(1))
 windowWidth = window.width
 windowHeight = window.height
 maps_layer = pyglet.graphics.OrderedGroup(-2)
@@ -343,179 +343,6 @@ def shop_upgrade(plane_choice_shopping, batch):
 
     return [upgrade_box_array, icon_array]
 
-
-def store_menu():
-    def item_buy(item):
-        if item[0] == 1:
-            # print(item[1])
-            if item[1] == 1:
-                createPlayerPlaneUpgrades("Peyton", "improved_movespeed", "fast_plane")
-            elif item[1] == 3:
-                createPlayerPlaneUpgrades("Peyton", "improved_bullet_damage", "fast_plane")
-            elif item[1] == 4:
-                createPlayerPlaneUpgrades("Peyton", "shorter_special_charge_time", "fast_plane")
-            elif item[1] == 6:
-                createPlayerPlaneUpgrades("Peyton", "improved_fire_rate", "fast_plane")
-            elif item[1] == 7:
-                createPlayerPlaneUpgrades("Peyton", "increased_special_damage", "fast_plane")
-            elif item[1] == 9:
-                createPlayerPlaneUpgrades("Peyton", "increase_dodge_bullets", "fast_plane")
-        elif item[0] == 2:
-            if item[1] == 1:
-                createPlayerPlaneUpgrades("Peyton", "improved_bullet_damage", "damage_plane")
-            elif item[1] == 3:
-                createPlayerPlaneUpgrades("Peyton", "bomb", "damage_plane")
-            elif item[1] == 5:
-                createPlayerPlaneUpgrades("Peyton", "improved_bomb_damage", "damage_plane")
-            elif item[1] == 7:
-                createPlayerPlaneUpgrades("Peyton", "improved_bomb_fire_rate", "damage_plane")
-            elif item[1] == 9:
-                createPlayerPlaneUpgrades("Peyton", "triples_fire_rate", "damage_plane")
-        elif item[0] == 3:
-            if item[1] == 1:
-                createPlayerPlaneUpgrades("Peyton", "improved_collision_damage", "helicopter")
-            elif item[1] == 3:
-                createPlayerPlaneUpgrades("Peyton", "improved_health", "helicopter")
-            elif item[1] == 4:
-                createPlayerPlaneUpgrades("Peyton", "improved_movement_speed", "helicopter")
-            elif item[1] == 6:
-                createPlayerPlaneUpgrades("Peyton", "increase_special_time", "helicopter")
-            elif item[1] == 7:
-                createPlayerPlaneUpgrades("Peyton", "increased_special_damage", "helicopter")
-            elif item[1] == 9:
-                createPlayerPlaneUpgrades("Peyton", "increased_damage_to_closer_enemies", "helicopter")
-        elif item[0] == 4:
-            if item[1] == 1:
-                createPlayerPlaneUpgrades("Peyton", "improved_regen_rate", "support_plane")
-            elif item[1] == 3:
-                createPlayerPlaneUpgrades("Peyton", "regenerate_self", "support_plane")
-            elif item[1] == 5:
-                createPlayerPlaneUpgrades("Peyton", "revive_planes_full_health", "support_plane")
-            elif item[1] == 7:
-                createPlayerPlaneUpgrades("Peyton", "shorter_special_charge_time", "support_plane")
-            elif item[1] == 9:
-                createPlayerPlaneUpgrades("Peyton", "revives_all_planes", "support_plane")
-
-    player.next_source()
-    player.queue(fortunate_son)
-    # player.play()
-
-    store_menu_batch = pyglet.graphics.Batch()
-    store_menu_sprite = pyglet.sprite.Sprite(store_map, x=windowWidth / 2, y=windowHeight / 2,
-                                             batch=store_menu_batch,
-                                             group=maps_layer)
-    store_menu_sprite.scale_x = windowWidth / store_menu_sprite.width
-    store_menu_sprite.scale_y = windowHeight / store_menu_sprite.height
-    store_label = pyglet.text.Label('S T O R E',
-                                    font_name='Times New Roman',
-                                    font_size=50, group=buttons_layer,
-                                    x=window.width / 2, y=window.height // 1.1,
-                                    batch=store_menu_batch)
-    store_label.x = store_label.x - store_label.content_width / 2
-
-    plane_square_1 = create_square(store_menu_batch, x=window.width / 5 - 100, y=windowHeight * 0.80,
-                                   x2=window.width / 5 + 100, y2=windowHeight * 0.85, width=2)
-    plane_1_label = pyglet.text.Label('Speedster', color=(0, 0, 255, 255),
-                                      font_name='Times New Roman',
-                                      font_size=25, group=buttons_layer,
-                                      x=window.width / 5, y=window.height * 0.82,
-                                      batch=store_menu_batch)
-    plane_1_label.x = plane_1_label.x - plane_1_label.content_width / 2
-
-    plane_square_2 = create_square(store_menu_batch, x=2 * window.width / 5 - 100, y=windowHeight * 0.80,
-                                   x2=2 * window.width / 5 + 100, y2=windowHeight * 0.85, width=2)
-    plane_2_label = pyglet.text.Label('Artillery', color=(0, 255, 0, 255),
-                                      font_name='Times New Roman',
-                                      font_size=25, group=buttons_layer,
-                                      x=2 * window.width / 5, y=window.height * 0.82,
-                                      batch=store_menu_batch)
-    plane_2_label.x = plane_2_label.x - plane_2_label.content_width / 2
-
-    plane_square_3 = create_square(store_menu_batch, x=3 * window.width / 5 - 100,
-                                   y=windowHeight * 0.80,
-                                   x2=3 * window.width / 5 + 100, y2=windowHeight * 0.85, width=2)
-    plane_3_label = pyglet.text.Label('Helicopter', color=(255, 0, 0, 255),
-                                      font_name='Times New Roman',
-                                      font_size=25, group=buttons_layer,
-                                      x=3 * window.width / 5, y=window.height * 0.82,
-                                      batch=store_menu_batch)
-    plane_3_label.x = plane_3_label.x - plane_3_label.content_width / 2
-
-    plane_square_4 = create_square(store_menu_batch, x=4 * window.width / 5 - 100,
-                                   y=windowHeight * 0.80,
-                                   x2=4 * window.width / 5 + 100, y2=windowHeight * 0.85, width=2)
-    plane_4_label = pyglet.text.Label('Support', color=(245, 66, 167, 255),
-                                      font_name='Times New Roman',
-                                      font_size=25, group=buttons_layer,
-                                      x=4 * window.width / 5, y=window.height * 0.82,
-                                      batch=store_menu_batch)
-
-    plane_4_label.x = plane_4_label.x - plane_4_label.content_width / 2
-    exit_button_sprite = pyglet.sprite.Sprite(x_button, x=windowWidth - x_button.anchor_x,
-                                              y=windowHeight - x_button.anchor_y,
-                                              batch=store_menu_batch,
-                                              group=buttons_layer)
-    plane_choice_shopping = 1
-
-    temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch)
-    store_menu_batch.draw()
-
-    @window.event
-    def on_mouse_press(x, y, button, modifiers):
-        global mode
-        nonlocal temp_upgrades, plane_choice_shopping
-        if windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom left
-            item_buy([plane_choice_shopping, 3])
-        elif windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top left
-            item_buy([plane_choice_shopping, 1])
-        elif windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle left
-            item_buy([plane_choice_shopping, 2])
-        elif windowWidth / 2 - 50 < x < windowWidth / 2 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top middle
-            item_buy([plane_choice_shopping, 4])
-        elif windowWidth / 2 - 50 < x < windowWidth / 2 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle middle
-            item_buy([plane_choice_shopping, 5])
-        elif windowWidth / 2 - 50 < x < windowWidth / 2 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom left
-            item_buy([plane_choice_shopping, 6])
-        elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top right
-            item_buy([plane_choice_shopping, 7])
-        elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle right
-            item_buy([plane_choice_shopping, 8])
-        elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom right
-            item_buy([plane_choice_shopping, 9])
-
-        elif window.width / 5 - 100 < x < windowWidth / 5 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 1
-            plane_choice_shopping = 1
-            temp_upgrades = shop_upgrade(1, store_menu_batch)
-            # print("plane choice change to 1")
-        elif 2 * window.width / 5 - 100 < x < 2 * window.width / 5 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 2
-            plane_choice_shopping = 2
-            temp_upgrades = shop_upgrade(2, store_menu_batch)
-
-        elif 3 * windowWidth / 5 - 100 < x < 3 * windowWidth / 5 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 3
-            plane_choice_shopping = 3
-            temp_upgrades = shop_upgrade(3, store_menu_batch)
-
-        elif 4 * windowWidth / 5 - 100 < x < 4 * windowWidth / 5 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 3
-            plane_choice_shopping = 4
-            temp_upgrades = shop_upgrade(4, store_menu_batch)
-
-        elif (windowWidth - x_button.width) < x < windowWidth and y > (
-                windowHeight - x_button.height):  # clicking X button
-            menu()
-            window.clear()
-
-    @window.event
-    def on_draw():
-        store_menu_batch.draw()
-
-    def update(dt):
-        store_menu_batch.draw()
-
-    pyglet.clock.schedule_interval(update, 1 / 120.0)
-
-    pyglet.app.run()
-
-
 # menu function
 def menu():
     # Sound
@@ -729,6 +556,161 @@ def level_menu():
     pyglet.app.run()
 
 
+def store_menu():
+    def item_buy(item):
+        if item[0] == 1:
+            # print(item[1])
+            if item[1] == 1:
+                createPlayerPlaneUpgrades("Peyton", "improved_movespeed", "fast_plane")
+            elif item[1] == 3:
+                createPlayerPlaneUpgrades("Peyton", "improved_bullet_damage", "fast_plane")
+            elif item[1] == 4:
+                createPlayerPlaneUpgrades("Peyton", "shorter_special_charge_time", "fast_plane")
+            elif item[1] == 6:
+                createPlayerPlaneUpgrades("Peyton", "improved_fire_rate", "fast_plane")
+            elif item[1] == 8:
+                createPlayerPlaneUpgrades("Peyton", "increased_special_damage", "fast_plane")
+            elif item[1] == 0:
+                createPlayerPlaneUpgrades("Peyton", "increase_dodge_bullets", "fast_plane")
+        elif item[0] == 2:
+            if item[1] == 0:
+                createPlayerPlaneUpgrades("Peyton", "improved_bullet_damage", "damage_plane")
+            elif item[1] == 3:
+                createPlayerPlaneUpgrades("Peyton", "bomb", "damage_plane")
+            elif item[1] == 5:
+                createPlayerPlaneUpgrades("Peyton", "improved_bomb_damage", "damage_plane")
+            elif item[1] == 7:
+                createPlayerPlaneUpgrades("Peyton", "improved_bomb_fire_rate", "damage_plane")
+            elif item[1] == 9:
+                createPlayerPlaneUpgrades("Peyton", "triples_fire_rate", "damage_plane")
+        elif item[0] == 3:
+            if item[1] == 0:
+                createPlayerPlaneUpgrades("Peyton", "improved_collision_damage", "helicopter")
+            elif item[1] == 3:
+                createPlayerPlaneUpgrades("Peyton", "improved_health", "helicopter")
+            elif item[1] == 5:
+                createPlayerPlaneUpgrades("Peyton", "improved_movement_speed", "helicopter")
+            elif item[1] == 7:
+                createPlayerPlaneUpgrades("Peyton", "increase_special_time", "helicopter")
+            elif item[1] == 9:
+                createPlayerPlaneUpgrades("Peyton", "increased_special_damage", "helicopter")
+            elif item[1] == 0:
+                createPlayerPlaneUpgrades("Peyton", "increased_damage_to_closer_enemies", "helicopter")
+        elif item[0] == 4:
+            if item[1] == 0:
+                createPlayerPlaneUpgrades("Peyton", "improved_regen_rate", "support_plane")
+            elif item[1] == 3:
+                createPlayerPlaneUpgrades("Peyton", "regenerate_self", "support_plane")
+            elif item[1] == 5:
+                createPlayerPlaneUpgrades("Peyton", "revive_planes_full_health", "support_plane")
+            elif item[1] == 7:
+                createPlayerPlaneUpgrades("Peyton", "shorter_special_charge_time", "support_plane")
+            elif item[1] == 9:
+                createPlayerPlaneUpgrades("Peyton", "revives_all_planes", "support_plane")
+
+    player.next_source()
+    player.queue(fortunate_son)
+    # player.play()
+
+    store_menu_batch = pyglet.graphics.Batch()
+    store_menu_sprite = pyglet.sprite.Sprite(store_map, x=windowWidth / 2, y=windowHeight / 2,
+                                             batch=store_menu_batch,
+                                             group=maps_layer)
+    store_menu_sprite.scale_x = windowWidth / store_menu_sprite.width
+    store_menu_sprite.scale_y = windowHeight / store_menu_sprite.height
+    store_label = pyglet.text.Label('S T O R E',
+                                    font_name='Times New Roman',
+                                    font_size=50, group=buttons_layer,
+                                    x=window.width / 2, y=window.height // 1.1,
+                                    batch=store_menu_batch)
+    store_label.x = store_label.x - store_label.content_width / 2
+
+    # plane_square_1 = create_square(store_menu_batch, x=windowWidth / 4 - 100, y=windowHeight * 0.80,
+    #                                x2=windowWidth / 4 + 100, y2=windowHeight * 0.85, width=2)
+    plane_1_label = pyglet.sprite.Sprite(plane1_button, group=buttons_layer,
+                                      x=window.width / 8, y=window.height * 0.82,
+                                      batch=store_menu_batch)
+    # plane_1_label = pyglet.text.Label('P L A N E 1', color=(0, 0, 255, 255),
+    #                                   font_name='Times New Roman',
+    #                                   font_size=20, group=buttons_layer,
+    #                                   x=window.width / 4, y=window.height * 0.82,
+    #                                   batch=store_menu_batch)
+    #plane_1_label.x = plane_1_label.x - plane_1_label.content_width / 2
+    plane_2_label = pyglet.sprite.Sprite(plane2_button, group=buttons_layer,
+                                      x=window.width *3/ 8, y=window.height * 0.82,
+                                      batch=store_menu_batch)
+    plane_3_label = pyglet.sprite.Sprite(plane3_button, group=buttons_layer,
+                                      x=window.width *5/ 8, y=window.height * 0.82,
+                                      batch=store_menu_batch)
+    plane_4_label = pyglet.sprite.Sprite(plane4_button, group=buttons_layer,
+                                      x=window.width *7/ 8, y=window.height * 0.82,
+                                      batch=store_menu_batch)
+
+    exit_button_sprite = pyglet.sprite.Sprite(x_button, x=windowWidth - x_button.anchor_x,
+                                              y=windowHeight - x_button.anchor_y,
+                                              batch=store_menu_batch,
+                                              group=buttons_layer)
+    plane_choice_shopping = 2
+
+    temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch)
+    store_menu_batch.draw()
+
+    @window.event
+    def on_mouse_press(x, y, button, modifiers):
+        global mode
+        nonlocal temp_upgrades, plane_choice_shopping
+        if windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom left
+            item_buy([plane_choice_shopping, 3])
+        elif windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top left
+            item_buy([plane_choice_shopping, 1])
+        elif windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle left
+            item_buy([plane_choice_shopping, 2])
+        elif windowWidth / 2 - 50 < x < windowWidth / 2 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top middle
+            item_buy([plane_choice_shopping, 4])
+        elif windowWidth / 2 - 50 < x < windowWidth / 2 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle middle
+            item_buy([plane_choice_shopping, 5])
+        elif windowWidth / 2 - 50 < x < windowWidth / 2 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom left
+            item_buy([plane_choice_shopping, 6])
+        elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top right
+            item_buy([plane_choice_shopping, 7])
+        elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle right
+            item_buy([plane_choice_shopping, 8])
+        elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom right
+            item_buy([plane_choice_shopping, 9])
+
+        elif windowWidth / 8 - 100 < x < windowWidth / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 1
+            plane_choice_shopping = 1
+            temp_upgrades = shop_upgrade(1, store_menu_batch)
+            # print("plane choice change to 1")
+        elif windowWidth *3 / 8 - 100 < x < windowWidth *3 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 2
+            plane_choice_shopping = 2
+            temp_upgrades = shop_upgrade(2, store_menu_batch)
+
+        elif windowWidth *5/ 8 - 100 < x < windowWidth *5 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 3
+            plane_choice_shopping = 3
+            temp_upgrades = shop_upgrade(3, store_menu_batch)
+
+        elif windowWidth *7/ 8 - 100 < x < windowWidth *7 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 3
+            plane_choice_shopping = 4
+            temp_upgrades = shop_upgrade(4, store_menu_batch)
+
+        elif (windowWidth - x_button.width) < x < windowWidth and y > (
+                windowHeight - x_button.height):  # clicking X button
+            menu()
+            window.clear()
+
+    @window.event
+    def on_draw():
+        store_menu_batch.draw()
+
+    def update(dt):
+        store_menu_batch.draw()
+
+    pyglet.clock.schedule_interval(update, 1 / 120.0)
+
+    pyglet.app.run()
+
+
 def end_screen():
     end_screen_batch = pyglet.graphics.Batch()
     # del game_objects
@@ -777,12 +759,14 @@ def end_screen():
 
     pyglet.app.run()
 
-
+paused = False;
 # Game function
 def start(level_number=0):
     global mode
+    global paused
 
     level_batch = pyglet.graphics.Batch()
+    paused_batch = pyglet.graphics.Batch()
     mouse_x = 1
     mouse_y = 1
     # setting layering
@@ -811,6 +795,11 @@ def start(level_number=0):
                                font_name='Times New Roman',
                                font_size=24, group=buttons_layer,
                                x=window.width - 200, y=(window.height // 2) - 50, batch=level_batch)
+
+    pause_button_sprite = pyglet.sprite.Sprite(resume_button, x=windowWidth / 2, y=windowHeight / 4,
+                                               batch=paused_batch)
+    quit_button_sprite = pyglet.sprite.Sprite(quit_button, x=windowWidth / 2, y=windowHeight *2 / 4,
+                                               batch=paused_batch)
 
     count = 0
     planeIcons = []
@@ -920,57 +909,85 @@ def start(level_number=0):
 
     @window.event
     def on_mouse_motion(x, y, dx, dy):
-        mouse_location_update(x, y)
+        if paused == False:
+            mouse_location_update(x, y)
 
     # key press event
     @window.event
     def on_key_press(symbol, modifier):
-        currPlane = planeHandler.getActivePlane()
-        if symbol == pyglet.window.key._1:
-            # planeHandler.getActivePlane(1).x = currPlane.x
-            planeHandler.setActivePlane(0, currPlane)
-        if symbol == pyglet.window.key._2:
-            # planeHandler.getActivePlane(0).x = currPlane.x
-            planeHandler.setActivePlane(1, currPlane)
-        if symbol == pyglet.window.key._3:
-            # planeHandler.getActivePlane(0).x = currPlane.x
-            planeHandler.setActivePlane(2, currPlane)
-        if symbol == pyglet.window.key._4:
-            # planeHandler.getActivePlane(0).x = currPlane.x
-            planeHandler.setActivePlane(3, currPlane)
-        if symbol == pyglet.window.key.E:
-            planeHandler.autoFire = not planeHandler.autoFire
-            # print("e pressed")
+        if paused == False:
+            currPlane = planeHandler.getActivePlane()
+            if symbol == pyglet.window.key._1:
+                # planeHandler.getActivePlane(1).x = currPlane.x
+                planeHandler.setActivePlane(0, currPlane)
+            if symbol == pyglet.window.key._2:
+                # planeHandler.getActivePlane(0).x = currPlane.x
+                planeHandler.setActivePlane(1, currPlane)
+            if symbol == pyglet.window.key._3:
+                # planeHandler.getActivePlane(0).x = currPlane.x
+                planeHandler.setActivePlane(2, currPlane)
+            if symbol == pyglet.window.key._4:
+                # planeHandler.getActivePlane(0).x = currPlane.x
+                planeHandler.setActivePlane(3, currPlane)
+            if symbol == pyglet.window.key.E:
+                planeHandler.autoFire = not planeHandler.autoFire
+                #print("e pressed")
 
     @window.event
     def on_mouse_drag(x, y, dx, dy, button, modifiers):
-        mouse_location_update(x, y)
+        if paused == False:
+            mouse_location_update(x, y)
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
         global mode
         global quitCheck
-        if (windowWidth - x_button.width) < x < windowWidth and y > (
-                windowHeight - x_button.height):  # clicking X button
-            # for obj in game_objects:
-            #        game_objects.remove(obj)
-            # for enemy in enemies:
-            #    enemies.remove(enemy)
-            # del game_objects
-            # del enemies
-            # mode = "quit"
-            quitCheck = True
-            # pyglet.app.exit()
-            # end_screen(0)
-            # window.clear()
-        if (button == 1):
-            planeHandler.getActivePlane().fire(mouse_x, mouse_y)
-        if (button == 4):
-            if (len(planeHandler.deadPlaneNum) != 0 and planeHandler.getActivePlane().planeNum == 4
-                    and planeHandler.getActivePlane().canRevive == True):
-                revivePlane()
-            elif (planeHandler.getActivePlane().planeNum != 4):
-                planeHandler.getActivePlane().specialAbilityFire(mouse_x, mouse_y)
+        global paused
+        if paused == False:
+            if (windowWidth - x_button.width) < x < windowWidth and y > (
+                    windowHeight - x_button.height):  # clicking X button
+                # for obj in game_objects:
+                #        game_objects.remove(obj)
+                # for enemy in enemies:
+                #    enemies.remove(enemy)
+                # del game_objects
+                # del enemies
+                # mode = "quit"
+                paused = not paused
+                '''quitCheck = True'''
+                # pyglet.app.exit()
+                # end_screen(0)
+                # window.clear()
+            if (button == 1):
+                planeHandler.getActivePlane().fire(mouse_x, mouse_y)
+            if (button == 4):
+                if (len(planeHandler.deadPlaneNum) != 0 and planeHandler.getActivePlane().planeNum == 4
+                        and planeHandler.getActivePlane().canRevive == True):
+                    revivePlane()
+                elif (planeHandler.getActivePlane().planeNum != 4):
+                    planeHandler.getActivePlane().specialAbilityFire(mouse_x, mouse_y)
+        else:
+            if windowWidth / 2 - 150 < x < (
+                windowWidth / 2) + 150 and windowHeight *2 / 4 - 50 < y < windowHeight *2 / 4 + 50:  # quitButton
+                paused = False
+                mode = "menu"
+                quitCheck = False
+                all_dead = False
+                all_dead = False
+                for plane in planeHandler.getAllPlanes():
+                    plane.health = plane.maxHealth
+                    plane.dead = False
+                for obj in game_objects:
+                    game_objects.remove(obj)
+                for enemy in enemies:
+                    enemies.remove(enemy)
+                obj.update(1)
+                pyglet.app.exit()
+            # live_batch = level_batch
+            # print(level_batch)
+            if windowWidth / 2 - 150 < x < (
+                windowWidth / 2) + 150 and windowHeight  / 4 - 50 < y < windowHeight / 4 + 50:  # ResumeButtons
+                paused = False
 
         # print(game_objects)
 
@@ -993,20 +1010,23 @@ def start(level_number=0):
                 enemies.remove(enemy)
             obj.update(1)
             pyglet.app.exit()
+        if paused == False:
+            window.clear()
+            level_batch.draw()
+            circle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
+                                        planeHandler.getActivePlane().collisionRadius, color=(50, 225, 30), batch=level_batch)
+            circle.opacity = 100
 
-        window.clear()
-        level_batch.draw()
-        circle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
-                                      planeHandler.getActivePlane().collisionRadius, color=(50, 225, 30), batch=level_batch)
-        circle.opacity = 100
+            #rotorCircle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
+            #                             planeHandler.getActivePlane().rotorRadius, color=(255, 255, 255), batch=level_batch)
 
-        # rotorCircle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
-        #                             planeHandler.getActivePlane().rotorRadius, color=(255, 255, 255), batch=level_batch)
+            #rotorCircle.opacity = 100
 
-        # rotorCircle.opacity = 100
-
-        circle.draw()
-        # rotorCircle.draw()
+            circle.draw()
+            #rotorCircle.draw()
+        else:
+            window.clear()
+            paused_batch.draw()
 
     def checkEnd():
         # global mode
@@ -1093,6 +1113,7 @@ def start(level_number=0):
             planeHandler.getActivePlane().laser.velocity_y = planeHandler.getActivePlane().velocity_y
 
     def checkCollision():
+        global quitCheck
         for obj in game_objects:
             if (obj.dead == True):
                 if obj.is_enemy == True and obj.destroyed == True:
@@ -1102,9 +1123,9 @@ def start(level_number=0):
                     label.text = 'Score: ' + str(score_obj['score'])
 
                     print(score_obj)
-                    if score_obj['score'] >= score_obj[
-                        'target_score']:  # change this to change the required score to win
+                    if score_obj['score'] >= score_obj['target_score']:  # change this to change the required score to win
                         # pyglet.clock.schedule_once(end_screen, 1)
+                        #quitCheck = True
                         print("game end")
 
                 game_objects.remove(obj)
@@ -1164,28 +1185,29 @@ def start(level_number=0):
             # peytonhere
 
     def update(dt):
-        updateHealthBar()
-        handle_move(dt)
-        checkCollision()
-        if (planeHandler.getActivePlane().health <= 0):
-            planeHandler.getActivePlane().dead = True
-            checkEnd()
-        checkHeal()
-        if (planeHandler.autoFire):
-            planeHandler.getActivePlane().fire(mouse_x, mouse_y)
+        if paused == False:
+            updateHealthBar()
+            handle_move(dt)
+            checkCollision()
+            if (planeHandler.getActivePlane().health <= 0):
+                planeHandler.getActivePlane().dead = True
+                checkEnd()
+            checkHeal()
+            if (planeHandler.autoFire):
+                planeHandler.getActivePlane().fire(mouse_x, mouse_y)
 
-        to_add = []
-        for obj in game_objects:
-            if obj.dead:
-                game_objects.remove(obj)
-            obj.update(1)
+            to_add = []
+            for obj in game_objects:
+                if obj.dead:
+                    game_objects.remove(obj)
+                obj.update(1)
 
-            to_add.extend(obj.new_objects)
-            obj.new_objects = []
-        # Add new objects to the list
-        game_objects.extend(to_add)
+                to_add.extend(obj.new_objects)
+                obj.new_objects = []
+            # Add new objects to the list
+            game_objects.extend(to_add)
 
-        health.text = 'Health: ' + str(planeHandler.getActivePlane().health)
+            health.text = 'Health: ' + str(planeHandler.getActivePlane().health)
 
     # print(dir())
     pyglet.clock.schedule_interval(update, 1 / 120.0)
