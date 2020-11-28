@@ -171,8 +171,10 @@ class PlayerPlane(PhysicalObject):
             # Note: pyglet's rotation attributes are in "negative degrees"
             if (ydiff > 0):
                 angle_radians = -math.radians(math.degrees(math.atan(xdiff / ydiff)) + 270)
-            else:
+            elif(ydiff< 0):
                 angle_radians = math.radians(-(math.degrees(math.atan(xdiff / ydiff)) + 90))
+            else:
+                angle_radians = math.radians(-(math.degrees(math.atan(0)) + 90))
 
             angle_radians = -math.radians(270)
             angle_radians = -math.radians(270)
