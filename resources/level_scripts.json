@@ -204,8 +204,6 @@
         }
     ],
 
-
-
     [
         {   "spawn_time": 1,
             "enemy_count": 1, 
@@ -248,33 +246,33 @@
         {   "spawn_time": 10.3,
             "enemy_count": 1, 
             "interval": 0.5,
-            "enemy_obj": {"img": "enemy_plane_2", "hp": 50, "kwargs": {"x": -200, "y": 825, "velocity_x": 5}}
+            "enemy_obj": {"img": "enemy_plane_3", "hp": 50, "kwargs": {"x": -200, "y": 825, "velocity_x": 5}}
         },
         {   "spawn_time": 10.3,
             "enemy_count": 1, 
             "interval": 0.5,
-            "enemy_obj": {"img": "enemy_plane_2", "hp": 50, "kwargs": {"x": -200, "y": 575, "velocity_x": 5}}
+            "enemy_obj": {"img": "enemy_plane_3", "hp": 50, "kwargs": {"x": -200, "y": 575, "velocity_x": 5}}
         },
         {   "spawn_time": 13,
             "enemy_count": 1, 
             "interval": 0.5,
             "movement": {"name": "move_parabola", "speed": -8, "a": -2},
             "enemy_obj": 
-                {"img": "enemy_plane_2", "hp": 50, "kwargs": {"x": 1600, "y": 800}}
+                {"img": "enemy_plane_6", "hp": 50, "kwargs": {"x": 1600, "y": 800}}
         },
         {   "spawn_time": 13.1,
             "enemy_count": 1, 
             "interval": 0.5,
             "movement": {"name": "move_parabola", "speed": -8, "a": -2},
             "enemy_obj": 
-                {"img": "enemy_plane_2", "hp": 50, "kwargs": {"x": 2000, "y": 1000}}
+                {"img": "enemy_plane_6", "hp": 50, "kwargs": {"x": 2000, "y": 1000}}
         },
         {   "spawn_time": 13.1,
             "enemy_count": 1, 
             "interval": 0.5,
             "movement": {"name": "move_parabola", "speed": -8, "a": -2},
             "enemy_obj": 
-                {"img": "enemy_plane_2", "hp": 50, "kwargs": {"x": 2000, "y": 600}}
+                {"img": "enemy_plane_6", "hp": 50, "kwargs": {"x": 2000, "y": 600}}
         },
         {   "spawn_time": 20,
             "enemy_count": 1, 
@@ -342,23 +340,23 @@
         {   "spawn_time": 13.5,
             "enemy_count": 1, 
             "interval": 0.5,
-            "enemy_obj": {"img": "enemy_plane_2", "hp": 50, "kwargs": {"x": -200, "y": 825, "velocity_x": 5}}
+            "enemy_obj": {"img": "enemy_plane_7", "hp": 50, "kwargs": {"x": -200, "y": 825, "velocity_x": 5}}
         },
         {   "spawn_time": 13.5,
             "enemy_count": 1, 
             "interval": 0.5,
-            "enemy_obj": {"img": "enemy_plane_2", "hp": 50, "kwargs": {"x": -200, "y": 575, "velocity_x": 5}}
+            "enemy_obj": {"img": "enemy_plane_7", "hp": 50, "kwargs": {"x": -200, "y": 575, "velocity_x": 5}}
         },
         {   "spawn_time": 14,
             "enemy_count": 1, 
             "interval": 0.5,
-            "enemy_obj": {"img": "enemy_plane_2", "hp": 50, "kwargs": {"x": -200, "y": 700, "velocity_x": 5}}
+            "enemy_obj": {"img": "enemy_plane_7", "hp": 50, "kwargs": {"x": -200, "y": 700, "velocity_x": 5}}
         },
         {   "spawn_time": 20,
             "enemy_count": 3, 
             "interval": 0.5,
             "movement": {"name": "move_sinusoid", "speed": -9, "b": 0.004, "a": -2},
-            "enemy_obj": {"img": "enemy_plane_2", "hp": 50, "kwargs": {"x": 2100, "y": 900}}
+            "enemy_obj": {"img": "enemy_plane_7", "hp": 50, "kwargs": {"x": 2100, "y": 900}}
         },
         {   "spawn_time": 22,
             "enemy_count": 3, 
