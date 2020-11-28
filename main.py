@@ -14,8 +14,10 @@ user32 = ctypes.windll.user32
 # createGame()
 mode = "hi"
 quitCheck = False
+time = 0
+finalTime = 0
 
-window = pyglet.window.Window(fullscreen=True)
+window = pyglet.window.Window(fullscreen=True)#, width=user32.GetSystemMetrics(0), height=user32.GetSystemMetrics(1))
 windowWidth = window.width
 windowHeight = window.height
 maps_layer = pyglet.graphics.OrderedGroup(-2)
@@ -29,7 +31,6 @@ playerName = "Peyton"
 def on_close():
     global mode
     mode = "end"
-
 
 def modeCheck():
     while (mode != "end"):
@@ -559,16 +560,22 @@ def level_menu():
             pyglet.app.exit()
             # menu()
         elif level_1[0].x - 100 < x < level_1[0].x + 100 and level_1[0].y - 100 < y < level_1[0].y + 100:
+            mode = "game"
             start(0)
         elif level_2[0].x - 100 < x < level_2[0].x + 100 and level_2[0].y - 100 < y < level_2[0].y + 100:
+            mode = "game"
             start(1)
         elif level_3[0].x - 100 < x < level_3[0].x + 100 and level_3[0].y - 100 < y < level_3[0].y + 100:
+            mode = "game"
             start(2)
         elif level_4[0].x - 100 < x < level_4[0].x + 100 and level_4[0].y - 100 < y < level_4[0].y + 100:
+            mode = "game"
             start(3)
         elif level_5[0].x - 100 < x < level_5[0].x + 100 and level_5[0].y - 100 < y < level_5[0].y + 100:
+            mode = "game"
             start(4)
         elif level_6[0].x - 100 < x < level_6[0].x + 100 and level_6[0].y - 100 < y < level_6[0].y + 100:
+            mode = "game"
             start(5)
 
     def update(dt):
@@ -788,12 +795,13 @@ def end_screen():
 
     pyglet.app.run()
 
-paused = False;
+paused = False
 # Game function
 def start(level_number=0):
     global mode
     global paused
-
+    global finalTime
+    returnFlag = False
     level_batch = pyglet.graphics.Batch()
     paused_batch = pyglet.graphics.Batch()
     mouse_x = 1
@@ -833,10 +841,10 @@ def start(level_number=0):
     count = 0
     planeIcons = []
     healthBarIcons = []
-    print("peyton")
-    print(len(planeHandler.getAllPlanes()))
+    #print("peyton")
+    #print(len(planeHandler.getAllPlanes()))
     for i in planeHandler.getAllPlanes():
-        print(count)
+        #print(count)
         planeIcons.append(pyglet.sprite.Sprite(i.getImage(), x=windowWidth - 30,
                                                y=windowHeight / 2 - 100 * count,
                                                batch=level_batch,
@@ -861,6 +869,9 @@ def start(level_number=0):
 
     with open(level_filepath) as f:
         level = json.load(f)[level_number]
+
+    with open(level_filepath) as f:
+        scores = json.load(f)[6]
 
     # functions to add enemy objects to game objects
     def enemy_fire(dt, enemy, name):
@@ -891,6 +902,8 @@ def start(level_number=0):
             img = eval('resources.' + wave['enemy_obj']['img'])
             hp = wave['enemy_obj']['hp']
             new_enemy = Enemy(img, hp, batch=level_batch, group=plane_layer, **wave['enemy_obj']['kwargs'])
+            if (wave['enemy_obj']['img'] == "enemy_boss"):
+                new_enemy.boss = True
             new_enemy.movement = wave.get('movement', {"name": 'move_not'})
             fire_type = wave.get('fire')
             new_enemy.x += enemy_count * wave.get('spawn_dx', 0)
@@ -912,7 +925,10 @@ def start(level_number=0):
             pyglet.clock.schedule_once(add_enemy, delay=wave['spawn_time'] + enemy_count * wave['interval'], enemy=new_enemy)
 
     # initialize wave
-
+    #finalTime = level[-1]['spawn_time'] + (level[-1]['enemy_count'] * level[-1]['interval']) + 5
+    finalTime = scores[level_number]['end_time']
+    #testTime = scores[level_number]
+    print(finalTime)
     # initializing the background
     level_map_object = PhysicalObject(level_map, x=windowWidth / 2, batch=level_batch,
                                       group=maps_layer)
@@ -944,6 +960,7 @@ def start(level_number=0):
     # key press event
     @window.event
     def on_key_press(symbol, modifier):
+        global paused
         if paused == False:
             currPlane = planeHandler.getActivePlane()
             if symbol == pyglet.window.key._1:
@@ -960,6 +977,8 @@ def start(level_number=0):
                 planeHandler.setActivePlane(3, currPlane)
             if symbol == pyglet.window.key.E:
                 planeHandler.autoFire = not planeHandler.autoFire
+            if symbol == pyglet.window.key.P:
+                paused = not paused
                 #print("e pressed")
 
     @window.event
@@ -1027,6 +1046,7 @@ def start(level_number=0):
         if quitCheck == True:
             # print ("this is running IDK")
             mode = "quit"
+            #planeHandler.autoFire = False
             quitCheck = False
             all_dead = False
             all_dead = False
@@ -1037,7 +1057,12 @@ def start(level_number=0):
                 game_objects.remove(obj)
             for enemy in enemies:
                 enemies.remove(enemy)
-            obj.update(1)
+            #print(dir())
+            #obj.update(1)
+            #window.clear()
+            pyglet.clock.unschedule(add_enemy)
+            pyglet.clock.unschedule(enemy_fire)
+            #return
             pyglet.app.exit()
         if paused == False:
             window.clear()
@@ -1050,6 +1075,12 @@ def start(level_number=0):
             #                             planeHandler.getActivePlane().rotorRadius, color=(255, 255, 255), batch=level_batch)
 
             #rotorCircle.opacity = 100
+            for enemy in enemies:
+                if enemy.boss == True:
+                    rectangle = pyglet.shapes.Rectangle(enemy.x - enemy.image.width/4, enemy.y-enemy.image.height/4, enemy.image.width/2, enemy.image.height/2,
+                                color = (50, 225, 30), batch = level_batch)
+                    rectangle.opacity = 100
+                    rectangle.draw()
 
             circle.draw()
             #rotorCircle.draw()
@@ -1060,7 +1091,6 @@ def start(level_number=0):
     def checkEnd():
         # global mode
         global quitCheck
-        planes = planeHandler.getAllPlanes()
         currentPlane = planeHandler.getActivePlane()
         planeTemp = -1
         for plane in planeHandler.getAllPlanes():
@@ -1068,9 +1098,14 @@ def start(level_number=0):
                 planeTemp = plane.planeNum
                 break
         if (planeTemp != -1):
+            quitCheck = False
             pyglet.clock.schedule_once(switchDeadPlane, num=planeTemp - 1, currPlane=currentPlane, delay=0.1)  # planeHandler.prevPlane
         else:
+            #print('bug here?')
+            #print(dir())
             quitCheck = True
+
+            #planeHandler.autoFire = False
 
     def revivePlane():
         suppPlane = planeHandler.getActivePlane()
@@ -1145,29 +1180,39 @@ def start(level_number=0):
         global quitCheck
         for obj in game_objects:
             if (obj.dead == True):
-                if obj.is_enemy == True and obj.destroyed == True:
-                    enemies.remove(obj)
-                    score_obj['score'] += 1
+                if obj.is_enemy == True:
+                    #enemies.remove(obj)
+                    if (obj.destroyed == True):
+                        score_obj['score'] += 1
 
-                    label.text = 'Score: ' + str(score_obj['score'])
+                        label.text = 'Score: ' + str(score_obj['score'])
 
-                    print(score_obj)
-                    if score_obj['score'] >= score_obj['target_score']:  # change this to change the required score to win
+                        print(score_obj)
+                        if score_obj['score'] >= score_obj['target_score']:  # change this to change the required score to win
                         # pyglet.clock.schedule_once(end_screen, 1)
                         #quitCheck = True
-                        print("game end")
+                            print("game end")
 
                 game_objects.remove(obj)
 
             if (obj.is_enemy):
-                if (planeHandler.getActivePlane().name == "helicopter"):
-                    if (obj.collides_with_rotor(planeHandler.getActivePlane())):
-                        obj.health = obj.health - planeHandler.getActivePlane().rotorDamage
-                        obj.color = (255, 100, 100)
-                        pyglet.clock.schedule_once(obj.revert_color, 0.1)
+                if (obj.boss == True):
+                    if (planeHandler.getActivePlane().name == "helicopter"):
+                        if (obj.boss_collision_radius(planeHandler.getActivePlane(), planeHandler.getActivePlane().rotorRadius)):
+                            obj.health = obj.health - planeHandler.getActivePlane().rotorDamage
+                            obj.color = (255, 100, 100)
+                            pyglet.clock.schedule_once(obj.revert_color, 0.1)
+                    if (obj.boss_collision_radius(planeHandler.getActivePlane(), planeHandler.getActivePlane().collisionRadius)):
+                        planeHandler.getActivePlane().handle_collision_with(obj)
+                else:
+                    if (planeHandler.getActivePlane().name == "helicopter"):
+                        if (obj.collides_with_rotor(planeHandler.getActivePlane())):
+                            obj.health = obj.health - planeHandler.getActivePlane().rotorDamage
+                            obj.color = (255, 100, 100)
+                            pyglet.clock.schedule_once(obj.revert_color, 0.1)
 
-                if (obj.collides_with(planeHandler.getActivePlane()) and planeHandler.getActivePlane().damageable == True):
-                    planeHandler.getActivePlane().handle_collision_with(obj)
+                    if (obj.collides_with(planeHandler.getActivePlane()) and planeHandler.getActivePlane().damageable == True):
+                        planeHandler.getActivePlane().handle_collision_with(obj)
 
             if (obj.is_bullet):
                 if (obj.is_enemyBullet):
@@ -1176,7 +1221,10 @@ def start(level_number=0):
                         # updateHealthBar()
                 else:
                     for enemyObj in enemies:
-                        if (enemyObj.collides_with(obj) == True):
+                        if (enemyObj.boss == True):
+                            if (enemyObj.boss_collision(obj) == True):
+                                enemyObj.handle_collision_with(obj)
+                        elif (enemyObj.collides_with(obj) == True):
                             enemyObj.handle_collision_with(obj)
 
     def checkHeal():
@@ -1214,7 +1262,29 @@ def start(level_number=0):
             # peytonhere
 
     def update(dt):
+        global time
+        global finalTime
+        global mode
+        global quitCheck
+
+        #print(enemies)
+        #print(time)
+        #print(finalTime)
+        #print(planeHandler.autoFire)
+        #print(mode)
+        #print(game_objects)
+        #print(enemies)
+        if (time >= finalTime):# and len(enemies) == 0:
+            #mode = 'menu'
+            planeHandler.autoFire = False
+            quitCheck = True
+            #modeCheck()
         if paused == False:
+            time += dt
+            if (mode != "game"):
+                planeHandler.autoFire = False
+                #return
+            #print(time)
             updateHealthBar()
             handle_move(dt)
             checkCollision()
@@ -1222,7 +1292,7 @@ def start(level_number=0):
                 planeHandler.getActivePlane().dead = True
                 checkEnd()
             checkHeal()
-            if (planeHandler.autoFire and mode =="game"):
+            if (planeHandler.autoFire and mode == "game"):
                 planeHandler.getActivePlane().fire(mouse_x, mouse_y)
 
             to_add = []

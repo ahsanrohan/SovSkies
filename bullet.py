@@ -10,7 +10,7 @@ class Bullet(PhysicalObject):
 
         # Bullets shouldn't stick around forever
 
-        self.life_time = 2.5
+        self.life_time = 4
         pyglet.clock.schedule_once(self.die, self.life_time)
         self.damage = bullet_damage
         # Flag as a bullet
