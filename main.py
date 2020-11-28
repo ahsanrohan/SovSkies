@@ -1168,6 +1168,11 @@ def start(level_number=0):
 
             if (obj.is_enemy):
                 if (obj.boss == True):
+                    if (planeHandler.getActivePlane().name == "helicopter"):
+                        if (obj.boss_collision_radius(planeHandler.getActivePlane(), planeHandler.getActivePlane().rotorRadius)):
+                            obj.health = obj.health - planeHandler.getActivePlane().rotorDamage
+                            obj.color = (255, 100, 100)
+                            pyglet.clock.schedule_once(obj.revert_color, 0.1)
                     if (obj.boss_collision_radius(planeHandler.getActivePlane(), planeHandler.getActivePlane().collisionRadius)):
                         planeHandler.getActivePlane().handle_collision_with(obj)
                 else:
