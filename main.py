@@ -15,7 +15,7 @@ user32 = ctypes.windll.user32
 mode = "hi"
 quitCheck = False
 
-window = pyglet.window.Window(fullscreen=True, width=user32.GetSystemMetrics(0), height=user32.GetSystemMetrics(1))
+window = pyglet.window.Window(fullscreen=True)
 windowWidth = window.width
 windowHeight = window.height
 maps_layer = pyglet.graphics.OrderedGroup(-2)
@@ -55,10 +55,10 @@ def modeCheck():
                     del globals()[element]
             print(dir())
             end_screen()
-    closeConnection()
     for element in dir():
         if element[0:2] != "__":
             del globals()[element]
+    closeConnection()
     # print(dir())
 
 
@@ -76,12 +76,17 @@ def create_square(batch, x, y, x2, y2, width=20):
 
 # this is where values are initialized
 def init():
+    # deleteLevels("Peyton")
+    # dropLevel()
     # createLevelTable()
     # createLevel("Peyton", 1)
     # createLevel("Peyton", 2)
     # createLevel("Peyton", 3)
     # createLevel("Peyton", 4)
     # createLevel("Peyton", 5)
+    # createLevel("Peyton", 6)
+    #deletePlayer()
+    #createPlayer("Peyton")
     print("database planes: ")
     printPlayerPlanes()
     print("database Levels: ")
@@ -89,14 +94,22 @@ def init():
     print("database upgrades: ")
     printAllPlayerPlanesUpgrades()
 
-    # createPlayer("Peyton")
+    
     # deletePlanes("Peyton")
-    # deleteUpgrades("Peyton")
+    #deleteUpgrades("Peyton")
     # createPlayerPlanes("Peyton", "fast_plane")
     # createPlayerPlanes("Peyton", "damage_plane")
     # createPlayerPlanes("Peyton", "helicopter")
     # createPlayerPlanes("Peyton", "support_plane")
     # createPlaneUpgradeTable()
+    #updatePlayerCash(100, "Peyton")
+    #updatePlayerGamesPlayed("Peyton")
+    #updatePlayerLevel(13, "Peyton")
+    #updateLevelComplete(1,2, 30, "Peyton")
+    print("this is the player")
+    printAllPlayer()
+    print("these are the levels")
+    printLevels()
     global mode
     mode = "menu"
 
@@ -358,15 +371,19 @@ def menu():
                                             group=maps_layer)
     start_map_sprite.scale_x = windowWidth / start_map_sprite.width
     start_map_sprite.scale_y = windowHeight / start_map_sprite.height
-    start_button_sprite = pyglet.sprite.Sprite(start_button, x=windowWidth / 4, y=windowHeight / 4,
+    start_button_sprite = pyglet.sprite.Sprite(start_button, x= 2*windowWidth / 13, y=windowHeight / 4,
                                                batch=start_screen_batch,
                                                group=buttons_layer)
-    store_button_sprite = pyglet.sprite.Sprite(store_button, x=3 * windowWidth / 4,
+    store_button_sprite = pyglet.sprite.Sprite(store_button, x=8 * windowWidth / 13,
                                                y=windowHeight / 4,
                                                batch=start_screen_batch,
                                                group=buttons_layer)
 
-    levels_button_sprite = pyglet.sprite.Sprite(levels_button, x=2 * windowWidth / 4,
+    levels_button_sprite = pyglet.sprite.Sprite(levels_button, x=5 * windowWidth / 13,
+                                                y=windowHeight / 4,
+                                                batch=start_screen_batch,
+                                                group=buttons_layer)
+    exit_button_sprite = pyglet.sprite.Sprite(exit_button, x=11 * windowWidth / 13,
                                                 y=windowHeight / 4,
                                                 batch=start_screen_batch,
                                                 group=buttons_layer)
@@ -390,8 +407,8 @@ def menu():
     @window.event
     def on_mouse_press(x, y, button, modifiers):
         global mode
-        if windowWidth / 4 - 150 < x < (
-                windowWidth / 4) + 150 and windowHeight / 4 - 50 < y < windowHeight / 4 + 50:  # start game
+        if 2*windowWidth / 13 - 150 < x < (2* windowWidth / 13) + 150 and  (
+                windowHeight / 4 - 50 < y < windowHeight / 4 + 50):  # start game
             inGame = True
             # live_batch = level_batch
             window.clear()
@@ -400,17 +417,22 @@ def menu():
             pyglet.app.exit()
             # return
             # start()
-        elif ((3 * windowWidth / 4 - 150) < x < (3 * windowWidth / 4) + 150) and (
+        elif ((8 * windowWidth / 13 - 150) < x < (8 * windowWidth / 13) + 150) and (
                 windowHeight / 4 - 50 < y < windowHeight / 4 + 50):  # goto store
             window.clear()
             mode = "store"
             pyglet.app.exit()
             # return
             # store_menu()
-        elif ((windowWidth / 2 - 200) < x < (windowWidth / 2 + 200)) and (
+        elif ((5*windowWidth / 13 - 200) < x < (5*windowWidth / 13 + 200)) and (
                 windowHeight / 4 - 40 < y < windowHeight / 4 + 40):  # goto store
             window.clear()
             mode = "level"
+            pyglet.app.exit()
+        elif ((11*windowWidth / 13 - 200) < x < (11*windowWidth / 13 + 200)) and (
+                windowHeight / 4 - 40 < y < windowHeight / 4 + 40):  # goto store
+            window.clear()
+            mode = "end"
             pyglet.app.exit()
             # return
             # level_menu()
@@ -558,55 +580,57 @@ def level_menu():
 
 def store_menu():
     def item_buy(item):
-        if item[0] == 1:
-            # print(item[1])
-            if item[1] == 1:
-                createPlayerPlaneUpgrades("Peyton", "improved_movespeed", "fast_plane")
-            elif item[1] == 3:
-                createPlayerPlaneUpgrades("Peyton", "improved_bullet_damage", "fast_plane")
-            elif item[1] == 4:
-                createPlayerPlaneUpgrades("Peyton", "shorter_special_charge_time", "fast_plane")
-            elif item[1] == 6:
-                createPlayerPlaneUpgrades("Peyton", "improved_fire_rate", "fast_plane")
-            elif item[1] == 8:
-                createPlayerPlaneUpgrades("Peyton", "increased_special_damage", "fast_plane")
-            elif item[1] == 0:
-                createPlayerPlaneUpgrades("Peyton", "increase_dodge_bullets", "fast_plane")
-        elif item[0] == 2:
-            if item[1] == 0:
-                createPlayerPlaneUpgrades("Peyton", "improved_bullet_damage", "damage_plane")
-            elif item[1] == 3:
-                createPlayerPlaneUpgrades("Peyton", "bomb", "damage_plane")
-            elif item[1] == 5:
-                createPlayerPlaneUpgrades("Peyton", "improved_bomb_damage", "damage_plane")
-            elif item[1] == 7:
-                createPlayerPlaneUpgrades("Peyton", "improved_bomb_fire_rate", "damage_plane")
-            elif item[1] == 9:
-                createPlayerPlaneUpgrades("Peyton", "triples_fire_rate", "damage_plane")
-        elif item[0] == 3:
-            if item[1] == 0:
-                createPlayerPlaneUpgrades("Peyton", "improved_collision_damage", "helicopter")
-            elif item[1] == 3:
-                createPlayerPlaneUpgrades("Peyton", "improved_health", "helicopter")
-            elif item[1] == 5:
-                createPlayerPlaneUpgrades("Peyton", "improved_movement_speed", "helicopter")
-            elif item[1] == 7:
-                createPlayerPlaneUpgrades("Peyton", "increase_special_time", "helicopter")
-            elif item[1] == 9:
-                createPlayerPlaneUpgrades("Peyton", "increased_special_damage", "helicopter")
-            elif item[1] == 0:
-                createPlayerPlaneUpgrades("Peyton", "increased_damage_to_closer_enemies", "helicopter")
-        elif item[0] == 4:
-            if item[1] == 0:
-                createPlayerPlaneUpgrades("Peyton", "improved_regen_rate", "support_plane")
-            elif item[1] == 3:
-                createPlayerPlaneUpgrades("Peyton", "regenerate_self", "support_plane")
-            elif item[1] == 5:
-                createPlayerPlaneUpgrades("Peyton", "revive_planes_full_health", "support_plane")
-            elif item[1] == 7:
-                createPlayerPlaneUpgrades("Peyton", "shorter_special_charge_time", "support_plane")
-            elif item[1] == 9:
-                createPlayerPlaneUpgrades("Peyton", "revives_all_planes", "support_plane")
+        if (getPlayerCash("Peyton")[0][0] >= 3):
+            if item[0] == 1:
+                # print(item[1])
+                if item[1] == 1 and len(getPlayerPlaneUpgrades("Peyton", "improved_movespeed", "fast_plane")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "improved_movespeed", "fast_plane")
+                elif item[1] == 3 and len(getPlayerPlaneUpgrades("Peyton", "improved_bullet_damage", "fast_plane")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "improved_bullet_damage", "fast_plane")
+                elif item[1] == 4 and len(getPlayerPlaneUpgrades("Peyton", "shorter_special_charge_time", "fast_plane")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "shorter_special_charge_time", "fast_plane")
+                elif item[1] == 6 and len(getPlayerPlaneUpgrades("Peyton", "improved_fire_rate", "fast_plane")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "improved_fire_rate", "fast_plane")
+                elif item[1] == 8 and len(getPlayerPlaneUpgrades("Peyton", "increased_special_damage", "fast_plane")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "increased_special_damage", "fast_plane")
+                elif item[1] == 0 and len(getPlayerPlaneUpgrades("Peyton", "increase_dodge_bullets", "fast_plane")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "increase_dodge_bullets", "fast_plane")
+            elif item[0] == 2 :
+                if item[1] == 0 and len(getPlayerPlaneUpgrades("Peyton", "improved_bullet_damage", "damage_plane")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "improved_bullet_damage", "damage_plane")
+                elif item[1] == 3 and len(getPlayerPlaneUpgrades("Peyton", "bomb", "damage_plane")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "bomb", "damage_plane")
+                elif item[1] == 5 and len(getPlayerPlaneUpgrades("Peyton", "improved_bomb_damage", "damage_plane")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "improved_bomb_damage", "damage_plane")
+                elif item[1] == 7 and len(getPlayerPlaneUpgrades("Peyton", "improved_bomb_fire_rate", "damage_plane")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "improved_bomb_fire_rate", "damage_plane")
+                elif item[1] == 9 and len(getPlayerPlaneUpgrades("Peyton", "triples_fire_rate", "damage_plane")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "triples_fire_rate", "damage_plane")
+            elif item[0] == 3:
+                if item[1] == 0 and len(getPlayerPlaneUpgrades("Peyton", "improved_collision_damage", "helicopter")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "improved_collision_damage", "helicopter")
+                elif item[1] == 3 and len(getPlayerPlaneUpgrades("Peyton", "improved_health", "helicopter")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "improved_health", "helicopter")
+                elif item[1] == 5 and len(getPlayerPlaneUpgrades("Peyton", "improved_movement_speed", "helicopter")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "improved_movement_speed", "helicopter")
+                elif item[1] == 7 and len(getPlayerPlaneUpgrades("Peyton", "increase_special_time", "helicopter")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "increase_special_time", "helicopter")
+                elif item[1] == 9 and len(getPlayerPlaneUpgrades("Peyton", "increased_special_damage", "helicopter")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "increased_special_damage", "helicopter")
+                elif item[1] == 0 and len(getPlayerPlaneUpgrades("Peyton", "increased_damage_to_closer_enemies", "helicopter")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "increased_damage_to_closer_enemies", "helicopter")
+            elif item[0] == 4:
+                if item[1] == 0 and len(getPlayerPlaneUpgrades("Peyton", "improved_regen_rate", "support_plane")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "improved_regen_rate", "support_plane")
+                elif item[1] == 3 and len(getPlayerPlaneUpgrades("Peyton", "regenerate_self", "support_plane")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "regenerate_self", "support_plane")
+                elif item[1] == 5 and len(getPlayerPlaneUpgrades("Peyton", "revive_planes_full_health", "support_plane")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "revive_planes_full_health", "support_plane")
+                elif item[1] == 7 and len(getPlayerPlaneUpgrades("Peyton", "shorter_special_charge_time", "support_plane")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "shorter_special_charge_time", "support_plane")
+                elif item[1] == 9 and len(getPlayerPlaneUpgrades("Peyton", "revives_all_planes", "support_plane")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "revives_all_planes", "support_plane")
+            Cash_Available_label.text = str(getPlayerCash("Peyton")[0][0])
 
     player.next_source()
     player.queue(fortunate_son)
@@ -624,6 +648,11 @@ def store_menu():
                                     x=window.width / 2, y=window.height // 1.1,
                                     batch=store_menu_batch)
     store_label.x = store_label.x - store_label.content_width / 2
+    Cash_Available_label = pyglet.text.Label( str(getPlayerCash("Peyton")[0][0]),
+                                    font_name='Times New Roman',
+                                    font_size=50, group=buttons_layer,
+                                    x= 10, y=window.height // 1.1,
+                                    batch=store_menu_batch)
 
     # plane_square_1 = create_square(store_menu_batch, x=windowWidth / 4 - 100, y=windowHeight * 0.80,
     #                                x2=windowWidth / 4 + 100, y2=windowHeight * 0.85, width=2)
@@ -1193,7 +1222,7 @@ def start(level_number=0):
                 planeHandler.getActivePlane().dead = True
                 checkEnd()
             checkHeal()
-            if (planeHandler.autoFire):
+            if (planeHandler.autoFire and mode =="game"):
                 planeHandler.getActivePlane().fire(mouse_x, mouse_y)
 
             to_add = []

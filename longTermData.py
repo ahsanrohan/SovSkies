@@ -3,6 +3,13 @@ import sqlite3
 conn = sqlite3.connect("longTermData.db")
 cur = conn.cursor()
 
+def dropLevel():
+    cur.execute("DROP TABLE LEVELS")
+
+def deletePlayer():
+    cur.execute("DELETE FROM PLAYER;")
+    print("Deleted Players")
+
 def deleteUpgrades(name):
     cur.execute("DELETE FROM PLAYERPLANEUPGRADES WHERE Owner LIKE '%'||?||'%';", (name, ))
     print("Deleted Upgrades")
@@ -10,8 +17,32 @@ def deleteUpgrades(name):
 def deletePlanes(name):
     cur.execute("DELETE FROM PLAYERPLANES WHERE Owner LIKE '%'||?||'%';", (name, ))
     print("Deleted planes")
-    conn.commit()
+def deleteLevels(name):
+    cur.execute("DELETE FROM LEVELS WHERE Owner LIKE '%'||?||'%';", (name, ))
+    print("Deleted planes")
 
+def updatePlayerCash(cash, name):
+    cur.execute("UPDATE PLAYER SET Cash =  (''||?||'' + (SELECT Cash FROM PLAYER WHERE Name LIKE '%'||?||'%'))  WHERE Name LIKE '%'||?||'%';", (cash,name, name ))
+
+def updatePlayerGamesPlayed(name):
+    cur.execute("UPDATE PLAYER SET GamesPlayed =  (1 + (SELECT Cash FROM PLAYER WHERE Name LIKE '%'||?||'%'))  WHERE Name LIKE '%'||?||'%';", (name, name ))
+
+def updatePlayerLevel(level, name):
+    cur.execute("UPDATE PLAYER SET Level =  (''||?||'' )  WHERE Name LIKE '%'||?||'%';", (level, name ))
+
+def updateLevelComplete(level, starsEarned, score, name):
+    cur.execute("UPDATE LEVELS SET Completed =  True WHERE Owner LIKE '%'||?||'%' AND level = ''||?||'';", (name, level))
+    PrevStarsEarned = getLevelStarsEarned(name, level)[0][0]
+    if(starsEarned > PrevStarsEarned):
+        cur.execute("UPDATE LEVELS SET MaxScore =  (''||?||'' ) WHERE Owner LIKE '%'||?||'%' AND level = ''||?||'';", (score, name, level ))
+        cur.execute("UPDATE LEVELS SET StarsEarned = (''||?||'' ) WHERE Owner LIKE '%'||?||'%' AND level = ''||?||'';", (starsEarned, name, level ))
+        updatePlayerCash(starsEarned-PrevStarsEarned, name)
+            # Owner CHAR(20),
+            #  StarsEarned INT,
+            # MaxScore INT,
+            # Level INT,
+            # Completed BOOLEAN
+    
 
 def createPlayer(name):
     sqlite_insert_with_param = """INSERT INTO PLAYER
@@ -35,13 +66,14 @@ def createPlayerPlaneUpgrades(owner, upgrade, planeName):
                               VALUES (?, ?, ?);"""
     data_tuple = (owner, upgrade, planeName)
     cur.execute(sqlite_insert_with_param, data_tuple)
+    updatePlayerCash(-3, owner)
     print("inserted player plane upgrade new")
 
 def createLevel(owner, level):
     sqlite_insert_with_param = """INSERT INTO LEVELS
-                              (Owner, StarsEarned, Level, Completed) 
-                              VALUES (?, ?, ?, ?);"""
-    data_tuple = (owner, 0, level, False)
+                              (Owner, StarsEarned, MaxScore, Level, Completed) 
+                              VALUES (?, ?, ?,  ?, ?);"""
+    data_tuple = (owner, 0, 0, level, False)
     cur.execute(sqlite_insert_with_param, data_tuple)
     print("inserted new level")
 
@@ -64,8 +96,23 @@ def printPlayerPlanes():
     for i in before:
         print(i)
 
+def getPlayerCash(name):
+    cur.execute("SELECT Cash FROM PLAYER WHERE NAME LIKE '%'||?||'%';", (name, ))
+    before = cur.fetchall()
+    return before        
+
 def getLevels(name):
-    cur.execute("Select * FROM LEVELS WHERE Owner LIKE '%'||?||'%';", (name, ))
+    cur.execute("SELECT * FROM LEVELS WHERE Owner LIKE '%'||?||'%';", (name, ))
+    before = cur.fetchall()
+    return before
+
+def getLevelMaxScore(name, level):
+    cur.execute("SELECT MaxScore FROM LEVELS WHERE Owner LIKE '%'||?||'%' AND Level = ''||?||'';", (name, level))
+    before = cur.fetchall()
+    return before
+
+def getLevelStarsEarned(name, level):
+    cur.execute("SELECT StarsEarned FROM LEVELS WHERE Owner LIKE '%'||?||'%' AND Level = ''||?||'';", (name, level))
     before = cur.fetchall()
     return before
 
@@ -79,8 +126,19 @@ def getPlayerPlanesUpgrades(name, plane):
     before = cur.fetchall()
     return before
 
+def getPlayerPlaneUpgrades(name, upgrade, plane ):
+    cur.execute("Select Upgrade FROM PLAYERPLANEUPGRADES WHERE Owner LIKE '%'||?||'%' AND Plane LIKE '%'||?||'%' AND Upgrade LIKE '%'||?||'%' ;", (name, plane, upgrade ))
+    before = cur.fetchall()
+    return before
+
 def printAllPlayerPlanesUpgrades():
     cur.execute("""SELECT * FROM PLAYERPLANEUPGRADES""")
+    before = cur.fetchall()
+    for i in before:
+        print(i)
+
+def printAllPlayer():
+    cur.execute("""SELECT * FROM PLAYER""")
     before = cur.fetchall()
     for i in before:
         print(i)
@@ -137,5 +195,6 @@ def createLevelTable():
 
 
 def closeConnection():
+    print("closed connection")
     conn.commit()
     conn.close()
