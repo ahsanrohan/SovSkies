@@ -407,12 +407,12 @@
         {   "spawn_time": 1,
             "enemy_count": 1,
             "interval": 0,
-            "movement": {"name": "stop_at", "speed": 2, "x": 800, "y": 800},
+            "movement": {"name": "stop_at", "speed": 2, "x": 960, "y": 800},
             "fire": [
                 {"name": "target_plane", "interval": 0.5, "duration": 2},
                 {"name": "spiral", "interval":  0.5, "duration": 5, "speed": 5, "count": 9}
             ],
-            "enemy_obj": {"img": "enemy_boss", "hp": 1000, "kwargs": {"x": 900, "y": 1200, "velocity_y": -1}}
+            "enemy_obj": {"img": "enemy_boss_2", "hp": 1000, "kwargs": {"x": 960, "y": 1200, "velocity_y": -1}}
         }
     ],
 
