@@ -50,7 +50,7 @@ class PhysicalObject(pyglet.sprite.Sprite):
             buffer = 250
             min_x = 0
             min_y = 0
-            max_x = 1800
+            max_x = 1900
             max_y = 1000
             if self.x < min_x - buffer or self.y < min_y - buffer or self.x > max_x + buffer or self.y > max_y + buffer:
                 self.dead = True
