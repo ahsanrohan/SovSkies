@@ -5,6 +5,9 @@ cur = conn.cursor()
 
 def dropLevel():
     cur.execute("DROP TABLE LEVELS")
+def dropUpgrades():
+    deleteUpgrades("Peyton")
+    cur.execute("DROP TABLE PLAYERPLANEUPGRADES")
 
 def deletePlayer():
     cur.execute("DELETE FROM PLAYER;")
@@ -60,11 +63,11 @@ def createPlayerPlanes(owner, planeName):
     cur.execute(sqlite_insert_with_param, data_tuple)
     print("inserted plane")
 
-def createPlayerPlaneUpgrades(owner, upgrade, planeName):
+def createPlayerPlaneUpgrades(owner, upgrade, planeName, icon):
     sqlite_insert_with_param = """INSERT INTO PLAYERPLANEUPGRADES
-                              (Owner, Upgrade, Plane) 
-                              VALUES (?, ?, ?);"""
-    data_tuple = (owner, upgrade, planeName)
+                              (Owner, Upgrade, Plane, Icon) 
+                              VALUES (?, ?, ?, ?);"""
+    data_tuple = (owner, upgrade, planeName, icon)
     cur.execute(sqlite_insert_with_param, data_tuple)
     updatePlayerCash(-3, owner)
     print("inserted player plane upgrade new")
@@ -126,6 +129,11 @@ def getPlayerPlanesUpgrades(name, plane):
     before = cur.fetchall()
     return before
 
+def getPlayerPlanesUpgradesIcon(name, plane):
+    cur.execute("Select Icon FROM PLAYERPLANEUPGRADES WHERE Owner LIKE '%'||?||'%' AND Plane LIKE '%'||?||'%' ;", (name,plane ))
+    before = cur.fetchall()
+    return before
+
 def getPlayerPlaneUpgrades(name, upgrade, plane ):
     cur.execute("Select Upgrade FROM PLAYERPLANEUPGRADES WHERE Owner LIKE '%'||?||'%' AND Plane LIKE '%'||?||'%' AND Upgrade LIKE '%'||?||'%' ;", (name, plane, upgrade ))
     before = cur.fetchall()
@@ -174,7 +182,8 @@ def createPlaneUpgradeTable():
         CREATE TABLE PLAYERPLANEUPGRADES(
             Owner CHAR(20),
             upgrade CHAR(20),
-            plane CHAR(20)
+            plane CHAR(20),
+            Icon INT
         )
         """
                         )

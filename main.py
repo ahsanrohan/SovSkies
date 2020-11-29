@@ -92,18 +92,21 @@ def init():
     printPlayerPlanes()
     print("database Levels: ")
     printLevels()
+
+    # dropUpgrades()
+    # createPlaneUpgradeTable()
     print("database upgrades: ")
     printAllPlayerPlanesUpgrades()
 
     
     # deletePlanes("Peyton")
-    #deleteUpgrades("Peyton")
+    # deleteUpgrades("Peyton")
     # createPlayerPlanes("Peyton", "fast_plane")
     # createPlayerPlanes("Peyton", "damage_plane")
     # createPlayerPlanes("Peyton", "helicopter")
     # createPlayerPlanes("Peyton", "support_plane")
-    # createPlaneUpgradeTable()
-    #updatePlayerCash(100, "Peyton")
+    
+    # updatePlayerCash(100, "Peyton")
     #updatePlayerGamesPlayed("Peyton")
     #updatePlayerLevel(13, "Peyton")
     #updateLevelComplete(1,2, 30, "Peyton")
@@ -119,10 +122,12 @@ def init():
     # menu()
 
 
-def shop_upgrade(plane_choice_shopping, batch):
+def shop_upgrade(plane_choice_shopping, batch, description):
     upgrade_box_array = []
     icon_array = []
+    text = ""
     if plane_choice_shopping == 1:
+        text = "Fast plane:"
         # Tier 1
         upgrade_box_array += create_square(batch, x=windowWidth / 3 - 50,
                                            y=windowHeight / 3 - 50,
@@ -178,7 +183,11 @@ def shop_upgrade(plane_choice_shopping, batch):
         upgrade_box_array += create_square(batch,
                                            x=windowWidth / 2 + 50, x2=2 * windowWidth / 3 - 50,
                                            y=windowHeight / 3, y2=windowHeight / 3)
+        for upgrades in  getPlayerPlanesUpgradesIcon("Peyton", "fast_plane"):
+            icon_array[upgrades[0]].color = (255, 5, 5)
+        
     elif plane_choice_shopping == 2:
+        text = "Damage plane:"
         # Tier 1
         upgrade_box_array = create_square(batch, x=windowWidth / 3 - 50,
                                           y=windowHeight / 3 - 50,
@@ -237,7 +246,10 @@ def shop_upgrade(plane_choice_shopping, batch):
         upgrade_box_array += create_square(batch,
                                            x=windowWidth / 2 + 50, x2=2 * windowWidth / 3,
                                            y=windowHeight / 2, y2=windowHeight / 2)
+        for upgrades in  getPlayerPlanesUpgradesIcon("Peyton", "damage_plane"):
+            icon_array[upgrades[0]].color = (255, 5, 5)
     elif plane_choice_shopping == 3:
+        text = "Helicopter:"
         # Tier 1
         upgrade_box_array += create_square(batch, x=windowWidth / 3 - 50,
                                            y=windowHeight / 3 - 50,
@@ -294,7 +306,10 @@ def shop_upgrade(plane_choice_shopping, batch):
         upgrade_box_array += create_square(batch,
                                            x=windowWidth / 2 + 50, x2=2 * windowWidth / 3 - 50,
                                            y=windowHeight / 3, y2=windowHeight / 3)
+        for upgrades in  getPlayerPlanesUpgradesIcon("Peyton", "helicopter"):
+            icon_array[upgrades[0]].color = (255, 5, 5)
     elif plane_choice_shopping == 4:
+        text = "Support plane:"
         # Tier 1
         upgrade_box_array += create_square(batch, x=windowWidth / 3 - 50,
                                            y=windowHeight / 3 - 50,
@@ -354,6 +369,20 @@ def shop_upgrade(plane_choice_shopping, batch):
         upgrade_box_array += create_square(batch,
                                            x=windowWidth / 2 + 50, x2=2 * windowWidth / 3,
                                            y=windowHeight / 2, y2=windowHeight / 2)
+        for upgrades in  getPlayerPlanesUpgradesIcon("Peyton", "support_plane"):
+            icon_array[upgrades[0]].color = (255, 5, 5)
+
+    
+    
+    # if plane_choice_shopping == 1:
+    #     planeName = "fast_plane"
+    # elif plane_choice_shopping == 2:
+    #     planeNmae = "damage_plane"
+    # elif plane_choice_shopping == 3:
+    #     planeName = "helicopter"
+    # else:
+    #     planeName = "support_plane"
+    description.text = text
 
     return [upgrade_box_array, icon_array]
 
@@ -591,52 +620,52 @@ def store_menu():
             if item[0] == 1:
                 # print(item[1])
                 if item[1] == 1 and len(getPlayerPlaneUpgrades("Peyton", "improved_movespeed", "fast_plane")) == 0:
-                    createPlayerPlaneUpgrades("Peyton", "improved_movespeed", "fast_plane")
+                    createPlayerPlaneUpgrades("Peyton", "improved_movespeed", "fast_plane", 0)
                 elif item[1] == 3 and len(getPlayerPlaneUpgrades("Peyton", "improved_bullet_damage", "fast_plane")) == 0:
-                    createPlayerPlaneUpgrades("Peyton", "improved_bullet_damage", "fast_plane")
+                    createPlayerPlaneUpgrades("Peyton", "improved_bullet_damage", "fast_plane", 1)
                 elif item[1] == 4 and len(getPlayerPlaneUpgrades("Peyton", "shorter_special_charge_time", "fast_plane")) == 0:
-                    createPlayerPlaneUpgrades("Peyton", "shorter_special_charge_time", "fast_plane")
+                    createPlayerPlaneUpgrades("Peyton", "shorter_special_charge_time", "fast_plane" , 2)
                 elif item[1] == 6 and len(getPlayerPlaneUpgrades("Peyton", "improved_fire_rate", "fast_plane")) == 0:
-                    createPlayerPlaneUpgrades("Peyton", "improved_fire_rate", "fast_plane")
+                    createPlayerPlaneUpgrades("Peyton", "improved_fire_rate", "fast_plane" ,3)
                 elif item[1] == 8 and len(getPlayerPlaneUpgrades("Peyton", "increased_special_damage", "fast_plane")) == 0:
-                    createPlayerPlaneUpgrades("Peyton", "increased_special_damage", "fast_plane")
+                    createPlayerPlaneUpgrades("Peyton", "increased_special_damage", "fast_plane" ,4 )
                 elif item[1] == 0 and len(getPlayerPlaneUpgrades("Peyton", "increase_dodge_bullets", "fast_plane")) == 0:
-                    createPlayerPlaneUpgrades("Peyton", "increase_dodge_bullets", "fast_plane")
+                    createPlayerPlaneUpgrades("Peyton", "increase_dodge_bullets", "fast_plane" ,5)
             elif item[0] == 2 :
-                if item[1] == 0 and len(getPlayerPlaneUpgrades("Peyton", "improved_bullet_damage", "damage_plane")) == 0:
-                    createPlayerPlaneUpgrades("Peyton", "improved_bullet_damage", "damage_plane")
+                if item[1] == 1 and len(getPlayerPlaneUpgrades("Peyton", "improved_bullet_damage", "damage_plane")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "improved_bullet_damage", "damage_plane", 0)
                 elif item[1] == 3 and len(getPlayerPlaneUpgrades("Peyton", "bomb", "damage_plane")) == 0:
-                    createPlayerPlaneUpgrades("Peyton", "bomb", "damage_plane")
+                    createPlayerPlaneUpgrades("Peyton", "bomb", "damage_plane" , 1)
                 elif item[1] == 5 and len(getPlayerPlaneUpgrades("Peyton", "improved_bomb_damage", "damage_plane")) == 0:
-                    createPlayerPlaneUpgrades("Peyton", "improved_bomb_damage", "damage_plane")
+                    createPlayerPlaneUpgrades("Peyton", "improved_bomb_damage", "damage_plane", 2)
                 elif item[1] == 7 and len(getPlayerPlaneUpgrades("Peyton", "improved_bomb_fire_rate", "damage_plane")) == 0:
-                    createPlayerPlaneUpgrades("Peyton", "improved_bomb_fire_rate", "damage_plane")
+                    createPlayerPlaneUpgrades("Peyton", "improved_bomb_fire_rate", "damage_plane",3)
                 elif item[1] == 9 and len(getPlayerPlaneUpgrades("Peyton", "triples_fire_rate", "damage_plane")) == 0:
-                    createPlayerPlaneUpgrades("Peyton", "triples_fire_rate", "damage_plane")
+                    createPlayerPlaneUpgrades("Peyton", "triples_fire_rate", "damage_plane", 4)
             elif item[0] == 3:
-                if item[1] == 0 and len(getPlayerPlaneUpgrades("Peyton", "improved_collision_damage", "helicopter")) == 0:
-                    createPlayerPlaneUpgrades("Peyton", "improved_collision_damage", "helicopter")
+                if item[1] == 1 and len(getPlayerPlaneUpgrades("Peyton", "improved_collision_damage", "helicopter")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "improved_collision_damage", "helicopter", 0)
                 elif item[1] == 3 and len(getPlayerPlaneUpgrades("Peyton", "improved_health", "helicopter")) == 0:
-                    createPlayerPlaneUpgrades("Peyton", "improved_health", "helicopter")
+                    createPlayerPlaneUpgrades("Peyton", "improved_health", "helicopter", 1)
                 elif item[1] == 5 and len(getPlayerPlaneUpgrades("Peyton", "improved_movement_speed", "helicopter")) == 0:
-                    createPlayerPlaneUpgrades("Peyton", "improved_movement_speed", "helicopter")
+                    createPlayerPlaneUpgrades("Peyton", "improved_movement_speed", "helicopter", 2)
                 elif item[1] == 7 and len(getPlayerPlaneUpgrades("Peyton", "increase_special_time", "helicopter")) == 0:
-                    createPlayerPlaneUpgrades("Peyton", "increase_special_time", "helicopter")
+                    createPlayerPlaneUpgrades("Peyton", "increase_special_time", "helicopter",3 )
                 elif item[1] == 9 and len(getPlayerPlaneUpgrades("Peyton", "increased_special_damage", "helicopter")) == 0:
-                    createPlayerPlaneUpgrades("Peyton", "increased_special_damage", "helicopter")
+                    createPlayerPlaneUpgrades("Peyton", "increased_special_damage", "helicopter",4 )
                 elif item[1] == 0 and len(getPlayerPlaneUpgrades("Peyton", "increased_damage_to_closer_enemies", "helicopter")) == 0:
-                    createPlayerPlaneUpgrades("Peyton", "increased_damage_to_closer_enemies", "helicopter")
+                    createPlayerPlaneUpgrades("Peyton", "increased_damage_to_closer_enemies", "helicopter", 5)
             elif item[0] == 4:
-                if item[1] == 0 and len(getPlayerPlaneUpgrades("Peyton", "improved_regen_rate", "support_plane")) == 0:
-                    createPlayerPlaneUpgrades("Peyton", "improved_regen_rate", "support_plane")
+                if item[1] == 1 and len(getPlayerPlaneUpgrades("Peyton", "improved_regen_rate", "support_plane")) == 0:
+                    createPlayerPlaneUpgrades("Peyton", "improved_regen_rate", "support_plane", 0)
                 elif item[1] == 3 and len(getPlayerPlaneUpgrades("Peyton", "regenerate_self", "support_plane")) == 0:
-                    createPlayerPlaneUpgrades("Peyton", "regenerate_self", "support_plane")
+                    createPlayerPlaneUpgrades("Peyton", "regenerate_self", "support_plane", 1)
                 elif item[1] == 5 and len(getPlayerPlaneUpgrades("Peyton", "revive_planes_full_health", "support_plane")) == 0:
-                    createPlayerPlaneUpgrades("Peyton", "revive_planes_full_health", "support_plane")
+                    createPlayerPlaneUpgrades("Peyton", "revive_planes_full_health", "support_plane", 2)
                 elif item[1] == 7 and len(getPlayerPlaneUpgrades("Peyton", "shorter_special_charge_time", "support_plane")) == 0:
-                    createPlayerPlaneUpgrades("Peyton", "shorter_special_charge_time", "support_plane")
+                    createPlayerPlaneUpgrades("Peyton", "shorter_special_charge_time", "support_plane", 3)
                 elif item[1] == 9 and len(getPlayerPlaneUpgrades("Peyton", "revives_all_planes", "support_plane")) == 0:
-                    createPlayerPlaneUpgrades("Peyton", "revives_all_planes", "support_plane")
+                    createPlayerPlaneUpgrades("Peyton", "revives_all_planes", "support_plane", 4)
             Cash_Available_label.text = str(getPlayerCash("Peyton")[0][0])
 
     player.next_source()
@@ -686,9 +715,10 @@ def store_menu():
                                               y=windowHeight - x_button.anchor_y,
                                               batch=store_menu_batch,
                                               group=buttons_layer)
-    plane_choice_shopping = 2
-
-    temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch)
+    plane_choice_shopping = 1
+    description = pyglet.text.Label("", font_name='Comic Sans', font_size=20,
+                                 x=windowWidth / 2, y=50, batch=store_menu_batch, group=buttons_layer)
+    temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
     store_menu_batch.draw()
 
     @window.event
@@ -716,30 +746,32 @@ def store_menu():
 
         elif windowWidth / 8 - 100 < x < windowWidth / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 1
             plane_choice_shopping = 1
-            temp_upgrades = shop_upgrade(1, store_menu_batch)
+            temp_upgrades = shop_upgrade(1, store_menu_batch, description)
             # print("plane choice change to 1")
         elif windowWidth *3 / 8 - 100 < x < windowWidth *3 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 2
             plane_choice_shopping = 2
-            temp_upgrades = shop_upgrade(2, store_menu_batch)
+            temp_upgrades = shop_upgrade(2, store_menu_batch, description)
 
         elif windowWidth *5/ 8 - 100 < x < windowWidth *5 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 3
             plane_choice_shopping = 3
-            temp_upgrades = shop_upgrade(3, store_menu_batch)
+            temp_upgrades = shop_upgrade(3, store_menu_batch, description)
 
         elif windowWidth *7/ 8 - 100 < x < windowWidth *7 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 3
             plane_choice_shopping = 4
-            temp_upgrades = shop_upgrade(4, store_menu_batch)
+            temp_upgrades = shop_upgrade(4, store_menu_batch, description)
 
         elif (windowWidth - x_button.width) < x < windowWidth and y > (
                 windowHeight - x_button.height):  # clicking X button
-            menu()
-            window.clear()
+            mode = "menu"
+            pyglet.app.exit()
 
     @window.event
     def on_draw():
+        window.clear()
         store_menu_batch.draw()
 
     def update(dt):
+        window.clear()
         store_menu_batch.draw()
 
     pyglet.clock.schedule_interval(update, 1 / 120.0)
@@ -941,10 +973,10 @@ def start(level_number=0):
     level_map_object.velocity_y = -1
 
     # initialize the exit button
-    exit_button_sprite = pyglet.sprite.Sprite(x_button, x=windowWidth - x_button.anchor_x,
-                                              y=windowHeight - x_button.anchor_y,
-                                              batch=level_batch,
-                                              group=buttons_layer)
+    # exit_button_sprite = pyglet.sprite.Sprite(x_button, x=windowWidth - x_button.anchor_x,
+    #                                           y=windowHeight - x_button.anchor_y,
+    #                                           batch=level_batch,
+    #                                           group=buttons_layer)
 
     def mouse_location_update(x, y):
         nonlocal mouse_x
@@ -961,7 +993,9 @@ def start(level_number=0):
     @window.event
     def on_key_press(symbol, modifier):
         global paused
-        if paused == False:
+        if symbol == pyglet.window.key.P:
+            paused = not paused
+        elif paused == False:
             currPlane = planeHandler.getActivePlane()
             if symbol == pyglet.window.key._1:
                 # planeHandler.getActivePlane(1).x = currPlane.x
@@ -977,8 +1011,7 @@ def start(level_number=0):
                 planeHandler.setActivePlane(3, currPlane)
             if symbol == pyglet.window.key.E:
                 planeHandler.autoFire = not planeHandler.autoFire
-            if symbol == pyglet.window.key.P:
-                paused = not paused
+        
                 #print("e pressed")
 
     @window.event
@@ -992,20 +1025,20 @@ def start(level_number=0):
         global quitCheck
         global paused
         if paused == False:
-            if (windowWidth - x_button.width) < x < windowWidth and y > (
-                    windowHeight - x_button.height):  # clicking X button
-                # for obj in game_objects:
-                #        game_objects.remove(obj)
-                # for enemy in enemies:
-                #    enemies.remove(enemy)
-                # del game_objects
-                # del enemies
-                # mode = "quit"
-                paused = not paused
-                '''quitCheck = True'''
-                # pyglet.app.exit()
-                # end_screen(0)
-                # window.clear()
+            # if (windowWidth - x_button.width) < x < windowWidth and y > (
+            #         windowHeight - x_button.height):  # clicking X button
+            #     # for obj in game_objects:
+            #     #        game_objects.remove(obj)
+            #     # for enemy in enemies:
+            #     #    enemies.remove(enemy)
+            #     # del game_objects
+            #     # del enemies
+            #     # mode = "quit"
+            #     paused = not paused
+            # pyglet.app.exit()
+            # end_screen(0)
+            # window.clear()
+
             if (button == 1):
                 planeHandler.getActivePlane().fire(mouse_x, mouse_y)
             if (button == 4):
