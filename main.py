@@ -21,10 +21,13 @@ set_fullscreen = True
 if user32.GetSystemMetrics(0) > 1920:
     set_width = 1920
     set_fullscreen = False
+else:
+    set_width = user32.GetSystemMetrics(0)
 if user32.GetSystemMetrics(1) > 1080:
     set_height = 1080
     set_fullscreen = False
-
+else:
+    set_height = user32.GetSystemMetrics(1)
 window = pyglet.window.Window(fullscreen=set_fullscreen, width=set_width,
 height=set_height)
 windowWidth = window.width
