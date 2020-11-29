@@ -403,7 +403,7 @@ def menu():
     # Sound
     player.next_source()
     player.queue(background_music)
-    # player.play()
+    player.play()
 
     # Graphics
     start_screen_batch = pyglet.graphics.Batch()
@@ -492,7 +492,7 @@ def menu():
 def level_menu():
     player.next_source()
     player.queue(kicks)
-    # player.play()
+    player.play()
     levels_array = getLevels(playerName)
 
     level_menu_batch = pyglet.graphics.Batch()
@@ -564,8 +564,8 @@ def level_menu():
     level_6 = level_button(6, stars=0)
     locks = []
 
-    for i in range(len(levels_array)):
-        if levels_array[i] != 1:
+    for i in range(len(levels_array)-1):
+        if levels_array[i][4] != 1:
             locks += [lock_off(i + 2)]
 
     @window.event
@@ -639,9 +639,11 @@ def store_menu():
                     createPlayerPlaneUpgrades("Peyton", "shorter_special_charge_time", "fast_plane" , 2)
                 elif item[1] == 6 and len(getPlayerPlaneUpgrades("Peyton", "improved_fire_rate", "fast_plane")) == 0:
                     createPlayerPlaneUpgrades("Peyton", "improved_fire_rate", "fast_plane" ,3)
-                elif item[1] == 8 and len(getPlayerPlaneUpgrades("Peyton", "increased_special_damage", "fast_plane")) == 0:
+                elif item[1] == 7 and len(getPlayerPlaneUpgrades("Peyton",
+                                                                 "increased_special_damage", "fast_plane")) == 0:
                     createPlayerPlaneUpgrades("Peyton", "increased_special_damage", "fast_plane" ,4 )
-                elif item[1] == 0 and len(getPlayerPlaneUpgrades("Peyton", "increase_dodge_bullets", "fast_plane")) == 0:
+                elif item[1] == 9 and len(getPlayerPlaneUpgrades("Peyton",
+                                                                 "increase_dodge_bullets", "fast_plane")) == 0:
                     createPlayerPlaneUpgrades("Peyton", "increase_dodge_bullets", "fast_plane" ,5)
             elif item[0] == 2 :
                 if item[1] == 1 and len(getPlayerPlaneUpgrades("Peyton", "improved_bullet_damage", "damage_plane")) == 0:
@@ -659,13 +661,17 @@ def store_menu():
                     createPlayerPlaneUpgrades("Peyton", "improved_collision_damage", "helicopter", 0)
                 elif item[1] == 3 and len(getPlayerPlaneUpgrades("Peyton", "improved_health", "helicopter")) == 0:
                     createPlayerPlaneUpgrades("Peyton", "improved_health", "helicopter", 1)
-                elif item[1] == 5 and len(getPlayerPlaneUpgrades("Peyton", "improved_movement_speed", "helicopter")) == 0:
+                elif item[1] == 4 and len(getPlayerPlaneUpgrades("Peyton",
+                                                                 "improved_movement_speed", "helicopter")) == 0:
                     createPlayerPlaneUpgrades("Peyton", "improved_movement_speed", "helicopter", 2)
-                elif item[1] == 7 and len(getPlayerPlaneUpgrades("Peyton", "increase_special_time", "helicopter")) == 0:
+                elif item[1] == 6 and len(getPlayerPlaneUpgrades("Peyton",
+                                                                 "increase_special_time", "helicopter")) == 0:
                     createPlayerPlaneUpgrades("Peyton", "increase_special_time", "helicopter",3 )
-                elif item[1] == 9 and len(getPlayerPlaneUpgrades("Peyton", "increased_special_damage", "helicopter")) == 0:
+                elif item[1] == 7 and len(getPlayerPlaneUpgrades("Peyton",
+                                                                 "increased_special_damage", "helicopter")) == 0:
                     createPlayerPlaneUpgrades("Peyton", "increased_special_damage", "helicopter",4 )
-                elif item[1] == 0 and len(getPlayerPlaneUpgrades("Peyton", "increased_damage_to_closer_enemies", "helicopter")) == 0:
+                elif item[1] == 9 and len(getPlayerPlaneUpgrades("Peyton",
+                                                                 "increased_damage_to_closer_enemies", "helicopter")) == 0:
                     createPlayerPlaneUpgrades("Peyton", "increased_damage_to_closer_enemies", "helicopter", 5)
             elif item[0] == 4:
                 if item[1] == 1 and len(getPlayerPlaneUpgrades("Peyton", "improved_regen_rate", "support_plane")) == 0:
@@ -863,7 +869,7 @@ def store_menu():
 
     player.next_source()
     player.queue(fortunate_son)
-    # player.play()
+    player.play()
 
     store_menu_batch = pyglet.graphics.Batch()
     store_menu_sprite = pyglet.sprite.Sprite(store_map, x=windowWidth / 2, y=windowHeight / 2,
