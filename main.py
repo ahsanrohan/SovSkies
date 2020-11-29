@@ -389,7 +389,7 @@ def shop_upgrade(plane_choice_shopping, batch, description):
         upgrade_box_array += create_square(batch,
                                            x=windowWidth / 2 + 50, x2=2 * windowWidth / 3,
                                            y=windowHeight / 2, y2=windowHeight / 2)
-        for upgrades in  getPlayerPlanesUpgradesIcon("Peyton", "support_plane"):
+        for upgrades in getPlayerPlanesUpgradesIcon("Peyton", "support_plane"):
             icon_array[upgrades[0]].color = (255, 5, 5)
 
     
@@ -924,7 +924,7 @@ def store_menu():
                                               batch=store_menu_batch,
                                               group=buttons_layer)
     plane_choice_shopping = 1
-    description = pyglet.text.Label("", font_name='Comic Sans', font_size=20,
+    description = pyglet.text.Label("", font_name='Comic Sans', font_size=40,
                                  x=windowWidth / 2, y=50, batch=store_menu_batch, group=buttons_layer)
     temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
     store_menu_batch.draw()
@@ -1098,10 +1098,10 @@ def start(level_number=0):
 
     # Score Handling
     score_obj = {'score': 0, 'target_score': scores[level_number]['total_score']}
-    label = pyglet.text.Label('Score: ' + str(score_obj['score']),
-                              font_name='Times New Roman',
-                              font_size=24, group=buttons_layer,
-                              x=window.width - 200, y=window.height // 2, batch=level_batch)
+    #label = pyglet.text.Label('Score: ' + str(score_obj['score']),
+    #                          font_name='Times New Roman',
+    #                          font_size=24, group=buttons_layer,
+    #                          x=window.width - 200, y=window.height // 2, batch=level_batch)
 
     # initializing plane handler which holds all the planes
     planeHandler = PlayerPlaneHandler(getPlayerPlanes(playerName), batch=level_batch,
@@ -1111,10 +1111,10 @@ def start(level_number=0):
         i.add_upgrades(getPlayerPlanesUpgrades("Peyton", i.get_name()))
     game_objects += planeHandler.getAllPlanes()
 
-    health = pyglet.text.Label('Health: ' + str(planeHandler.getActivePlane().health),
-                               font_name='Times New Roman',
-                               font_size=24, group=buttons_layer,
-                               x=window.width - 200, y=(window.height // 2) - 50, batch=level_batch)
+    #health = pyglet.text.Label('Health: ' + str(planeHandler.getActivePlane().health),
+    #                           font_name='Times New Roman',
+    #                           font_size=24, group=buttons_layer,
+    #                           x=window.width - 200, y=(window.height // 2) - 50, batch=level_batch)
 
     pause_button_sprite = pyglet.sprite.Sprite(resume_button, x=windowWidth / 2, y=windowHeight / 4,
                                                batch=paused_batch)
@@ -1361,23 +1361,23 @@ def start(level_number=0):
         if paused == False:
             window.clear()
             level_batch.draw()
-            circle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
-                                          planeHandler.getActivePlane().collisionRadius, color=(50, 225, 30), batch=level_batch)
-            circle.opacity = 100
+            #circle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
+            #                              planeHandler.getActivePlane().collisionRadius, color=(50, 225, 30), batch=level_batch)
+            #circle.opacity = 100
 
             # rotorCircle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
             #                             planeHandler.getActivePlane().rotorRadius, color=(255, 255, 255), batch=level_batch)
 
             # rotorCircle.opacity = 100
-            for enemy in enemies:
-                if enemy.boss == True and enemy.dead == False:
-                    rectangle = pyglet.shapes.Rectangle(enemy.x - enemy.image.width / 4, enemy.y - enemy.image.height / 4,
-                                                        enemy.image.width / 2, enemy.image.height / 2,
-                                                        color=(50, 225, 30), batch=level_batch)
-                    rectangle.opacity = 100
-                    rectangle.draw()
+            #for enemy in enemies:
+            #    if enemy.boss == True and enemy.dead == False:
+            #        rectangle = pyglet.shapes.Rectangle(enemy.x - enemy.image.width / 4, enemy.y - enemy.image.height / 4,
+            #                                            enemy.image.width / 2, enemy.image.height / 2,
+            #                                            color=(50, 225, 30), batch=level_batch)
+            #        rectangle.opacity = 100
+            #        rectangle.draw()
 
-            circle.draw()
+            # circle.draw()
             # rotorCircle.draw()
         else:
             window.clear()
@@ -1485,7 +1485,7 @@ def start(level_number=0):
                         else:
                             score_obj['score'] += 1
 
-                        label.text = 'Score: ' + str(score_obj['score'])
+                        #label.text = 'Score: ' + str(score_obj['score'])
 
                         print(score_obj)
                         if score_obj['score'] >= score_obj['target_score']:  # change this to change the required score to win
@@ -1609,7 +1609,7 @@ def start(level_number=0):
             # Add new objects to the list
             game_objects.extend(to_add)
 
-            health.text = 'Health: ' + str(planeHandler.getActivePlane().health)
+            #health.text = 'Health: ' + str(planeHandler.getActivePlane().health)
 
     # print(dir())
     pyglet.clock.schedule_interval(update, 1 / 120.0)
