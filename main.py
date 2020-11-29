@@ -17,7 +17,24 @@ quitCheck = False
 time = 0
 finalTime = 0
 
-window = pyglet.window.Window(fullscreen=True)  # , width=user32.GetSystemMetrics(0), height=user32.GetSystemMetrics(1))
+set_fullscreen = True
+if user32.GetSystemMetrics(0) > 1920:
+    set_width = 1920
+    set_fullscreen = False
+else:
+    set_width = user32.GetSystemMetrics(0)
+if user32.GetSystemMetrics(1) > 1080:
+    set_height = 1080
+    set_fullscreen = False
+else:
+    set_height = user32.GetSystemMetrics(1)
+
+if set_fullscreen == True:
+    window = pyglet.window.Window(fullscreen=set_fullscreen)
+else:
+    window = pyglet.window.Window(fullscreen=set_fullscreen, width=set_width,
+    height=set_height)
+
 windowWidth = window.width
 windowHeight = window.height
 maps_layer = pyglet.graphics.OrderedGroup(-4)
@@ -97,8 +114,8 @@ def init():
     # createLevel("Peyton", 4)
     # createLevel("Peyton", 5)
     # createLevel("Peyton", 6)
-    #deletePlayer()
-    #createPlayer("Peyton")
+    deletePlayer()
+    createPlayer("Peyton")
     print("database planes: ")
     printPlayerPlanes()
     print("database Levels: ")
@@ -109,7 +126,6 @@ def init():
     print("database upgrades: ")
     printAllPlayerPlanesUpgrades()
 
-    
     deletePlanes("Peyton")
     deleteUpgrades("Peyton")
     createPlayerPlanes("Peyton", "fast_plane")
@@ -138,7 +154,7 @@ def shop_upgrade(plane_choice_shopping, batch, description):
     icon_array = []
     text = ""
     if plane_choice_shopping == 1:
-        text = "Fast plane:"
+        text = "Speedy: This plane is fast and has a steady rate of fire." #fast plane
         # Tier 1
         upgrade_box_array += create_square(batch, x=windowWidth / 3 - 50,
                                            y=windowHeight / 3 - 50,
@@ -198,7 +214,7 @@ def shop_upgrade(plane_choice_shopping, batch, description):
             icon_array[upgrades[0]].color = (255, 5, 5)
         
     elif plane_choice_shopping == 2:
-        text = "Damage plane:"
+        text = "Big Chungus: This plane is slow but has the highest rate of fire. The special ability increase fire rate." #Damage Plane
         # Tier 1
         upgrade_box_array = create_square(batch, x=windowWidth / 3 - 50,
                                           y=windowHeight / 3 - 50,
@@ -260,7 +276,7 @@ def shop_upgrade(plane_choice_shopping, batch, description):
         for upgrades in  getPlayerPlanesUpgradesIcon("Peyton", "damage_plane"):
             icon_array[upgrades[0]].color = (255, 5, 5)
     elif plane_choice_shopping == 3:
-        text = "Helicopter:"
+        text = "Heli: The helicopter damages planes around it. The special ability shortly increases the rotor damage and grants invincibility." #helicopter
         # Tier 1
         upgrade_box_array += create_square(batch, x=windowWidth / 3 - 50,
                                            y=windowHeight / 3 - 50,
@@ -320,7 +336,7 @@ def shop_upgrade(plane_choice_shopping, batch, description):
         for upgrades in  getPlayerPlanesUpgradesIcon("Peyton", "helicopter"):
             icon_array[upgrades[0]].color = (255, 5, 5)
     elif plane_choice_shopping == 4:
-        text = "Support plane:"
+        text = "Medic: This plane is slow and bulky. It slowly regenerates the worst health plane. The special ability revives destroyed planes."
         # Tier 1
         upgrade_box_array += create_square(batch, x=windowWidth / 3 - 50,
                                            y=windowHeight / 3 - 50,
@@ -380,7 +396,7 @@ def shop_upgrade(plane_choice_shopping, batch, description):
         upgrade_box_array += create_square(batch,
                                            x=windowWidth / 2 + 50, x2=2 * windowWidth / 3,
                                            y=windowHeight / 2, y2=windowHeight / 2)
-        for upgrades in  getPlayerPlanesUpgradesIcon("Peyton", "support_plane"):
+        for upgrades in getPlayerPlanesUpgradesIcon("Peyton", "support_plane"):
             icon_array[upgrades[0]].color = (255, 5, 5)
 
     
@@ -394,6 +410,8 @@ def shop_upgrade(plane_choice_shopping, batch, description):
     # else:
     #     planeName = "support_plane"
     description.text = text
+    description.x = windowWidth / 2 - description.content_width/2
+
 
     return [upgrade_box_array, icon_array]
 
@@ -915,8 +933,9 @@ def store_menu():
                                               batch=store_menu_batch,
                                               group=buttons_layer)
     plane_choice_shopping = 1
-    description = pyglet.text.Label("", font_name='Comic Sans', font_size=20,
+    description = pyglet.text.Label("", font_name='Comic Sans', font_size=40,
                                  x=windowWidth / 2, y=50, batch=store_menu_batch, group=buttons_layer)
+    description.color = (0, 0, 0, 255)
     temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
     store_menu_batch.draw()
 
@@ -1089,10 +1108,10 @@ def start(level_number=0):
 
     # Score Handling
     score_obj = {'score': 0, 'target_score': scores[level_number]['total_score']}
-    label = pyglet.text.Label('Score: ' + str(score_obj['score']),
-                              font_name='Times New Roman',
-                              font_size=24, group=buttons_layer,
-                              x=window.width - 200, y=window.height // 2, batch=level_batch)
+    #label = pyglet.text.Label('Score: ' + str(score_obj['score']),
+    #                          font_name='Times New Roman',
+    #                          font_size=24, group=buttons_layer,
+    #                          x=window.width - 200, y=window.height // 2, batch=level_batch)
 
     # initializing plane handler which holds all the planes
     planeHandler = PlayerPlaneHandler(getPlayerPlanes(playerName), batch=level_batch,
@@ -1102,10 +1121,10 @@ def start(level_number=0):
         i.add_upgrades(getPlayerPlanesUpgrades("Peyton", i.get_name()))
     game_objects += planeHandler.getAllPlanes()
 
-    health = pyglet.text.Label('Health: ' + str(planeHandler.getActivePlane().health),
-                               font_name='Times New Roman',
-                               font_size=24, group=buttons_layer,
-                               x=window.width - 200, y=(window.height // 2) - 50, batch=level_batch)
+    #health = pyglet.text.Label('Health: ' + str(planeHandler.getActivePlane().health),
+    #                           font_name='Times New Roman',
+    #                           font_size=24, group=buttons_layer,
+    #                           x=window.width - 200, y=(window.height // 2) - 50, batch=level_batch)
 
     pause_button_sprite = pyglet.sprite.Sprite(resume_button, x=windowWidth / 2, y=windowHeight / 4,
                                                batch=paused_batch)
@@ -1339,6 +1358,8 @@ def start(level_number=0):
                 starVal = 6
             elif (currPercent >= 0.4):
                 starVal = 4
+            else:
+                starVal = 0
 
             if (currPercent >= 0.4):
                 if (level_number == 0):
@@ -1348,27 +1369,28 @@ def start(level_number=0):
                     createPlayerPlanes("Peyton", "support_plane")
             #print(currPercent)
             # return
+            updateLevelComplete(level_number + 1, starVal, score_obj['score'], "Peyton")
             pyglet.app.exit()
         if paused == False:
             window.clear()
             level_batch.draw()
-            circle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
-                                          planeHandler.getActivePlane().collisionRadius, color=(50, 225, 30), batch=level_batch)
-            circle.opacity = 100
+            #circle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
+            #                              planeHandler.getActivePlane().collisionRadius, color=(50, 225, 30), batch=level_batch)
+            #circle.opacity = 100
 
             # rotorCircle = pyglet.shapes.Circle(planeHandler.getActivePlane().x, planeHandler.getActivePlane().y,
             #                             planeHandler.getActivePlane().rotorRadius, color=(255, 255, 255), batch=level_batch)
 
             # rotorCircle.opacity = 100
-            for enemy in enemies:
-                if enemy.boss == True and enemy.dead == False:
-                    rectangle = pyglet.shapes.Rectangle(enemy.x - enemy.image.width / 4, enemy.y - enemy.image.height / 4,
-                                                        enemy.image.width / 2, enemy.image.height / 2,
-                                                        color=(50, 225, 30), batch=level_batch)
-                    rectangle.opacity = 100
-                    rectangle.draw()
+            #for enemy in enemies:
+            #    if enemy.boss == True and enemy.dead == False:
+            #        rectangle = pyglet.shapes.Rectangle(enemy.x - enemy.image.width / 4, enemy.y - enemy.image.height / 4,
+            #                                            enemy.image.width / 2, enemy.image.height / 2,
+            #                                            color=(50, 225, 30), batch=level_batch)
+            #        rectangle.opacity = 100
+            #        rectangle.draw()
 
-            circle.draw()
+            # circle.draw()
             # rotorCircle.draw()
         else:
             window.clear()
@@ -1476,7 +1498,7 @@ def start(level_number=0):
                         else:
                             score_obj['score'] += 1
 
-                        label.text = 'Score: ' + str(score_obj['score'])
+                        #label.text = 'Score: ' + str(score_obj['score'])
 
                         print(score_obj)
                         if score_obj['score'] >= score_obj['target_score']:  # change this to change the required score to win
@@ -1600,7 +1622,7 @@ def start(level_number=0):
             # Add new objects to the list
             game_objects.extend(to_add)
 
-            health.text = 'Health: ' + str(planeHandler.getActivePlane().health)
+            #health.text = 'Health: ' + str(planeHandler.getActivePlane().health)
 
     # print(dir())
     pyglet.clock.schedule_interval(update, 1 / 120.0)
