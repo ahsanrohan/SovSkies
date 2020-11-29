@@ -101,10 +101,10 @@ def init():
     printAllPlayerPlanesUpgrades()
 
     
-    # deletePlanes("Peyton")
-    # deleteUpgrades("Peyton")
-    # createPlayerPlanes("Peyton", "fast_plane")
-    # createPlayerPlanes("Peyton", "damage_plane")
+    deletePlanes("Peyton")
+    deleteUpgrades("Peyton")
+    createPlayerPlanes("Peyton", "fast_plane")
+    createPlayerPlanes("Peyton", "damage_plane")
     # createPlayerPlanes("Peyton", "helicopter")
     # createPlayerPlanes("Peyton", "support_plane")
     
@@ -1058,8 +1058,17 @@ def start(level_number=0):
     game_objects = []
     enemies = []
 
+    # load level data
+    level_filepath = 'resources/level_scripts.json'
+
+    with open(level_filepath) as f:
+        level = json.load(f)[level_number]
+
+    with open(level_filepath) as f:
+        scores = json.load(f)[6]
+
     # Score Handling
-    score_obj = {'score': 0, 'target_score': 20}
+    score_obj = {'score': 0, 'target_score': scores[level_number]['total_score']}
     label = pyglet.text.Label('Score: ' + str(score_obj['score']),
                               font_name='Times New Roman',
                               font_size=24, group=buttons_layer,
@@ -1108,15 +1117,6 @@ def start(level_number=0):
     #                                         group=buttons_layer)
 
     # HerePeyton
-
-    # load level data
-    level_filepath = 'resources/level_scripts.json'
-
-    with open(level_filepath) as f:
-        level = json.load(f)[level_number]
-
-    with open(level_filepath) as f:
-        scores = json.load(f)[6]
 
     # functions to add enemy objects to game objects
     def enemy_fire(dt, enemy, name):
@@ -1289,6 +1289,7 @@ def start(level_number=0):
     def on_draw():
         global quitCheck
         global mode
+        global finalTime
         if quitCheck == True:
             # print ("this is running IDK")
             mode = "quit"
@@ -1308,6 +1309,24 @@ def start(level_number=0):
             # window.clear()
             pyglet.clock.unschedule(add_enemy)
             pyglet.clock.unschedule(enemy_fire)
+
+            currPercent = score_obj['score']/score_obj['target_score']
+            if (currPercent >= 0.7):
+                starVal = 10
+            elif (currPercent >= 0.6):
+                starVal = 8
+            elif (currPercent >= 0.5):
+                starVal = 6
+            elif (currPercent >= 0.4):
+                starVal = 4
+
+            if (currPercent >= 0.4):
+                if (level_number == 0):
+                    createPlayerPlanes("Peyton", "helicopter")
+                    print("got here")
+                if (level_number == 2):
+                    createPlayerPlanes("Peyton", "support_plane")
+            #print(currPercent)
             # return
             pyglet.app.exit()
         if paused == False:
@@ -1322,7 +1341,7 @@ def start(level_number=0):
 
             # rotorCircle.opacity = 100
             for enemy in enemies:
-                if enemy.boss == True:
+                if enemy.boss == True and enemy.dead == False:
                     rectangle = pyglet.shapes.Rectangle(enemy.x - enemy.image.width / 4, enemy.y - enemy.image.height / 4,
                                                         enemy.image.width / 2, enemy.image.height / 2,
                                                         color=(50, 225, 30), batch=level_batch)
@@ -1430,7 +1449,10 @@ def start(level_number=0):
                 if obj.is_enemy == True:
                     # enemies.remove(obj)
                     if (obj.destroyed == True):
-                        score_obj['score'] += 1
+                        if (obj.boss == True):
+                            score_obj['score'] += 100
+                        else:
+                            score_obj['score'] += 1
 
                         label.text = 'Score: ' + str(score_obj['score'])
 
@@ -1521,6 +1543,9 @@ def start(level_number=0):
         # print(mode)
         # print(game_objects)
         # print(enemies)
+        for enemy in enemies:
+            if enemy.boss == True and enemy.dead == False:
+                finalTime += dt
         if (time >= finalTime):  # and len(enemies) == 0:
             # mode = 'menu'
             planeHandler.autoFire = False

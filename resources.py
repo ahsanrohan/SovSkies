@@ -109,6 +109,9 @@ enemy_plane_5.width *= 1.4
 enemy_plane_6 = pyglet.resource.image("enemyPlane6.png")
 center_image(enemy_plane_6)
 
+enemy_plane_7 = pyglet.resource.image("enemyPlane7.png")
+center_image(enemy_plane_7)
+
 enemy_boss = pyglet.resource.image("boss1.png")
 enemy_boss.height *= 2
 enemy_boss.width *= 2
