@@ -114,8 +114,8 @@ def init():
     # createLevel("Peyton", 4)
     # createLevel("Peyton", 5)
     # createLevel("Peyton", 6)
-    deletePlayer()
-    createPlayer("Peyton")
+    # deletePlayer()
+    # createPlayer("Peyton")
     print("database planes: ")
     printPlayerPlanes()
     print("database Levels: ")
@@ -126,10 +126,10 @@ def init():
     print("database upgrades: ")
     printAllPlayerPlanesUpgrades()
 
-    deletePlanes("Peyton")
-    deleteUpgrades("Peyton")
-    createPlayerPlanes("Peyton", "fast_plane")
-    createPlayerPlanes("Peyton", "damage_plane")
+    # deletePlanes("Peyton")
+    # deleteUpgrades("Peyton")
+    # createPlayerPlanes("Peyton", "fast_plane")
+    # createPlayerPlanes("Peyton", "damage_plane")
     # createPlayerPlanes("Peyton", "helicopter")
     # createPlayerPlanes("Peyton", "support_plane")
     
@@ -1358,16 +1358,16 @@ def start(level_number=0):
             pyglet.clock.unschedule(update)
 
             currPercent = score_obj['score']/score_obj['target_score']
-            if (currPercent >= 0.7):
+            if (currPercent >= 0.5):
                 starVal = 10
-            elif (currPercent >= 0.6):
+            elif (currPercent >= 0.3):
                 starVal = 8
-            elif (currPercent >= 0.5):
+            elif (currPercent >= 0.2):
                 starVal = 6
-            elif (currPercent >= 0.4):
+            elif (currPercent >= 0.1):
                 starVal = 4
             else:
-                starVal = 0
+                starVal = 1
 
             if (currPercent >= 0.4):
                 if (level_number == 0):
@@ -1378,7 +1378,7 @@ def start(level_number=0):
             #print(currPercent)
             # return
             time = 0
-            updateLevelComplete(level_number +1, starVal, score_obj['score'], "Peyton")
+            updateLevelComplete(level_number + 1, starVal, score_obj['score'], "Peyton")
             pyglet.app.exit()
         if paused == False:
             window.clear()
