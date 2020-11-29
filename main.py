@@ -1262,12 +1262,30 @@ def start(level_number=0):
                 planeHandler.setActivePlane(0, currPlane)
             if symbol == pyglet.window.key._2:
                 # planeHandler.getActivePlane(0).x = currPlane.x
+                if (planeHandler.getActivePlane().name == "fast_plane"):
+                    for obj in game_objects:
+                        if obj.is_bullet:
+                            if obj.is_laser:
+                                obj.dead = True
+                                obj.visible = False
                 planeHandler.setActivePlane(1, currPlane)
             if symbol == pyglet.window.key._3:
                 # planeHandler.getActivePlane(0).x = currPlane.x
+                if (planeHandler.getActivePlane().name == "fast_plane"):
+                    for obj in game_objects:
+                        if obj.is_bullet:
+                            if obj.is_laser:
+                                obj.dead = True
+                                obj.visible = False
                 planeHandler.setActivePlane(2, currPlane)
             if symbol == pyglet.window.key._4:
                 # planeHandler.getActivePlane(0).x = currPlane.x
+                if (planeHandler.getActivePlane().name == "fast_plane"):
+                    for obj in game_objects:
+                        if obj.is_bullet:
+                            if obj.is_laser:
+                                obj.dead = True
+                                obj.visible = False
                 planeHandler.setActivePlane(3, currPlane)
             if symbol == pyglet.window.key.E:
                 planeHandler.autoFire = not planeHandler.autoFire
@@ -1445,6 +1463,13 @@ def start(level_number=0):
         # print(game_objects)
 
     def switchDeadPlane(dt, num, currPlane):
+        if (planeHandler.getActivePlane().name == "fast_plane"):
+            for obj in game_objects:
+                if obj.is_bullet:
+                    if obj.is_laser:
+                        obj.dead = True
+                        obj.visible = False
+
         if (planeHandler.getActivePlane().health <= 0):
             planeHandler.deadPlaneNum.append(planeHandler.getActivePlane().planeNum)
         planeHandler.setActivePlane(num, currPlane)
@@ -1590,10 +1615,10 @@ def start(level_number=0):
         global finalTime
         global mode
         global quitCheck
-        print(quitCheck)
+        # print(quitCheck)
         # print(enemies)
-        print(time)
-        print(finalTime)
+        # print(time)
+        # print(finalTime)
         # print(planeHandler.autoFire)
         # print(mode)
         # print(game_objects)
