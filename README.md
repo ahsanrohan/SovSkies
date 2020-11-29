@@ -4,9 +4,7 @@
 
 Sovereign skies is a 2D top down shooter with a retro WW2 theme. The 
 objective is to take down waves of enemy planes while surviving to 
-progress from level to level. Currently, the project is focused on
-implementing the necessary mechanics. Once all mechanics are functional,
-we intend to switch our focus to level design and thematic implementation.
+progress from level to level. Unlock planes and upgrade abilities as you progress through the game.
 
 ## Controls:
 
@@ -14,7 +12,8 @@ we intend to switch our focus to level design and thematic implementation.
 |--|--|
 | `1` | switch to plane 1 |
 | `2` | switch to plane 2 |
-|`LMB` | shoot
+|`LMB` | fire |
+|`RMB` | special ability |
 
 ## Installation
 pip install pyglet
