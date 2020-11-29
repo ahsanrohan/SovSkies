@@ -114,8 +114,8 @@ def init():
     # createLevel("Peyton", 4)
     # createLevel("Peyton", 5)
     # createLevel("Peyton", 6)
-    deletePlayer()
-    createPlayer("Peyton")
+    # deletePlayer()
+    # createPlayer("Peyton")
     print("database planes: ")
     printPlayerPlanes()
     print("database Levels: ")
@@ -1378,10 +1378,10 @@ def start(level_number=0):
                 starVal = 0
 
             if (currPercent >= 0.4):
-                if (level_number == 0):
+                if (level_number == 0 and len(getPlayerPlane("Peyton", "helicopter")) == 0):
                     createPlayerPlanes("Peyton", "helicopter")
                     print("got here")
-                if (level_number == 2):
+                if (level_number == 2 and len(getPlayerPlane("Peyton", "support_plane")) == 0):
                     createPlayerPlanes("Peyton", "support_plane")
             #print(currPercent)
             # return
