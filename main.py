@@ -138,7 +138,7 @@ def shop_upgrade(plane_choice_shopping, batch, description):
     icon_array = []
     text = ""
     if plane_choice_shopping == 1:
-        text = "Fast plane:"
+        text = "Speedy: This plane is fast and has a steady rate of fire." #fast plane
         # Tier 1
         upgrade_box_array += create_square(batch, x=windowWidth / 3 - 50,
                                            y=windowHeight / 3 - 50,
@@ -198,7 +198,7 @@ def shop_upgrade(plane_choice_shopping, batch, description):
             icon_array[upgrades[0]].color = (255, 5, 5)
         
     elif plane_choice_shopping == 2:
-        text = "Damage plane:"
+        text = "Big Chungus: This plane is slow but has the highest rate of fire. The special ability increase fire rate." #Damage Plane
         # Tier 1
         upgrade_box_array = create_square(batch, x=windowWidth / 3 - 50,
                                           y=windowHeight / 3 - 50,
@@ -260,7 +260,7 @@ def shop_upgrade(plane_choice_shopping, batch, description):
         for upgrades in  getPlayerPlanesUpgradesIcon("Peyton", "damage_plane"):
             icon_array[upgrades[0]].color = (255, 5, 5)
     elif plane_choice_shopping == 3:
-        text = "Helicopter:"
+        text = "Heli: The helicopter damages planes around it. The special ability shortly increases the rotor damage and grants invincibility." #helicopter
         # Tier 1
         upgrade_box_array += create_square(batch, x=windowWidth / 3 - 50,
                                            y=windowHeight / 3 - 50,
@@ -320,7 +320,7 @@ def shop_upgrade(plane_choice_shopping, batch, description):
         for upgrades in  getPlayerPlanesUpgradesIcon("Peyton", "helicopter"):
             icon_array[upgrades[0]].color = (255, 5, 5)
     elif plane_choice_shopping == 4:
-        text = "Support plane:"
+        text = "Medic: This plane is slow and bulky. It slowly regenerates the worst health plane. The special ability revives destroyed planes."
         # Tier 1
         upgrade_box_array += create_square(batch, x=windowWidth / 3 - 50,
                                            y=windowHeight / 3 - 50,
@@ -394,6 +394,8 @@ def shop_upgrade(plane_choice_shopping, batch, description):
     # else:
     #     planeName = "support_plane"
     description.text = text
+    description.x = windowWidth / 2 - description.content_width/2
+
 
     return [upgrade_box_array, icon_array]
 
@@ -911,6 +913,7 @@ def store_menu():
     plane_choice_shopping = 1
     description = pyglet.text.Label("", font_name='Comic Sans', font_size=20,
                                  x=windowWidth / 2, y=50, batch=store_menu_batch, group=buttons_layer)
+    description.color = (0, 0, 0, 255)
     temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
     store_menu_batch.draw()
 
