@@ -17,7 +17,16 @@ quitCheck = False
 time = 0
 finalTime = 0
 
-window = pyglet.window.Window(fullscreen=True)  # , width=user32.GetSystemMetrics(0), height=user32.GetSystemMetrics(1))
+set_fullscreen = True
+if user32.GetSystemMetrics(0) > 1920:
+    set_width = 1920
+    set_fullscreen = False
+if user32.GetSystemMetrics(1) > 1080:
+    set_height = 1080
+    set_fullscreen = False
+
+window = pyglet.window.Window(fullscreen=set_fullscreen, width=set_width,
+height=set_height)
 windowWidth = window.width
 windowHeight = window.height
 maps_layer = pyglet.graphics.OrderedGroup(-4)
