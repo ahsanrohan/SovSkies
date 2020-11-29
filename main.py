@@ -403,7 +403,7 @@ def menu():
     # Sound
     player.next_source()
     player.queue(background_music)
-    # player.play()
+    player.play()
 
     # Graphics
     start_screen_batch = pyglet.graphics.Batch()
@@ -492,7 +492,7 @@ def menu():
 def level_menu():
     player.next_source()
     player.queue(kicks)
-    # player.play()
+    player.play()
     levels_array = getLevels(playerName)
 
     level_menu_batch = pyglet.graphics.Batch()
@@ -564,8 +564,8 @@ def level_menu():
     level_6 = level_button(6, stars=0)
     locks = []
 
-    for i in range(len(levels_array)):
-        if levels_array[i] != 1:
+    for i in range(len(levels_array)-1):
+        if levels_array[i][4] != 1:
             locks += [lock_off(i + 2)]
 
     @window.event
@@ -869,7 +869,7 @@ def store_menu():
 
     player.next_source()
     player.queue(fortunate_son)
-    # player.play()
+    player.play()
 
     store_menu_batch = pyglet.graphics.Batch()
     store_menu_sprite = pyglet.sprite.Sprite(store_map, x=windowWidth / 2, y=windowHeight / 2,
