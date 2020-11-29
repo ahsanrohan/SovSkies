@@ -1420,8 +1420,10 @@ def start(level_number=0):
             planeHandler.getActivePlane().velocity_x = 0
             planeHandler.getActivePlane().velocity_y = 0
         if (planeHandler.getActivePlane().laser):
-            planeHandler.getActivePlane().laser.velocity_x = planeHandler.getActivePlane().velocity_x
-            planeHandler.getActivePlane().laser.velocity_y = planeHandler.getActivePlane().velocity_y
+            planeHandler.getActivePlane().laser.x = planeHandler.getActivePlane().x
+            planeHandler.getActivePlane().laser.y = planeHandler.getActivePlane().y +100
+            # planeHandler.getActivePlane().laser.velocity_x = planeHandler.getActivePlane().velocity_x
+            # planeHandler.getActivePlane().laser.velocity_y = planeHandler.getActivePlane().velocity_y
 
     def checkCollision():
         global quitCheck

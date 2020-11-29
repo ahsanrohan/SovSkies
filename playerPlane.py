@@ -195,7 +195,7 @@ class PlayerPlane(PhysicalObject):
                 bullet_x = self.x + shootSlot  # * ship_radius #+ math.cos(angle_radians) * ship_radius
                 bullet_y = self.y  # * ship_radius #+ math.sin(angle_radians) * ship_radius
 
-                new_bullet = Bullet(bullet, bullet_x, bullet_y, self.bullet_damage, batch=self.batch, group=self.group)
+                new_bullet = Bullet(bullet, bullet_x, bullet_y, self.bullet_damage, False, batch=self.batch, group=self.group)
 
                 # new_bullet = Bullet(bullet_x, bullet_y + 5, batch = self.batch)
 
@@ -208,7 +208,7 @@ class PlayerPlane(PhysicalObject):
                 self.new_objects.append(new_bullet)
             # play bullet
             if (self.bombShot == True and self.bombCounter % self.bombRate == 0):
-                new_bomb = Bullet(bomb, self.x, self.y + 30, self.bullet_damage, batch=self.batch,
+                new_bomb = Bullet(bomb, self.x, self.y + 30, self.bullet_damage, False, batch=self.batch,
                                   group=self.group)
                 bullet_vx = 0  # math.cos(angle_radians) * self.bullet_speed
                 bullet_vy = self.bullet_speed
@@ -238,14 +238,18 @@ class PlayerPlane(PhysicalObject):
                 print(self.special_ability)
                 if self.special_ability == "laser":
                     print("laser")
-                    new_bullet = Bullet(laser, self.x, self.y + 500, self.special_bullet_damage, batch=self.batch, group=self.group)
+                    new_bullet = Bullet(laser2, self.x, self.y +100, self.special_bullet_damage, True, batch=self.batch, group=self.group)
+                    new_bullet.is_laser = True
+                    new_bullet.wrap = False
+                    new_bullet.bind = True
+                    new_bullet.dead = False
+                    new_bullet.die_on_impact = False
                     #new_bullet.color = (255, 85, 66)
                     angle_radians = -math.radians(270)
                     bullet_vx = math.cos(angle_radians) * 0
                     bullet_vy = math.sin(angle_radians) * 0
                     new_bullet.velocity_x, new_bullet.velocity_y = bullet_vx, bullet_vy
-                    new_bullet.wrap = False
-                    new_bullet.die_on_impact = False
+                    
                     self.laser = new_bullet
                     self.new_objects.append(new_bullet)
                 if self.special_ability == "fire_rate_increase":
