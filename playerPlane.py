@@ -249,6 +249,7 @@ class PlayerPlane(PhysicalObject):
                     bullet_vx = math.cos(angle_radians) * 0
                     bullet_vy = math.sin(angle_radians) * 0
                     new_bullet.velocity_x, new_bullet.velocity_y = bullet_vx, bullet_vy
+                    laser_sound.play
                     
                     self.laser = new_bullet
                     self.new_objects.append(new_bullet)

@@ -194,12 +194,23 @@ center_image(lock_icon)
 
 bullet_sound = pyglet.resource.media('Pop_Final.wav', streaming=False)
 two_bullets = pyglet.resource.media('Double_Pop_2.wav', streaming=False)
-laser = pyglet.resource.media('laser.wav', streaming=False)
+laser_sound = pyglet.resource.media('laser.wav', streaming=False)
 fortunate_son = pyglet.resource.media('fortunate.wav')
 immigrant = pyglet.resource.media('immigrant.wav')
 kicks = pyglet.resource.media('kicks.wav')
 purple_haze = pyglet.resource.media('purple_haze.wav')
 background_music = pyglet.resource.media('background_music.wav')
+
+# def change_volume(newVolume):
+#     print("the volume is being adgjusted")
+#     bullet_sound.volume = newVolume
+#     two_bullets.volume= newVolume
+#     laser.volume= newVolume
+#     fortunate_son.volume= newVolume
+#     immigrant.volume= newVolume
+#     kicks.volume= newVolume
+#     purple_haze.volume= newVolume
+#     background_music.volume= newVolume
 
 # shop icons
 move_speed_icon = pyglet.resource.image('move_speed.png')

@@ -36,20 +36,26 @@ def on_close():
 
 def modeCheck():
     while (mode != "end"):
+        # change_volume(0)
         print(mode)
         if (mode == "menu"):
+            bullet_sound.play()
             # print(mode)
             menu()
         if (mode == "game"):
+            bullet_sound.play()
             # print(mode)
             start()
         if (mode == "store"):
+            bullet_sound.play()
             # print(mode)
             store_menu()
         if (mode == "level"):
+            bullet_sound.play()
             # print(mode)
             level_menu()
         if (mode == "quit"):
+            bullet_sound.play()
             # quitCheck = False
             # print(mode)
             # window.clear()
@@ -61,6 +67,7 @@ def modeCheck():
     for element in dir():
         if element[0:2] != "__":
             del globals()[element]
+    bullet_sound.play()
     closeConnection()
     # print(dir())
 
