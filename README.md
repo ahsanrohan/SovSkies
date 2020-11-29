@@ -14,6 +14,7 @@ using stars earned from each level.
 | `1-4` | switch between planes |
 |`LMB` | fire |
 |`RMB` | special ability |
+|`p` | pause game |
 
 ## Installation
 pip install pyglet
