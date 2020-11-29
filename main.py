@@ -114,8 +114,8 @@ def init():
     # createLevel("Peyton", 4)
     # createLevel("Peyton", 5)
     # createLevel("Peyton", 6)
-    deletePlayer()
-    createPlayer("Peyton")
+    # deletePlayer()
+    # createPlayer("Peyton")
     print("database planes: ")
     printPlayerPlanes()
     print("database Levels: ")
@@ -614,6 +614,7 @@ def level_menu():
     def on_mouse_press(x, y, button, modifiers):
         global mode
         global time
+        nonlocal levels_array
         if (windowWidth - x_button.width) < x < windowWidth and y > (
                 windowHeight - x_button.height):  # clicking X button
             mode = "menu"
@@ -623,23 +624,28 @@ def level_menu():
             mode = "game"
             time = 0
             start(0)
-        elif level_2[0].x - 100 < x < level_2[0].x + 100 and level_2[0].y - 100 < y < level_2[0].y + 100:
+        elif level_2[0].x - 100 < x < level_2[0].x + 100 and level_2[0].y - 100 < y < level_2[
+            0].y + 100 and levels_array[0][3] == 1:
             mode = "game"
             time = 0
             start(1)
-        elif level_3[0].x - 100 < x < level_3[0].x + 100 and level_3[0].y - 100 < y < level_3[0].y + 100:
+        elif level_3[0].x - 100 < x < level_3[0].x + 100 and level_3[0].y - 100 < y < level_3[
+            0].y + 100 and levels_array[1][3] == 1:
             mode = "game"
             time = 0
             start(2)
-        elif level_4[0].x - 100 < x < level_4[0].x + 100 and level_4[0].y - 100 < y < level_4[0].y + 100:
+        elif level_4[0].x - 100 < x < level_4[0].x + 100 and level_4[0].y - 100 < y < level_4[
+            0].y + 100 and levels_array[2][3] == 1:
             mode = "game"
             time = 0
             start(3)
-        elif level_5[0].x - 100 < x < level_5[0].x + 100 and level_5[0].y - 100 < y < level_5[0].y + 100:
+        elif level_5[0].x - 100 < x < level_5[0].x + 100 and level_5[0].y - 100 < y < level_5[
+            0].y + 100 and levels_array[3][3] == 1:
             mode = "game"
             time = 0
             start(4)
-        elif level_6[0].x - 100 < x < level_6[0].x + 100 and level_6[0].y - 100 < y < level_6[0].y + 100:
+        elif level_6[0].x - 100 < x < level_6[0].x + 100 and level_6[0].y - 100 < y < level_6[
+            0].y + 100 and levels_array[4][3] == 1:
             mode = "game"
             time = 0
             start(5)
@@ -1059,6 +1065,7 @@ def end_screen():
     def on_mouse_press(x, y, button, modifiers):
         global mode
         global quitCheck
+        global time
         if windowWidth / 2 - 150 < x < (windowWidth / 2) + 150 and y < 100:
             window.clear()
             # print(level_batch)
@@ -1071,6 +1078,7 @@ def end_screen():
             window.clear()
             mode = "menu"
             quitCheck = False
+            time = 0
             pyglet.app.exit()
             # closeConnection()
             # window.close()
@@ -1370,10 +1378,10 @@ def start(level_number=0):
                 starVal = 0
 
             if (currPercent >= 0.4):
-                if (level_number == 0):
+                if (level_number == 0 and len(getPlayerPlane("Peyton", "helicopter")) == 0):
                     createPlayerPlanes("Peyton", "helicopter")
                     print("got here")
-                if (level_number == 2):
+                if (level_number == 2 and len(getPlayerPlane("Peyton", "support_plane")) == 0):
                     createPlayerPlanes("Peyton", "support_plane")
             #print(currPercent)
             # return
