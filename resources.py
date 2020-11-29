@@ -92,9 +92,13 @@ center_image(enemy_plane_1)
 
 enemy_plane_2 = pyglet.resource.image("enemyPlane2.png")
 center_image(enemy_plane_2)
+enemy_plane_2.height *= 1.4
+enemy_plane_2.width *= 1.4
 
 enemy_plane_3 = pyglet.resource.image("enemyPlane3.png")
 center_image(enemy_plane_3)
+enemy_plane_3.height *= 1.4
+enemy_plane_3.width *= 1.4
 
 enemy_plane_4 = pyglet.resource.image("enemyPlane4.png")
 center_image(enemy_plane_4)
@@ -123,6 +127,14 @@ center_image(sov_logo_image)
 
 laser = pyglet.resource.image("laser.png")
 center_image(laser)
+
+
+
+laser2 = pyglet.resource.image("laser2.png")
+center_image(laser2)
+laser2.height *= 10
+laser2.width *= 1
+
 
 blue_progress_circle_8 = pyglet.resource.image('progressCircle8.png')
 center_image(blue_progress_circle_8)
@@ -189,12 +201,23 @@ center_image(lock_icon)
 
 bullet_sound = pyglet.resource.media('Pop_Final.wav', streaming=False)
 two_bullets = pyglet.resource.media('Double_Pop_2.wav', streaming=False)
-laser = pyglet.resource.media('laser.wav', streaming=False)
+laser_sound = pyglet.resource.media('laser.wav', streaming=False)
 fortunate_son = pyglet.resource.media('fortunate.wav')
 immigrant = pyglet.resource.media('immigrant.wav')
 kicks = pyglet.resource.media('kicks.wav')
 purple_haze = pyglet.resource.media('purple_haze.wav')
 background_music = pyglet.resource.media('background_music.wav')
+
+# def change_volume(newVolume):
+#     print("the volume is being adgjusted")
+#     bullet_sound.volume = newVolume
+#     two_bullets.volume= newVolume
+#     laser.volume= newVolume
+#     fortunate_son.volume= newVolume
+#     immigrant.volume= newVolume
+#     kicks.volume= newVolume
+#     purple_haze.volume= newVolume
+#     background_music.volume= newVolume
 
 # shop icons
 move_speed_icon = pyglet.resource.image('move_speed.png')

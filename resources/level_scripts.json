@@ -310,6 +310,55 @@
     [
         {   "spawn_time": 1,
             "enemy_count": 2,
+            "interval": 1,
+            "fire": {"name": "rand", "interval":  0.4, "speed": 10, "spread": 60, "offset": 45},
+            "enemy_obj": {"img": "enemy_plane_5", "hp": 80, "kwargs": {"x": 2000, "y": 700, "velocity_x": -5}}
+        }
+    ],
+
+    [
+        {   "spawn_time": 1,
+            "enemy_count": 5,
+            "interval": 0.2,
+            "movement": {"name": "move_down_follow", "speed": 1},
+            "enemy_obj": {"img": "enemy_plane_5", "hp": 50, "kwargs": {"x": -500, "y": 900}}
+        },
+        {   "spawn_time": 6,
+            "enemy_count": 1, 
+            "interval": 0.5,
+            "fire": {"name": "rand", "interval":  0.1, "speed": 10, "spread": 60, "offset": -90},
+            "enemy_obj": {"img": "plane_1", "hp": 50, "kwargs": {"x": -200, "y": 700, "velocity_x": 5}}
+        },
+        {   "spawn_time": 10,
+            "enemy_count": 5, 
+            "interval": 0.5,
+            "movement": {"name": "move_parabola", "speed": 8, "a": 2},
+            "enemy_obj": 
+                {"img": "enemy_plane_5", "hp": 50, "kwargs": {"x": -100, "y": 800}}
+        },
+        {   "spawn_time": 10,
+            "enemy_count": 5, 
+            "interval": 0.5,
+            "movement": {"name": "move_parabola", "speed": -8, "a": -2},
+            "enemy_obj": 
+                {"img": "enemy_plane_5", "hp": 50, "kwargs": {"x": 1600, "y": 800}}
+        },
+        {   "spawn_time": 11,
+            "enemy_count": 1,
+            "interval": 0,
+            "movement": {"name": "stop_at", "speed": 2, "x": 960, "y": 1100},
+            "fire": [
+                {"name": "target_plane", "interval": 0.5, "duration": 2},
+                {"name": "spiral", "interval":  0.3, "duration": 5, "speed": 6, "count": 9},
+                {"name": "rand", "interval":  0.3, "duration": 5, "speed": 10, "spread": 20, "offset": 0}
+            ],
+            "enemy_obj": {"img": "enemy_boss", "hp": 1000, "kwargs": {"x": 960, "y": 1300, "velocity_y": -1}}
+        }
+    ],
+
+    [
+        {   "spawn_time": 1,
+            "enemy_count": 1, 
             "interval": 0.5,
             "fire": {"name": "target_plane", "interval":  0.3, "speed": 10},
             "enemy_obj": {"img": "enemy_plane_4", "hp": 50, "kwargs": {"x": -200, "y": 800, "velocity_x": 8}}

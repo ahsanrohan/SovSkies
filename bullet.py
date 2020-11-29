@@ -5,11 +5,11 @@ from resources import *
 
 class Bullet(PhysicalObject):
 
-    def __init__(self,image, bullet_x, bullet_y, bullet_damage , **kwargs):
+    def __init__(self,image, bullet_x, bullet_y, bullet_damage, laser , **kwargs):
         super().__init__(img = image, x= bullet_x, y = bullet_y, **kwargs)
 
         # Bullets shouldn't stick around forever
-
+        self.is_laser = laser
         self.life_time = 4
         pyglet.clock.schedule_once(self.die, self.life_time)
         self.damage = bullet_damage

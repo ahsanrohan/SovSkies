@@ -20,8 +20,9 @@ finalTime = 0
 window = pyglet.window.Window(fullscreen=True)  # , width=user32.GetSystemMetrics(0), height=user32.GetSystemMetrics(1))
 windowWidth = window.width
 windowHeight = window.height
-maps_layer = pyglet.graphics.OrderedGroup(-3)
-buttons_layer = pyglet.graphics.OrderedGroup(-2)
+maps_layer = pyglet.graphics.OrderedGroup(-4)
+buttons_layer = pyglet.graphics.OrderedGroup(-3)
+icon_layer = pyglet.graphics.OrderedGroup(-2)
 label_layer = pyglet.graphics.OrderedGroup(-1)
 player = pyglet.media.Player()
 
@@ -36,20 +37,26 @@ def on_close():
 
 def modeCheck():
     while (mode != "end"):
+        # change_volume(0)
         print(mode)
         if (mode == "menu"):
+            bullet_sound.play()
             # print(mode)
             menu()
         if (mode == "game"):
+            bullet_sound.play()
             # print(mode)
             start()
         if (mode == "store"):
+            bullet_sound.play()
             # print(mode)
             store_menu()
         if (mode == "level"):
+            bullet_sound.play()
             # print(mode)
             level_menu()
         if (mode == "quit"):
+            bullet_sound.play()
             # quitCheck = False
             # print(mode)
             # window.clear()
@@ -58,9 +65,11 @@ def modeCheck():
                     del globals()[element]
             print(dir())
             end_screen()
+    bullet_sound.play()
     for element in dir():
         if element[0:2] != "__":
             del globals()[element]
+    
     closeConnection()
     # print(dir())
 
@@ -135,19 +144,19 @@ def shop_upgrade(plane_choice_shopping, batch, description):
                                            y=windowHeight / 3 - 50,
                                            x2=windowWidth / 3 + 50, y2=windowHeight / 3 + 50)
         icon_array += [pyglet.sprite.Sprite(move_speed_icon, x=windowWidth / 3,
-                                            y=2 * windowHeight / 3, batch=batch, group=buttons_layer)]
+                                            y=2 * windowHeight / 3, batch=batch, group=icon_layer)]
         upgrade_box_array += create_square(batch, x=windowWidth / 3 - 50,
                                            y=2 * windowHeight / 3 - 50,
                                            x2=windowWidth / 3 + 50,
                                            y2=2 * windowHeight / 3 + 50)
         icon_array += [pyglet.sprite.Sprite(damage_icon, x=windowWidth / 3,
-                                            y=windowHeight / 3, batch=batch, group=buttons_layer)]
+                                            y=windowHeight / 3, batch=batch, group=icon_layer)]
         # Tier 2
         upgrade_box_array += create_square(batch, x=windowWidth / 2 - 50,
                                            y=windowHeight / 3 - 50,
                                            x2=windowWidth / 2 + 50, y2=windowHeight / 3 + 50)
         icon_array += [pyglet.sprite.Sprite(charge_time_icon, x=windowWidth / 2,
-                                            y=2 * windowHeight / 3, batch=batch, group=buttons_layer)]
+                                            y=2 * windowHeight / 3, batch=batch, group=icon_layer)]
 
         upgrade_box_array += create_square(batch, x=windowWidth / 2 - 50,
                                            y=2 * windowHeight / 3 - 50,
@@ -155,7 +164,7 @@ def shop_upgrade(plane_choice_shopping, batch, description):
                                            y2=2 * windowHeight / 3 + 50)
 
         icon_array += [pyglet.sprite.Sprite(fire_rate, x=windowWidth / 2,
-                                            y=windowHeight / 3, batch=batch, group=buttons_layer)]
+                                            y=windowHeight / 3, batch=batch, group=icon_layer)]
 
         # Tier 3
         upgrade_box_array += create_square(batch, x=2 * windowWidth / 3 - 50,
@@ -163,14 +172,14 @@ def shop_upgrade(plane_choice_shopping, batch, description):
                                            y=2 * windowHeight / 3 - 50,
                                            y2=2 * windowHeight / 3 + 50)
         icon_array += [pyglet.sprite.Sprite(dodge_icon, x=2 * windowWidth / 3,
-                                            y=windowHeight / 3, batch=batch, group=buttons_layer)]
+                                            y=windowHeight / 3, batch=batch, group=icon_layer)]
 
         upgrade_box_array += create_square(batch, x=2 * windowWidth / 3 - 50,
                                            x2=2 * windowWidth / 3 + 50,
                                            y=windowHeight / 3 - 50,
                                            y2=windowHeight / 3 + 50)
         icon_array += [pyglet.sprite.Sprite(laser_damage_icon, x=2 * windowWidth / 3,
-                                            y=2 * windowHeight / 3, batch=batch, group=buttons_layer)]
+                                            y=2 * windowHeight / 3, batch=batch, group=icon_layer)]
 
         # Connections
         upgrade_box_array += create_square(batch,
@@ -195,19 +204,19 @@ def shop_upgrade(plane_choice_shopping, batch, description):
                                           y=windowHeight / 3 - 50,
                                           x2=windowWidth / 3 + 50, y2=windowHeight / 3 + 50)
         icon_array += [pyglet.sprite.Sprite(bomb_icon, x=windowWidth / 3,
-                                            y=windowHeight / 3, batch=batch, group=buttons_layer)]
+                                            y=windowHeight / 3, batch=batch, group=icon_layer)]
         upgrade_box_array += create_square(batch, x=windowWidth / 3 - 50,
                                            y=2 * windowHeight / 3 - 50,
                                            x2=windowWidth / 3 + 50,
                                            y2=2 * windowHeight / 3 + 50)
         icon_array += [pyglet.sprite.Sprite(damage_icon, x=windowWidth / 3,
-                                            y=2 * windowHeight / 3, batch=batch, group=buttons_layer)]
+                                            y=2 * windowHeight / 3, batch=batch, group=icon_layer)]
         # Tier 2
         upgrade_box_array += create_square(batch,
                                            x=windowWidth / 2 - 50, x2=windowWidth / 2 + 50,
                                            y=windowHeight / 2 + 50, y2=windowHeight / 2 - 50)
         icon_array += [pyglet.sprite.Sprite(damage_icon, x=windowWidth / 2,
-                                            y=windowHeight / 2, batch=batch, group=buttons_layer)]
+                                            y=windowHeight / 2, batch=batch, group=icon_layer)]
 
         # Tier 3
         upgrade_box_array += create_square(batch,
@@ -215,14 +224,14 @@ def shop_upgrade(plane_choice_shopping, batch, description):
                                            x2=2 * windowWidth / 3 + 50,
                                            y=windowHeight / 3 - 50, y2=windowHeight / 3 + 50)
         icon_array += [pyglet.sprite.Sprite(triple_icon, x=2 * windowWidth / 3,
-                                            y=windowHeight / 3, batch=batch, group=buttons_layer)]
+                                            y=windowHeight / 3, batch=batch, group=icon_layer)]
         upgrade_box_array += create_square(batch,
                                            x=2 * windowWidth / 3 - 50,
                                            x2=2 * windowWidth / 3 + 50,
                                            y=2 * windowHeight / 3 - 50,
                                            y2=2 * windowHeight / 3 + 50)
         icon_array += [pyglet.sprite.Sprite(fire_rate, x=2 * windowWidth / 3,
-                                            y=2 * windowHeight / 3, batch=batch, group=buttons_layer)]
+                                            y=2 * windowHeight / 3, batch=batch, group=icon_layer)]
 
         # Connections 1
         upgrade_box_array += create_square(batch,
@@ -258,7 +267,7 @@ def shop_upgrade(plane_choice_shopping, batch, description):
                                            x2=windowWidth / 3 + 50, y2=windowHeight / 3 + 50)
 
         icon_array += [pyglet.sprite.Sprite(ramming_icon, x=windowWidth / 3,
-                                            y=windowHeight / 3, batch=batch, group=buttons_layer)]
+                                            y=windowHeight / 3, batch=batch, group=icon_layer)]
 
         upgrade_box_array += create_square(batch, x=windowWidth / 3 - 50,
                                            y=2 * windowHeight / 3 - 50,
@@ -266,19 +275,19 @@ def shop_upgrade(plane_choice_shopping, batch, description):
                                            y2=2 * windowHeight / 3 + 50)
 
         icon_array += [pyglet.sprite.Sprite(health_up_icon, x=windowWidth / 3,
-                                            y=2 * windowHeight / 3, batch=batch, group=buttons_layer)]
+                                            y=2 * windowHeight / 3, batch=batch, group=icon_layer)]
         # Tier 2
         upgrade_box_array += create_square(batch,
                                            x=windowWidth / 2 - 50, x2=windowWidth / 2 + 50,
                                            y=2 * windowHeight / 3 + 50,
                                            y2=2 * windowHeight / 3 - 50)
         icon_array += [pyglet.sprite.Sprite(move_speed_icon, x=windowWidth / 2,
-                                            y=windowHeight / 3, batch=batch, group=buttons_layer)]
+                                            y=windowHeight / 3, batch=batch, group=icon_layer)]
         upgrade_box_array += create_square(batch,
                                            x=windowWidth / 2 - 50, x2=windowWidth / 2 + 50,
                                            y=windowHeight / 3 + 50, y2=windowHeight / 3 - 50)
         icon_array += [pyglet.sprite.Sprite(duration_icon, x=windowWidth / 2,
-                                            y=2 * windowHeight / 3, batch=batch, group=buttons_layer)]
+                                            y=2 * windowHeight / 3, batch=batch, group=icon_layer)]
 
         # Tier 3
         upgrade_box_array += create_square(batch,
@@ -286,14 +295,14 @@ def shop_upgrade(plane_choice_shopping, batch, description):
                                            x2=2 * windowWidth / 3 + 50,
                                            y=windowHeight / 3 - 50, y2=windowHeight / 3 + 50)
         icon_array += [pyglet.sprite.Sprite(prox_damage_icon, x=2 * windowWidth / 3,
-                                            y=windowHeight / 3, batch=batch, group=buttons_layer)]
+                                            y=windowHeight / 3, batch=batch, group=icon_layer)]
         upgrade_box_array += create_square(batch,
                                            x=2 * windowWidth / 3 - 50,
                                            x2=2 * windowWidth / 3 + 50,
                                            y=2 * windowHeight / 3 - 50,
                                            y2=2 * windowHeight / 3 + 50)
         icon_array += [pyglet.sprite.Sprite(laser_damage_icon, x=2 * windowWidth / 3,
-                                            y=2 * windowHeight / 3, batch=batch, group=buttons_layer)]
+                                            y=2 * windowHeight / 3, batch=batch, group=icon_layer)]
 
         # Connections
         upgrade_box_array += create_square(batch,
@@ -317,27 +326,27 @@ def shop_upgrade(plane_choice_shopping, batch, description):
                                            y=windowHeight / 3 - 50,
                                            x2=windowWidth / 3 + 50, y2=windowHeight / 3 + 50)
         icon_array += [pyglet.sprite.Sprite(self_regen_icon, x=windowWidth / 3,
-                                            y=windowHeight / 3, batch=batch, group=buttons_layer)]
+                                            y=windowHeight / 3, batch=batch, group=icon_layer)]
         upgrade_box_array += create_square(batch, x=windowWidth / 3 - 50,
                                            y=2 * windowHeight / 3 - 50,
                                            x2=windowWidth / 3 + 50,
                                            y2=2 * windowHeight / 3 + 50)
         icon_array += [pyglet.sprite.Sprite(regen_icon, x=windowWidth / 3,
-                                            y=2 * windowHeight / 3, batch=batch, group=buttons_layer)]
+                                            y=2 * windowHeight / 3, batch=batch, group=icon_layer)]
 
         # Tier 2
         upgrade_box_array += create_square(batch,
                                            x=windowWidth / 2 - 50, x2=windowWidth / 2 + 50,
                                            y=windowHeight / 2 + 50, y2=windowHeight / 2 - 50)
         icon_array += [pyglet.sprite.Sprite(revive_icon, x=windowWidth / 2,
-                                            y=windowHeight / 2, batch=batch, group=buttons_layer)]
+                                            y=windowHeight / 2, batch=batch, group=icon_layer)]
         # Tier 3
         upgrade_box_array += create_square(batch,
                                            x=2 * windowWidth / 3 - 50,
                                            x2=2 * windowWidth / 3 + 50,
                                            y=windowHeight / 3 - 50, y2=windowHeight / 3 + 50)
         icon_array += [pyglet.sprite.Sprite(revive_all_icon, x=2 * windowWidth / 3,
-                                            y=windowHeight / 3, batch=batch, group=buttons_layer)]
+                                            y=windowHeight / 3, batch=batch, group=icon_layer)]
         upgrade_box_array += create_square(batch,
                                            x=2 * windowWidth / 3 - 50,
                                            x2=2 * windowWidth / 3 + 50,
@@ -345,7 +354,7 @@ def shop_upgrade(plane_choice_shopping, batch, description):
                                            y2=2 * windowHeight / 3 + 50)
 
         icon_array += [pyglet.sprite.Sprite(charge_time_icon, x=2 * windowWidth / 3,
-                                            y=2 * windowHeight / 3, batch=batch, group=buttons_layer)]
+                                            y=2 * windowHeight / 3, batch=batch, group=icon_layer)]
 
         # Connections 1
         upgrade_box_array += create_square(batch,
@@ -930,18 +939,23 @@ def store_menu():
 
         elif windowWidth / 8 - 100 < x < windowWidth / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 1
             plane_choice_shopping = 1
+            bullet_sound.play()
             temp_upgrades = shop_upgrade(1, store_menu_batch, description)
+            
             # print("plane choice change to 1")
         elif windowWidth * 3 / 8 - 100 < x < windowWidth * 3 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 2
             plane_choice_shopping = 2
+            bullet_sound.play()
             temp_upgrades = shop_upgrade(2, store_menu_batch, description)
 
         elif windowWidth * 5 / 8 - 100 < x < windowWidth * 5 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 3
             plane_choice_shopping = 3
+            bullet_sound.play()
             temp_upgrades = shop_upgrade(3, store_menu_batch, description)
 
         elif windowWidth * 7 / 8 - 100 < x < windowWidth * 7 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 3
             plane_choice_shopping = 4
+            bullet_sound.play()
             temp_upgrades = shop_upgrade(4, store_menu_batch, description)
 
         elif (windowWidth - x_button.width) < x < windowWidth and y > (
@@ -1439,8 +1453,10 @@ def start(level_number=0):
             planeHandler.getActivePlane().velocity_x = 0
             planeHandler.getActivePlane().velocity_y = 0
         if (planeHandler.getActivePlane().laser):
-            planeHandler.getActivePlane().laser.velocity_x = planeHandler.getActivePlane().velocity_x
-            planeHandler.getActivePlane().laser.velocity_y = planeHandler.getActivePlane().velocity_y
+            planeHandler.getActivePlane().laser.x = planeHandler.getActivePlane().x
+            planeHandler.getActivePlane().laser.y = planeHandler.getActivePlane().y +100
+            # planeHandler.getActivePlane().laser.velocity_x = planeHandler.getActivePlane().velocity_x
+            # planeHandler.getActivePlane().laser.velocity_y = planeHandler.getActivePlane().velocity_y
 
     def checkCollision():
         global quitCheck

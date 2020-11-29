@@ -34,9 +34,9 @@ class Enemy(physicalObject.PhysicalObject):
             self.destroyed = True
             self.visible = False
             self.reacts_to_bullets = False
-        elif (self.y <= 100 or self.y >= 900):
+        elif (self.y <= 100 or self.y >= 1200):
             self.canFire = False
-        elif (self.x <= 0 or self.x >= 1400):
+        elif (self.x <= 0 or self.x >= 1900):
             self.canFire = False
         else:
             self.canFire = True
@@ -131,7 +131,7 @@ class Enemy(physicalObject.PhysicalObject):
 
         bullet_x = self.x #* ship_radius #+ math.cos(angle_radians) * ship_radius
         bullet_y = self.y #* ship_radius #+ math.sin(angle_radians) * ship_radius
-        new_bullet = Bullet(bullet, bullet_x, bullet_y + 5, 5,  batch=self.batch, group=self.group)
+        new_bullet = Bullet(bullet, bullet_x, bullet_y + 5, 5, False,  batch=self.batch, group=self.group)
         new_bullet.color = (255, 5, 5)
         new_bullet.is_enemyBullet = True
         # Give it some speed
@@ -153,7 +153,7 @@ class Enemy(physicalObject.PhysicalObject):
         offset = self.fire_type.get('offset', 0) #degrees
         bullet_angle = self.fire_type.get('bullet_rotation', 90 - self.rotation) + offset
         speed = self.fire_type.get('speed', 10)
-        new_bullet = Bullet(bullet, self.x, self.y, 5, batch=self.batch, group=self.group)
+        new_bullet = Bullet(bullet, self.x, self.y, 5, False, batch=self.batch, group=self.group)
         new_bullet.is_enemyBullet = True
         new_bullet.color = (255, 5, 5)
         new_bullet.velocity_x, new_bullet.velocity_y = speed*math.cos(math.radians(bullet_angle)), speed*math.sin(math.radians(bullet_angle))
@@ -182,8 +182,9 @@ class Enemy(physicalObject.PhysicalObject):
     def spiral(self):
         count = self.fire_type.get('count', 3)
         self.fire_type['spread'] = 360
+        spiral_speed = self.fire_type.get('spiral_speed', 5)
         if 'offset' in self.fire_type:
-            self.fire_type['offset'] += 5
+            self.fire_type['offset'] += spiral_speed
         else:
             self.fire_type['offset'] = 0
         self.cone()
