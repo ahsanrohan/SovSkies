@@ -1059,6 +1059,7 @@ def end_screen():
     def on_mouse_press(x, y, button, modifiers):
         global mode
         global quitCheck
+        global time
         if windowWidth / 2 - 150 < x < (windowWidth / 2) + 150 and y < 100:
             window.clear()
             # print(level_batch)
@@ -1071,6 +1072,7 @@ def end_screen():
             window.clear()
             mode = "menu"
             quitCheck = False
+            time = 0
             pyglet.app.exit()
             # closeConnection()
             # window.close()
