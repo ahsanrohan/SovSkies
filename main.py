@@ -97,8 +97,8 @@ def init():
     # createLevel("Peyton", 4)
     # createLevel("Peyton", 5)
     # createLevel("Peyton", 6)
-    #deletePlayer()
-    #createPlayer("Peyton")
+    deletePlayer()
+    createPlayer("Peyton")
     print("database planes: ")
     printPlayerPlanes()
     print("database Levels: ")
@@ -109,7 +109,6 @@ def init():
     print("database upgrades: ")
     printAllPlayerPlanesUpgrades()
 
-    
     deletePlanes("Peyton")
     deleteUpgrades("Peyton")
     createPlayerPlanes("Peyton", "fast_plane")
@@ -1342,6 +1341,8 @@ def start(level_number=0):
                 starVal = 6
             elif (currPercent >= 0.4):
                 starVal = 4
+            else:
+                starVal = 0
 
             if (currPercent >= 0.4):
                 if (level_number == 0):
@@ -1351,6 +1352,7 @@ def start(level_number=0):
                     createPlayerPlanes("Peyton", "support_plane")
             #print(currPercent)
             # return
+            updateLevelComplete(level_number + 1, starVal, score_obj['score'], "Peyton")
             pyglet.app.exit()
         if paused == False:
             window.clear()
