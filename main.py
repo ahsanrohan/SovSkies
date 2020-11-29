@@ -126,10 +126,10 @@ def init():
     print("database upgrades: ")
     printAllPlayerPlanesUpgrades()
 
-    deletePlanes("Peyton")
-    deleteUpgrades("Peyton")
-    createPlayerPlanes("Peyton", "fast_plane")
-    createPlayerPlanes("Peyton", "damage_plane")
+    # deletePlanes("Peyton")
+    # deleteUpgrades("Peyton")
+    # createPlayerPlanes("Peyton", "fast_plane")
+    # createPlayerPlanes("Peyton", "damage_plane")
     # createPlayerPlanes("Peyton", "helicopter")
     # createPlayerPlanes("Peyton", "support_plane")
     
@@ -614,6 +614,7 @@ def level_menu():
     def on_mouse_press(x, y, button, modifiers):
         global mode
         global time
+        nonlocal levels_array
         if (windowWidth - x_button.width) < x < windowWidth and y > (
                 windowHeight - x_button.height):  # clicking X button
             mode = "menu"
@@ -623,23 +624,28 @@ def level_menu():
             mode = "game"
             time = 0
             start(0)
-        elif level_2[0].x - 100 < x < level_2[0].x + 100 and level_2[0].y - 100 < y < level_2[0].y + 100:
+        elif level_2[0].x - 100 < x < level_2[0].x + 100 and level_2[0].y - 100 < y < level_2[
+            0].y + 100 and levels_array[0][3] == 1:
             mode = "game"
             time = 0
             start(1)
-        elif level_3[0].x - 100 < x < level_3[0].x + 100 and level_3[0].y - 100 < y < level_3[0].y + 100:
+        elif level_3[0].x - 100 < x < level_3[0].x + 100 and level_3[0].y - 100 < y < level_3[
+            0].y + 100 and levels_array[1][3] == 1:
             mode = "game"
             time = 0
             start(2)
-        elif level_4[0].x - 100 < x < level_4[0].x + 100 and level_4[0].y - 100 < y < level_4[0].y + 100:
+        elif level_4[0].x - 100 < x < level_4[0].x + 100 and level_4[0].y - 100 < y < level_4[
+            0].y + 100 and levels_array[2][3] == 1:
             mode = "game"
             time = 0
             start(3)
-        elif level_5[0].x - 100 < x < level_5[0].x + 100 and level_5[0].y - 100 < y < level_5[0].y + 100:
+        elif level_5[0].x - 100 < x < level_5[0].x + 100 and level_5[0].y - 100 < y < level_5[
+            0].y + 100 and levels_array[3][3] == 1:
             mode = "game"
             time = 0
             start(4)
-        elif level_6[0].x - 100 < x < level_6[0].x + 100 and level_6[0].y - 100 < y < level_6[0].y + 100:
+        elif level_6[0].x - 100 < x < level_6[0].x + 100 and level_6[0].y - 100 < y < level_6[
+            0].y + 100 and levels_array[4][3] == 1:
             mode = "game"
             time = 0
             start(5)
@@ -1222,7 +1228,15 @@ def start(level_number=0):
     # testTime = scores[level_number]
     print(finalTime)
     # initializing the background
-    level_map_object = PhysicalObject(level_map, x=windowWidth / 2, batch=level_batch,
+    if level_number == 0 or level_number == 4:
+        curr_map = level_map1
+    elif level_number == 1 or level_number == 5:
+        curr_map = level_map2
+    elif level_number == 2:
+        curr_map = level_map3
+    elif level_number == 3:
+        curr_map = level_map4
+    level_map_object = PhysicalObject(curr_map, x=windowWidth / 2, batch=level_batch,
                                       group=maps_layer)
     level_map_object.level_map_height = windowHeight
     level_map_object.y = level_map_object.height / 2
@@ -1378,16 +1392,16 @@ def start(level_number=0):
             pyglet.clock.unschedule(update)
 
             currPercent = score_obj['score']/score_obj['target_score']
-            if (currPercent >= 0.7):
+            if (currPercent >= 0.5):
                 starVal = 10
-            elif (currPercent >= 0.6):
+            elif (currPercent >= 0.3):
                 starVal = 8
-            elif (currPercent >= 0.5):
+            elif (currPercent >= 0.2):
                 starVal = 6
-            elif (currPercent >= 0.4):
+            elif (currPercent >= 0.1):
                 starVal = 4
             else:
-                starVal = 0
+                starVal = 1
 
             if (currPercent >= 0.4):
                 if (level_number == 0 and len(getPlayerPlane("Peyton", "helicopter")) == 0):
@@ -1398,7 +1412,7 @@ def start(level_number=0):
             #print(currPercent)
             # return
             time = 0
-            updateLevelComplete(level_number +1, starVal, score_obj['score'], "Peyton")
+            updateLevelComplete(level_number + 1, starVal, score_obj['score'], "Peyton")
             pyglet.app.exit()
         if paused == False:
             window.clear()
