@@ -125,6 +125,14 @@ center_image(sov_logo_image)
 laser = pyglet.resource.image("laser.png")
 center_image(laser)
 
+
+
+laser2 = pyglet.resource.image("laser2.png")
+center_image(laser2)
+laser2.height *= 10
+laser2.width *= 1
+
+
 blue_progress_circle_8 = pyglet.resource.image('progressCircle8.png')
 center_image(blue_progress_circle_8)
 blue_progress_circle_7 = pyglet.resource.image('blueprogressCircle7.png')
@@ -190,14 +198,57 @@ center_image(lock_icon)
 
 bullet_sound = pyglet.resource.media('Pop_Final.wav', streaming=False)
 two_bullets = pyglet.resource.media('Double_Pop_2.wav', streaming=False)
-laser = pyglet.resource.media('laser.wav', streaming=False)
+laser_sound = pyglet.resource.media('laser.wav', streaming=False)
 fortunate_son = pyglet.resource.media('fortunate.wav')
 immigrant = pyglet.resource.media('immigrant.wav')
 kicks = pyglet.resource.media('kicks.wav')
 purple_haze = pyglet.resource.media('purple_haze.wav')
 background_music = pyglet.resource.media('background_music.wav')
 
+# def change_volume(newVolume):
+#     print("the volume is being adgjusted")
+#     bullet_sound.volume = newVolume
+#     two_bullets.volume= newVolume
+#     laser.volume= newVolume
+#     fortunate_son.volume= newVolume
+#     immigrant.volume= newVolume
+#     kicks.volume= newVolume
+#     purple_haze.volume= newVolume
+#     background_music.volume= newVolume
 
+# shop icons
+move_speed_icon = pyglet.resource.image('move_speed.png')
+center_image(move_speed_icon)
+damage_icon = pyglet.resource.image('damage.png')
+center_image(damage_icon)
+charge_time_icon = pyglet.resource.image('charge_time.png')
+center_image(charge_time_icon)
+fire_rate = pyglet.resource.image('fire_rate.png')
+center_image(fire_rate)
+laser_damage_icon = pyglet.resource.image('laser_damage.png')
+center_image(laser_damage_icon)
+dodge_icon = pyglet.resource.image('dodge.png')
+center_image(dodge_icon)
+health_up_icon = pyglet.resource.image('repair_kit.png')
+center_image(health_up_icon)
+duration_icon = pyglet.resource.image('duration.png')
+center_image(duration_icon)
+ramming_icon = pyglet.resource.image('ramming.jpg')
+center_image(ramming_icon)
+prox_damage_icon = pyglet.resource.image('prox_damage.png')
+center_image(prox_damage_icon)
+bomb_icon = pyglet.resource.image('bomb_shop.png')
+center_image(bomb_icon)
+triple_icon = pyglet.resource.image('triple.jpg')
+center_image(triple_icon)
+regen_icon = pyglet.resource.image('regen.png')
+center_image(regen_icon)
+self_regen_icon = pyglet.resource.image('self_regen.png')
+center_image(self_regen_icon)
+revive_icon = pyglet.resource.image('revive.png')
+center_image(revive_icon)
+revive_all_icon = pyglet.resource.image('revive_all.png')
+center_image(revive_all_icon)
 
 store_map = start_map
 center_image(store_map)

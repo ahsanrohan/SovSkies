@@ -19,6 +19,7 @@ class PhysicalObject(pyglet.sprite.Sprite):
         self.is_bullet = False
         self.is_enemy = False
         self.is_player = False
+        self.is_laser = False
 
         # Flag to remove this object from the game_object list
         self.dead = False
@@ -42,11 +43,11 @@ class PhysicalObject(pyglet.sprite.Sprite):
         self.y += self.velocity_y * dt
 
         # Wrap around the screen if necessary
-        if self.wrap == True:
+        if self.wrap == True and self.is_laser == False:
             self.check_bounds()
 
-        if not self.wrap and not self.bind:  # destroy object once it leaves screen + buffer
-            buffer = 500
+        if not self.wrap and not self.bind and self.is_laser == False:  # destroy object once it leaves screen + buffer
+            buffer = 250
             min_x = 0
             min_y = 0
             max_x = 1900
@@ -54,10 +55,10 @@ class PhysicalObject(pyglet.sprite.Sprite):
             if self.x < min_x - buffer or self.y < min_y - buffer or self.x > max_x + buffer or self.y > max_y + buffer:
                 self.dead = True
 
-        if self.bind == True:
+        if self.bind == True and self.is_laser == False:
             self.bind_bounds()
         # Orient object to face object
-        if self.orientation == True:
+        if self.orientation == True and self.is_laser == False:
             if self.velocity_x == 0:
                 # self.rotation = 90
                 self.rotation = 90 - math.degrees(math.atan2(self.velocity_y, self.velocity_x))
@@ -206,12 +207,12 @@ class PhysicalObject(pyglet.sprite.Sprite):
             self.color = (255, 100, 100)
             pyglet.clock.schedule_once(self.revert_color, 0.1)
 
-        if other_object.is_bullet == True and other_object.die_on_impact == True:
+        if other_object.is_bullet == True and other_object.die_on_impact == True and other_object.is_laser == False:
 
             # if other_object.is_bullet == True:
             # pass
             pyglet.clock.schedule_once(other_object.die, 0)
-        elif other_object.is_bullet == True and other_object.die_on_impact == False:
+        elif other_object.is_bullet == True and other_object.die_on_impact == False and other_object.is_laser == True:
             pass
         else:  # reverse damage
             other_object.health -= self.damage

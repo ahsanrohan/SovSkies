@@ -96,7 +96,7 @@ class PlayerPlane(PhysicalObject):
             self.rotorRadius = 345 * 0.35 * self.scale * 2
             self.collisionRadius = 300 * 0.35 * self.scale
             self.damage = 5
-            self.rotorDamage = 0.5
+            self.rotorDamage = 2
         else:
             self.rotorRadius = 1
             self.collisionRadius = self.image.width * 0.35 * self.scale
@@ -169,13 +169,22 @@ class PlayerPlane(PhysicalObject):
             ydiff = mouse_y - self.y
 
             # Note: pyglet's rotation attributes are in "negative degrees"
+
             if (ydiff > 0):
                 angle_radians = -math.radians(math.degrees(math.atan(xdiff / ydiff)) + 270)
-            else:
+            elif(ydiff< 0):
                 angle_radians = math.radians(-(math.degrees(math.atan(xdiff / ydiff)) + 90))
+            else:
+                angle_radians = math.radians(-(math.degrees(math.atan(0)) + 90))
 
-            angle_radians = -math.radians(270)
-            angle_radians = -math.radians(270)
+
+            #if (ydiff > 0):
+            #    angle_radians = -math.radians(math.degrees(math.atan(xdiff / ydiff)) + 270)
+            #else:
+            #    angle_radians = math.radians(-(math.degrees(math.atan(xdiff / ydiff)) + 90))
+
+            #angle_radians = -math.radians(270)
+            #angle_radians = -math.radians(270)
             # print(self.shootVec)
             # Create a new bullet just in front of the player
             if self.name == "helicopter":
@@ -186,7 +195,7 @@ class PlayerPlane(PhysicalObject):
                 bullet_x = self.x + shootSlot  # * ship_radius #+ math.cos(angle_radians) * ship_radius
                 bullet_y = self.y  # * ship_radius #+ math.sin(angle_radians) * ship_radius
 
-                new_bullet = Bullet(bullet, bullet_x, bullet_y, self.bullet_damage, batch=self.batch, group=self.group)
+                new_bullet = Bullet(bullet, bullet_x, bullet_y, self.bullet_damage, False, batch=self.batch, group=self.group)
 
                 # new_bullet = Bullet(bullet_x, bullet_y + 5, batch = self.batch)
 
@@ -199,7 +208,7 @@ class PlayerPlane(PhysicalObject):
                 self.new_objects.append(new_bullet)
             # play bullet
             if (self.bombShot == True and self.bombCounter % self.bombRate == 0):
-                new_bomb = Bullet(bomb, self.x, self.y + 30, self.bullet_damage, batch=self.batch,
+                new_bomb = Bullet(bomb, self.x, self.y + 30, self.bullet_damage, False, batch=self.batch,
                                   group=self.group)
                 bullet_vx = 0  # math.cos(angle_radians) * self.bullet_speed
                 bullet_vy = self.bullet_speed
@@ -229,14 +238,19 @@ class PlayerPlane(PhysicalObject):
                 print(self.special_ability)
                 if self.special_ability == "laser":
                     print("laser")
-                    new_bullet = Bullet(laser, self.x, self.y + 500, self.special_bullet_damage, batch=self.batch, group=self.group)
+                    new_bullet = Bullet(laser2, self.x, self.y +100, self.special_bullet_damage, True, batch=self.batch, group=self.group)
+                    new_bullet.is_laser = True
+                    new_bullet.wrap = False
+                    new_bullet.bind = True
+                    new_bullet.dead = False
+                    new_bullet.die_on_impact = False
                     #new_bullet.color = (255, 85, 66)
                     angle_radians = -math.radians(270)
                     bullet_vx = math.cos(angle_radians) * 0
                     bullet_vy = math.sin(angle_radians) * 0
                     new_bullet.velocity_x, new_bullet.velocity_y = bullet_vx, bullet_vy
-                    new_bullet.wrap = False
-                    new_bullet.die_on_impact = False
+                    laser_sound.play
+                    
                     self.laser = new_bullet
                     self.new_objects.append(new_bullet)
                 if self.special_ability == "fire_rate_increase":

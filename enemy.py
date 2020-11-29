@@ -22,6 +22,7 @@ class Enemy(physicalObject.PhysicalObject):
         self.reacts_to_enemy_bullets = False
         self.canFire = False
         self.collisionRadius = self.image.width * 0.5 * self.scale
+        self.boss = False
 
     def move_not(self):
         #default don't move
@@ -57,6 +58,22 @@ class Enemy(physicalObject.PhysicalObject):
         actual_distance = math.sqrt((self.position[0] - other_object.position[0]) ** 2 +
                                     (self.position[1] - other_object.position[1]) ** 2)
         return (actual_distance <= collision_distance)
+
+    def boss_collision(self, other_obj):
+        hitbox = [self.x - self.image.width/4, self.y-self.image.height/4, self.image.width/2, self.image.height/2]
+
+        if (other_obj.x >= hitbox[0] and other_obj.x <= hitbox[2] + hitbox[0]):
+            if (other_obj.y >= hitbox[1] and other_obj.y <= hitbox[3] + hitbox[1]):
+                return True
+        return False
+
+    def boss_collision_radius(self, other_obj, radius):
+        hitbox = [self.x - self.image.width/4, self.y-self.image.height/4, self.image.width/2, self.image.height/2]
+
+        if (other_obj.x + radius >= hitbox[0] and other_obj.x - radius <= hitbox[2] + hitbox[0]):
+            if (other_obj.y + radius >= hitbox[1] and other_obj.y - radius <= hitbox[3] + hitbox[1]):
+                return True
+        return False
 
     def move_ellipse(self):
         a = self.movement.get('a',5)
@@ -99,7 +116,7 @@ class Enemy(physicalObject.PhysicalObject):
         target_y = self.movement.get('y', 900)
         self.orientation = False
         self.rotation = 180
-        if self.x == target_x and self.y == target_y:
+        if self.x <= target_x or self.y <= target_y:
             self.velocity_x = 0
             self.velocity_y = 0
 
@@ -114,7 +131,7 @@ class Enemy(physicalObject.PhysicalObject):
 
         bullet_x = self.x #* ship_radius #+ math.cos(angle_radians) * ship_radius
         bullet_y = self.y #* ship_radius #+ math.sin(angle_radians) * ship_radius
-        new_bullet = Bullet(bullet, bullet_x, bullet_y + 5, 10,  batch=self.batch, group=self.group)
+        new_bullet = Bullet(bullet, bullet_x, bullet_y + 5, 5, False,  batch=self.batch, group=self.group)
         new_bullet.color = (255, 5, 5)
         new_bullet.is_enemyBullet = True
         # Give it some speed
@@ -136,7 +153,7 @@ class Enemy(physicalObject.PhysicalObject):
         offset = self.fire_type.get('offset', 0) #degrees
         bullet_angle = self.fire_type.get('bullet_rotation', 90 - self.rotation) + offset
         speed = self.fire_type.get('speed', 10)
-        new_bullet = Bullet(bullet, self.x, self.y, 10, batch=self.batch, group=self.group)
+        new_bullet = Bullet(bullet, self.x, self.y, 5, False, batch=self.batch, group=self.group)
         new_bullet.is_enemyBullet = True
         new_bullet.color = (255, 5, 5)
         new_bullet.velocity_x, new_bullet.velocity_y = speed*math.cos(math.radians(bullet_angle)), speed*math.sin(math.radians(bullet_angle))
