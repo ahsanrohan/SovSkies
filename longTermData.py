@@ -124,6 +124,11 @@ def getPlayerPlanes(name):
     before = cur.fetchall()
     return before
 
+def getPlayerPlane(name, planeName):
+    cur.execute("Select Name FROM PLAYERPLANES WHERE Owner LIKE '%'||?||'%' AND Name LIKE '%'||?||'%';", (name, planeName))
+    before = cur.fetchall()
+    return before
+
 def getPlayerPlanesUpgrades(name, plane):
     cur.execute("Select Upgrade FROM PLAYERPLANEUPGRADES WHERE Owner LIKE '%'||?||'%' AND Plane LIKE '%'||?||'%' ;", (name,plane ))
     before = cur.fetchall()
