@@ -5,7 +5,7 @@
 Sovereign skies is a 2D top down shooter with a retro WW2 theme. The 
 objective is to take down waves of enemy planes while surviving to 
 progress from level to level. Unlock planes and upgrade abilities 
-as you progress through the game and earn stars from each level.
+using stars earned from each level. 
 
 ## Controls:
 
