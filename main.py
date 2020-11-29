@@ -1380,6 +1380,7 @@ def start(level_number=0):
             #print(currPercent)
             # return
             time = 0
+            updateLevelComplete(level_number +1, starVal, score_obj['score'], "Peyton")
             pyglet.app.exit()
         if paused == False:
             window.clear()
