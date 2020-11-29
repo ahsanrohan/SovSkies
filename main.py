@@ -613,6 +613,7 @@ def level_menu():
     @window.event
     def on_mouse_press(x, y, button, modifiers):
         global mode
+        global time
         if (windowWidth - x_button.width) < x < windowWidth and y > (
                 windowHeight - x_button.height):  # clicking X button
             mode = "menu"
@@ -620,21 +621,27 @@ def level_menu():
             # menu()
         elif level_1[0].x - 100 < x < level_1[0].x + 100 and level_1[0].y - 100 < y < level_1[0].y + 100:
             mode = "game"
+            time = 0
             start(0)
         elif level_2[0].x - 100 < x < level_2[0].x + 100 and level_2[0].y - 100 < y < level_2[0].y + 100:
             mode = "game"
+            time = 0
             start(1)
         elif level_3[0].x - 100 < x < level_3[0].x + 100 and level_3[0].y - 100 < y < level_3[0].y + 100:
             mode = "game"
+            time = 0
             start(2)
         elif level_4[0].x - 100 < x < level_4[0].x + 100 and level_4[0].y - 100 < y < level_4[0].y + 100:
             mode = "game"
+            time = 0
             start(3)
         elif level_5[0].x - 100 < x < level_5[0].x + 100 and level_5[0].y - 100 < y < level_5[0].y + 100:
             mode = "game"
+            time = 0
             start(4)
         elif level_6[0].x - 100 < x < level_6[0].x + 100 and level_6[0].y - 100 < y < level_6[0].y + 100:
             mode = "game"
+            time = 0
             start(5)
 
     def update(dt):
@@ -1085,7 +1092,6 @@ def start(level_number=0):
     global mode
     global paused
     global finalTime
-    returnFlag = False
     level_batch = pyglet.graphics.Batch()
     paused_batch = pyglet.graphics.Batch()
     mouse_x = 1
@@ -1328,6 +1334,7 @@ def start(level_number=0):
     def on_draw():
         global quitCheck
         global mode
+        global time
         global finalTime
         if quitCheck == True:
             # print ("this is running IDK")
@@ -1348,6 +1355,7 @@ def start(level_number=0):
             # window.clear()
             pyglet.clock.unschedule(add_enemy)
             pyglet.clock.unschedule(enemy_fire)
+            pyglet.clock.unschedule(update)
 
             currPercent = score_obj['score']/score_obj['target_score']
             if (currPercent >= 0.7):
@@ -1369,7 +1377,7 @@ def start(level_number=0):
                     createPlayerPlanes("Peyton", "support_plane")
             #print(currPercent)
             # return
-            updateLevelComplete(level_number + 1, starVal, score_obj['score'], "Peyton")
+            time = 0
             pyglet.app.exit()
         if paused == False:
             window.clear()
@@ -1579,10 +1587,10 @@ def start(level_number=0):
         global finalTime
         global mode
         global quitCheck
-
+        print(quitCheck)
         # print(enemies)
-        # print(time)
-        # print(finalTime)
+        print(time)
+        print(finalTime)
         # print(planeHandler.autoFire)
         # print(mode)
         # print(game_objects)
