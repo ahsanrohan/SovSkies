@@ -28,8 +28,13 @@ if user32.GetSystemMetrics(1) > 1080:
     set_fullscreen = False
 else:
     set_height = user32.GetSystemMetrics(1)
-window = pyglet.window.Window(fullscreen=set_fullscreen, width=set_width,
-height=set_height)
+
+if set_fullscreen == True:
+    window = pyglet.window.Window(fullscreen=set_fullscreen)
+else:
+    window = pyglet.window.Window(fullscreen=set_fullscreen, width=set_width,
+    height=set_height)
+
 windowWidth = window.width
 windowHeight = window.height
 maps_layer = pyglet.graphics.OrderedGroup(-4)
