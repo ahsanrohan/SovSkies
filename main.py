@@ -42,7 +42,7 @@ buttons_layer = pyglet.graphics.OrderedGroup(-3)
 icon_layer = pyglet.graphics.OrderedGroup(-2)
 label_layer = pyglet.graphics.OrderedGroup(-1)
 player = pyglet.media.Player()
-
+starVal = 0
 playerName = "Peyton"
 
 
@@ -625,27 +625,27 @@ def level_menu():
             time = 0
             start(0)
         elif level_2[0].x - 100 < x < level_2[0].x + 100 and level_2[0].y - 100 < y < level_2[
-            0].y + 100 and levels_array[0][3] == 1:
+            0].y + 100 and levels_array[0][4] == 1:
             mode = "game"
             time = 0
             start(1)
         elif level_3[0].x - 100 < x < level_3[0].x + 100 and level_3[0].y - 100 < y < level_3[
-            0].y + 100 and levels_array[1][3] == 1:
+            0].y + 100 and levels_array[1][4] == 1:
             mode = "game"
             time = 0
             start(2)
         elif level_4[0].x - 100 < x < level_4[0].x + 100 and level_4[0].y - 100 < y < level_4[
-            0].y + 100 and levels_array[2][3] == 1:
+            0].y + 100 and levels_array[2][4] == 1:
             mode = "game"
             time = 0
             start(3)
         elif level_5[0].x - 100 < x < level_5[0].x + 100 and level_5[0].y - 100 < y < level_5[
-            0].y + 100 and levels_array[3][3] == 1:
+            0].y + 100 and levels_array[3][4] == 1:
             mode = "game"
             time = 0
             start(4)
         elif level_6[0].x - 100 < x < level_6[0].x + 100 and level_6[0].y - 100 < y < level_6[
-            0].y + 100 and levels_array[4][3] == 1:
+            0].y + 100 and levels_array[4][4] == 1:
             mode = "game"
             time = 0
             start(5)
@@ -1042,6 +1042,7 @@ def store_menu():
 
 
 def end_screen():
+    global starVal
     end_screen_batch = pyglet.graphics.Batch()
     # del game_objects
     # enemies = []
@@ -1061,11 +1062,18 @@ def end_screen():
                                                batch=end_screen_batch,
                                                group=buttons_layer)
 
+    label = pyglet.text.Label('Stars: ' + str(starVal),
+                              font_name='Times New Roman',
+                              font_size=50, group=buttons_layer,
+                              x=window.width /2 , y=window.height // 2, batch=end_screen_batch, color = (255,255,0,255))
+    label.x = label.x - label.content_width /2
+
     @window.event
     def on_mouse_press(x, y, button, modifiers):
         global mode
         global quitCheck
         global time
+
         if windowWidth / 2 - 150 < x < (windowWidth / 2) + 150 and y < 100:
             window.clear()
             # print(level_batch)
@@ -1374,6 +1382,7 @@ def start(level_number=0):
             pyglet.clock.unschedule(update)
 
             currPercent = score_obj['score']/score_obj['target_score']
+            global starVal
             if (currPercent >= 0.7):
                 starVal = 10
             elif (currPercent >= 0.6):
@@ -1396,6 +1405,7 @@ def start(level_number=0):
             time = 0
             updateLevelComplete(level_number +1, starVal, score_obj['score'], "Peyton")
             pyglet.app.exit()
+
         if paused == False:
             window.clear()
             level_batch.draw()
