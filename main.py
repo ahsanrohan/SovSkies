@@ -1228,7 +1228,15 @@ def start(level_number=0):
     # testTime = scores[level_number]
     print(finalTime)
     # initializing the background
-    level_map_object = PhysicalObject(level_map, x=windowWidth / 2, batch=level_batch,
+    if level_number == 0 or level_number == 4:
+        curr_map = level_map1
+    elif level_number == 1 or level_number == 5:
+        curr_map = level_map2
+    elif level_number == 2:
+        curr_map = level_map3
+    elif level_number == 3:
+        curr_map = level_map4
+    level_map_object = PhysicalObject(curr_map, x=windowWidth / 2, batch=level_batch,
                                       group=maps_layer)
     level_map_object.level_map_height = windowHeight
     level_map_object.y = level_map_object.height / 2
