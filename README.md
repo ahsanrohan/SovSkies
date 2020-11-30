@@ -11,10 +11,10 @@ using stars earned from each level.
 
 | `key` | action|
 |--|--|
-| `1-4` | switch between planes |
+| `1-4` | switch between available planes |
 |`LMB` | fire |
 |`RMB` | special ability |
-|`e` | auto-fire
+|`e` | auto-fire |
 |`p` | pause game |
 
 ## Installation
@@ -26,7 +26,7 @@ Navigate to the /SovSkies directory in a terminal. From there:
 
 - setup.py install
     This will build the project and create the 'dist' and 'build' directories. 
-- pyinstaller --onefile --add-data "resources;resources" main.py
+- pyinstaller --onefile --add-data "resources;resources" --add-data "longTermData.db;."  main.py
     This will create the 'main.exe' file in the dist directory. 
 
 From the /dist directory:
@@ -35,3 +35,7 @@ From the /dist directory:
 
 ## Repo
 https://github.com/ahsanrohan/SovSkies
+
+## Additional Info
+- Stable Resolutions - 1920 x 1080 and above
+- Unstable Resolutions - Resolutions below 1920 x 1080
