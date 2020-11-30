@@ -969,8 +969,15 @@ def store_menu():
                                     font_name='Times New Roman',
                                     font_size=50, group=buttons_layer,
                                     x=window.width / 2, y=window.height // 1.1,
-                                    batch=store_menu_batch)
+                                    batch=store_menu_batch, color=(0,0,0,255))
     store_label.x = store_label.x - store_label.content_width / 2
+    cost_label = pyglet.text.Label('Every Upgrade Costs 3',
+                                    font_name='Times New Roman',
+                                    font_size=20, group=label_layer,
+                                    x=windowWidth / 2, y=windowHeight / 5 - 55,
+                                    batch=store_menu_batch, color=(0,0,0,255))
+    cost_label.x = cost_label.x - cost_label.content_width / 2
+
     star_icon = pyglet.sprite.Sprite(star, group=buttons_layer,
                                      x=50, y=window.height // 1.06,
                                      batch=store_menu_batch)
