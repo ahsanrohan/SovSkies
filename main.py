@@ -43,7 +43,7 @@ buttons_layer = pyglet.graphics.OrderedGroup(-3)
 icon_layer = pyglet.graphics.OrderedGroup(-2)
 label_layer = pyglet.graphics.OrderedGroup(-1)
 player = pyglet.media.Player()
-
+starVal = 0
 playerName = "Peyton"
 
 
@@ -642,35 +642,35 @@ def level_menu():
             window.clear()
             pyglet.app.exit()
         elif level_2[0].x - 100 < x < level_2[0].x + 100 and level_2[0].y - 100 < y < level_2[
-            0].y + 100 and levels_array[0][3] == 1:
+            0].y + 100 and levels_array[0][4] == 1:
             mode = "game"
             time = 0
             level_choice = 1
             window.clear()
             pyglet.app.exit()
         elif level_3[0].x - 100 < x < level_3[0].x + 100 and level_3[0].y - 100 < y < level_3[
-            0].y + 100 and levels_array[1][3] == 1:
+            0].y + 100 and levels_array[1][4] == 1:
             mode = "game"
             time = 0
             level_choice = 2 
             window.clear()
             pyglet.app.exit()
         elif level_4[0].x - 100 < x < level_4[0].x + 100 and level_4[0].y - 100 < y < level_4[
-            0].y + 100 and levels_array[2][3] == 1:
+            0].y + 100 and levels_array[2][4] == 1:
             mode = "game"
             time = 0
             level_choice = 3
             window.clear()
             pyglet.app.exit()
         elif level_5[0].x - 100 < x < level_5[0].x + 100 and level_5[0].y - 100 < y < level_5[
-            0].y + 100 and levels_array[3][3] == 1:
+            0].y + 100 and levels_array[3][4] == 1:
             mode = "game"
             time = 0
             level_choice = 4
             window.clear()
             pyglet.app.exit()
         elif level_6[0].x - 100 < x < level_6[0].x + 100 and level_6[0].y - 100 < y < level_6[
-            0].y + 100 and levels_array[4][3] == 1:
+            0].y + 100 and levels_array[4][4] == 1:
             mode = "game"
             time = 0
             level_choice = 5
@@ -983,6 +983,7 @@ def store_menu():
     def on_mouse_press(x, y, button, modifiers):
         global mode
         nonlocal temp_upgrades, plane_choice_shopping
+        planes_array = getPlayerPlanes(playerName)
         if windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom left
             item_buy([plane_choice_shopping, 3])
         elif windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top left
@@ -1013,12 +1014,14 @@ def store_menu():
             bullet_sound.play()
             temp_upgrades = shop_upgrade(2, store_menu_batch, description)
 
-        elif windowWidth * 5 / 8 - 100 < x < windowWidth * 5 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 3
+        elif windowWidth * 5 / 8 - 100 < x < windowWidth * 5 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85 and len(planes_array) > 2:
+        # plane 3
             plane_choice_shopping = 3
             bullet_sound.play()
             temp_upgrades = shop_upgrade(3, store_menu_batch, description)
 
-        elif windowWidth * 7 / 8 - 100 < x < windowWidth * 7 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 3
+        elif windowWidth * 7 / 8 - 100 < x < windowWidth * 7 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85 and len(planes_array) > 3:
+            # swap plane 4
             plane_choice_shopping = 4
             bullet_sound.play()
             temp_upgrades = shop_upgrade(4, store_menu_batch, description)
@@ -1070,6 +1073,7 @@ def store_menu():
 
 def end_screen():
     global level_choice
+    global starVal
     end_screen_batch = pyglet.graphics.Batch()
     # del game_objects
     # enemies = []
@@ -1088,6 +1092,12 @@ def end_screen():
                                                y=start_button.anchor_y,
                                                batch=end_screen_batch,
                                                group=buttons_layer)
+
+    label = pyglet.text.Label('Stars: ' + str(starVal),
+                              font_name='Times New Roman',
+                              font_size=50, group=buttons_layer,
+                              x=window.width /2 , y=window.height // 2, batch=end_screen_batch, color = (255,255,0,255))
+    label.x = label.x - label.content_width /2
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
@@ -1313,12 +1323,30 @@ def start(level_number=0):
                 planeHandler.setActivePlane(0, currPlane)
             if symbol == pyglet.window.key._2:
                 # planeHandler.getActivePlane(0).x = currPlane.x
+                if (planeHandler.getActivePlane().name == "fast_plane"):
+                    for obj in game_objects:
+                        if obj.is_bullet:
+                            if obj.is_laser:
+                                obj.dead = True
+                                obj.visible = False
                 planeHandler.setActivePlane(1, currPlane)
             if symbol == pyglet.window.key._3:
                 # planeHandler.getActivePlane(0).x = currPlane.x
+                if (planeHandler.getActivePlane().name == "fast_plane"):
+                    for obj in game_objects:
+                        if obj.is_bullet:
+                            if obj.is_laser:
+                                obj.dead = True
+                                obj.visible = False
                 planeHandler.setActivePlane(2, currPlane)
             if symbol == pyglet.window.key._4:
                 # planeHandler.getActivePlane(0).x = currPlane.x
+                if (planeHandler.getActivePlane().name == "fast_plane"):
+                    for obj in game_objects:
+                        if obj.is_bullet:
+                            if obj.is_laser:
+                                obj.dead = True
+                                obj.visible = False
                 planeHandler.setActivePlane(3, currPlane)
             if symbol == pyglet.window.key.E:
                 planeHandler.autoFire = not planeHandler.autoFire
@@ -1411,7 +1439,8 @@ def start(level_number=0):
             pyglet.clock.unschedule(update)
 
             currPercent = score_obj['score']/score_obj['target_score']
-            if (currPercent >= 0.8):
+            global starVal
+            if (currPercent >= 0.7):
                 starVal = 10
             elif (currPercent >= 0.5):
                 starVal = 8
@@ -1433,6 +1462,7 @@ def start(level_number=0):
             time = 0
             updateLevelComplete(level_number + 1, starVal, score_obj['score'], "Peyton")
             pyglet.app.exit()
+
         if paused == False:
             window.clear()
             level_batch.draw()
@@ -1496,6 +1526,13 @@ def start(level_number=0):
         # print(game_objects)
 
     def switchDeadPlane(dt, num, currPlane):
+        if (planeHandler.getActivePlane().name == "fast_plane"):
+            for obj in game_objects:
+                if obj.is_bullet:
+                    if obj.is_laser:
+                        obj.dead = True
+                        obj.visible = False
+
         if (planeHandler.getActivePlane().health <= 0):
             planeHandler.deadPlaneNum.append(planeHandler.getActivePlane().planeNum)
         planeHandler.setActivePlane(num, currPlane)
@@ -1641,10 +1678,10 @@ def start(level_number=0):
         global finalTime
         global mode
         global quitCheck
-        print(quitCheck)
+        # print(quitCheck)
         # print(enemies)
-        print(time)
-        print(finalTime)
+        # print(time)
+        # print(finalTime)
         # print(planeHandler.autoFire)
         # print(mode)
         # print(game_objects)

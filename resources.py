@@ -124,6 +124,12 @@ enemy_boss.height *= 2
 enemy_boss.width *= 2
 center_image(enemy_boss)
 
+enemy_boss_2 = pyglet.resource.image("boss2.png")
+enemy_boss_2.height *= 4
+enemy_boss_2.width *= 4
+center_image(enemy_boss_2)
+
+
 sov_logo_image = pyglet.resource.image("SovLogo.png")
 center_image(sov_logo_image)
 
