@@ -86,7 +86,7 @@
             "fire": {"name": "rand", "interval":  0.1, "speed": 10, "spread": 60, "offset": -90},
             "enemy_obj": {"img": "enemy_plane_4", "hp": 50, "kwargs": {"x": -200, "y": 700, "velocity_x": 5}}
         },
-        {   "spawn_time": 7,
+        {   "spawn_time": 3,
             "enemy_count": 5,
             "interval": 0.5,
             "movement": {"name": "move_sinusoid", "speed": -6, "b": 0.01, "a": 7},
@@ -94,7 +94,7 @@
             "enemy_obj":
                 {"img": "enemy_plane_5", "hp": 50, "kwargs": {"x": 2100, "y": 500, "velocity_x": 1}}
         },
-        {   "spawn_time": 7.5,
+        {   "spawn_time": 8,
             "enemy_count": 5,
             "interval": 0.5,
             "movement": {"name": "move_sinusoid", "speed": 8, "b": 0.01, "a": 7},
@@ -332,14 +332,14 @@
             "interval": 0.5,
             "movement": {"name": "move_ellipse", "speed": 2, "a": 4, "b": 4},
             "fire": {"name": "cone", "interval":  0.5, "speed": 5, "spread": 9, "count": 3, "offset": 20},
-            "enemy_obj": {"img": "enemy_plane_5", "hp": 50, "kwargs": {"x": -400, "y": 900}}
+            "enemy_obj": {"img": "enemy_plane_5", "hp": 50, "kwargs": {"x": -200, "y": 800}}
         },
         {   "spawn_time": 7,
             "enemy_count": 4,
             "interval": 0.5,
             "movement": {"name": "move_ellipse", "speed": -2, "a": -4, "b": 4},
             "fire": {"name": "cone", "interval":  0.5, "speed": 5, "spread": 9, "count": 3, "offset": -20},
-            "enemy_obj": {"img": "enemy_plane_5", "hp": 50, "kwargs": {"x": 2300, "y": 900}}
+            "enemy_obj": {"img": "enemy_plane_5", "hp": 50, "kwargs": {"x": 2000, "y": 900}}
         },
         {   "spawn_time": 10,
             "enemy_count": 1,

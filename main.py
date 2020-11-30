@@ -110,36 +110,41 @@ def create_square(batch, x, y, x2, y2, width=20):
 def init():
     # deleteLevels("Peyton")
     # dropLevel()
-    # createLevelTable()
-    # createLevel("Peyton", 1)
-    # createLevel("Peyton", 2)
-    # createLevel("Peyton", 3)
-    # createLevel("Peyton", 4)
-    # createLevel("Peyton", 5)
-    # createLevel("Peyton", 6)
-    # deletePlayer()
-    # createPlayer("Peyton")
+    try:
+        createLevelTable()
+        createPlayerTable()
+        createPlaneTable()
+        createPlaneUpgradeTable()
+        createPlayer("Peyton")
+        createLevel("Peyton", 1)
+        createLevel("Peyton", 2)
+        createLevel("Peyton", 3)
+        createLevel("Peyton", 4)
+        createLevel("Peyton", 5)
+        createLevel("Peyton", 6)
+        createPlayerPlanes("Peyton", "fast_plane")
+        createPlayerPlanes("Peyton", "damage_plane")
+    except:
+        pass
+    
     print("database planes: ")
     printPlayerPlanes()
     print("database Levels: ")
     printLevels()
 
     # dropUpgrades()
-    # createPlaneUpgradeTable()
     print("database upgrades: ")
     printAllPlayerPlanesUpgrades()
 
-    deletePlanes("Peyton")
+    # deletePlanes("Peyton")
     # deleteUpgrades("Peyton")
-    createPlayerPlanes("Peyton", "fast_plane")
-    createPlayerPlanes("Peyton", "damage_plane")
-    createPlayerPlanes("Peyton", "helicopter")
-    createPlayerPlanes("Peyton", "support_plane")
-
-    updatePlayerCash(100, "Peyton")
-    # updatePlayerGamesPlayed("Peyton")
-    # updatePlayerLevel(13, "Peyton")
-    # updateLevelComplete(1,2, 30, "Peyton")
+    # createPlayerPlanes("Peyton", "helicopter")
+    # createPlayerPlanes("Peyton", "support_plane")
+    
+    # updatePlayerCash(100, "Peyton")
+    #updatePlayerGamesPlayed("Peyton")
+    #updatePlayerLevel(13, "Peyton")
+    #updateLevelComplete(1,2, 30, "Peyton")
     print("this is the player")
     printAllPlayer()
     print("these are the levels")
@@ -684,6 +689,7 @@ def level_menu():
 
 def store_menu():
     def item_buy(item):
+        # global description
         if (getPlayerCash("Peyton")[0][0] >= 3):
             if item[0] == 1:
                 # print(item[1])
@@ -974,6 +980,7 @@ def store_menu():
                                              x=80, y=window.height // 1.1,
                                              batch=store_menu_batch)
 
+    planes_array = getPlayerPlanes(playerName)
     # plane_square_1 = create_square(store_menu_batch, x=windowWidth / 4 - 100, y=windowHeight * 0.80,
     #                                x2=windowWidth / 4 + 100, y2=windowHeight * 0.85, width=2)
     plane_1_label = pyglet.sprite.Sprite(plane1_button, group=buttons_layer,
@@ -991,9 +998,13 @@ def store_menu():
     plane_3_label = pyglet.sprite.Sprite(plane3_button, group=buttons_layer,
                                          x=window.width * 5 / 8, y=window.height * 0.82,
                                          batch=store_menu_batch)
+    if (len(planes_array) < 3):
+        plane_3_label.color = (100,100,100)
     plane_4_label = pyglet.sprite.Sprite(plane4_button, group=buttons_layer,
                                          x=window.width * 7 / 8, y=window.height * 0.82,
                                          batch=store_menu_batch)
+    if (len(planes_array) < 4):
+        plane_4_label.color = (100,100,100)
 
     exit_button_sprite = pyglet.sprite.Sprite(x_button, x=windowWidth - x_button.anchor_x,
                                               y=windowHeight - x_button.anchor_y,
@@ -1014,23 +1025,32 @@ def store_menu():
         nonlocal temp_upgrades, plane_choice_shopping
         planes_array = getPlayerPlanes(playerName)
         if windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom left
-            item_buy([plane_choice_shopping, 3])
+            item_buy([plane_choice_shopping, 3, temp_upgrades])
+            temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
         elif windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top left
-            item_buy([plane_choice_shopping, 1])
+            item_buy([plane_choice_shopping, 1, temp_upgrades])
+            temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
         elif windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle left
-            item_buy([plane_choice_shopping, 2])
+            item_buy([plane_choice_shopping, 2, temp_upgrades])
+            temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
         elif windowWidth / 2 - 50 < x < windowWidth / 2 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top middle
-            item_buy([plane_choice_shopping, 4])
+            item_buy([plane_choice_shopping, 4, temp_upgrades])
+            temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
         elif windowWidth / 2 - 50 < x < windowWidth / 2 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle middle
-            item_buy([plane_choice_shopping, 5])
+            item_buy([plane_choice_shopping, 5, temp_upgrades])
+            temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
         elif windowWidth / 2 - 50 < x < windowWidth / 2 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom left
-            item_buy([plane_choice_shopping, 6])
+            item_buy([plane_choice_shopping, 6 ,temp_upgrades])
+            temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
         elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top right
-            item_buy([plane_choice_shopping, 7])
+            item_buy([plane_choice_shopping, 7, temp_upgrades])
+            temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
         elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle right
-            item_buy([plane_choice_shopping, 8])
+            item_buy([plane_choice_shopping, 8, temp_upgrades])
+            temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
         elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom right
-            item_buy([plane_choice_shopping, 9])
+            item_buy([plane_choice_shopping, 9, temp_upgrades])
+            temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
 
         elif windowWidth / 8 - 100 < x < windowWidth / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 1
             plane_choice_shopping = 1
@@ -1186,7 +1206,7 @@ def start(level_number=0):
     # these objects will be updated every tick
     game_objects = []
     enemies = []
-
+    '''
     # load level data
     level_filepath = 'resources/level_scripts.json'
 
@@ -1195,6 +1215,10 @@ def start(level_number=0):
 
     with open(level_filepath) as f:
         scores = json.load(f)[6]
+    '''
+
+    level = resources.levels[level_number]
+    scores = resources.scores
 
     # Score Handling
     score_obj = {'score': 0, 'target_score': scores[level_number]['total_score']}
