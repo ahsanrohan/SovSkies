@@ -110,29 +110,34 @@ def create_square(batch, x, y, x2, y2, width=20):
 def init():
     # deleteLevels("Peyton")
     # dropLevel()
-    # createLevelTable()
-    # createLevel("Peyton", 1)
-    # createLevel("Peyton", 2)
-    # createLevel("Peyton", 3)
-    # createLevel("Peyton", 4)
-    # createLevel("Peyton", 5)
-    # createLevel("Peyton", 6)
-    # deletePlayer()
-    # createPlayer("Peyton")
+    try:
+        createLevelTable()
+        createPlayerTable()
+        createPlaneTable()
+        createPlaneUpgradeTable()
+        createPlayer("Peyton")
+        createLevel("Peyton", 1)
+        createLevel("Peyton", 2)
+        createLevel("Peyton", 3)
+        createLevel("Peyton", 4)
+        createLevel("Peyton", 5)
+        createLevel("Peyton", 6)
+        createPlayerPlanes("Peyton", "fast_plane")
+        createPlayerPlanes("Peyton", "damage_plane")
+    except:
+        pass
+    
     print("database planes: ")
     printPlayerPlanes()
     print("database Levels: ")
     printLevels()
 
     # dropUpgrades()
-    # createPlaneUpgradeTable()
     print("database upgrades: ")
     printAllPlayerPlanesUpgrades()
 
-    deletePlanes("Peyton")
+    # deletePlanes("Peyton")
     # deleteUpgrades("Peyton")
-    createPlayerPlanes("Peyton", "fast_plane")
-    createPlayerPlanes("Peyton", "damage_plane")
     # createPlayerPlanes("Peyton", "helicopter")
     # createPlayerPlanes("Peyton", "support_plane")
     
@@ -1157,7 +1162,7 @@ def start(level_number=0):
     # these objects will be updated every tick
     game_objects = []
     enemies = []
-
+    '''
     # load level data
     level_filepath = 'resources/level_scripts.json'
 
@@ -1166,6 +1171,10 @@ def start(level_number=0):
 
     with open(level_filepath) as f:
         scores = json.load(f)[6]
+    '''
+
+    level = resources.levels[level_number]
+    scores = resources.scores
 
     # Score Handling
     score_obj = {'score': 0, 'target_score': scores[level_number]['total_score']}
