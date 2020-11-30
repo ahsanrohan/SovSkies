@@ -1,5 +1,5 @@
 import pyglet
-
+import json
 
 def center_image(image):
     """Sets an image's anchor point to its center"""
@@ -129,6 +129,18 @@ enemy_boss_2.height *= 4
 enemy_boss_2.width *= 4
 center_image(enemy_boss_2)
 
+f = pyglet.resource.file('level_scripts.json')
+j_obj = json.load(f)
+levels = j_obj[0:6]
+scores = j_obj[6]
+
+'''
+with open(level_filepath) as f:
+    levels = json.load(f)[0:6]
+
+with open(level_filepath) as f:
+    scores = json.load(f)[6]
+'''
 
 sov_logo_image = pyglet.resource.image("SovLogo.png")
 center_image(sov_logo_image)
