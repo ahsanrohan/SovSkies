@@ -217,6 +217,11 @@ kicks = pyglet.resource.media('kicks.wav')
 purple_haze = pyglet.resource.media('purple_haze.wav')
 background_music = pyglet.resource.media('background_music.wav')
 
+star = pyglet.resource.image('stars.png')
+star.width = 50
+star.height = 50
+center_image(star)
+
 # def change_volume(newVolume):
 #     print("the volume is being adgjusted")
 #     bullet_sound.volume = newVolume

@@ -593,11 +593,11 @@ def level_menu():
                                               group=buttons_layer)
 
     stars_text = []
-    level_1 = level_button(1, stars=levels_array[0][1], completed=levels_array[0][3])
-    level_2 = level_button(2, stars=levels_array[1][1], completed=levels_array[1][3])
-    level_3 = level_button(3, stars=levels_array[2][1], completed=levels_array[2][3])
-    level_4 = level_button(4, stars=levels_array[3][1], completed=levels_array[3][3])
-    level_5 = level_button(5, stars=levels_array[4][1], completed=levels_array[4][3])
+    level_1 = level_button(1, stars=levels_array[0][1], completed=levels_array[0][4])
+    level_2 = level_button(2, stars=levels_array[1][1], completed=levels_array[1][4])
+    level_3 = level_button(3, stars=levels_array[2][1], completed=levels_array[2][4])
+    level_4 = level_button(4, stars=levels_array[3][1], completed=levels_array[3][4])
+    level_5 = level_button(5, stars=levels_array[4][1], completed=levels_array[4][4])
     level_6 = level_button(6, stars=0)
     locks = []
 
@@ -946,10 +946,13 @@ def store_menu():
                                     x=window.width / 2, y=window.height // 1.1,
                                     batch=store_menu_batch)
     store_label.x = store_label.x - store_label.content_width / 2
+    star_icon = pyglet.sprite.Sprite(star, group=buttons_layer,
+                                         x= 50, y=window.height // 1.06,
+                                         batch=store_menu_batch)
     Cash_Available_label = pyglet.text.Label( str(getPlayerCash("Peyton")[0][0]),
                                     font_name='Times New Roman',
                                     font_size=50, group=buttons_layer,
-                                    x= 10, y=window.height // 1.1,
+                                    x= 80, y=window.height // 1.1,
                                     batch=store_menu_batch)
 
     # plane_square_1 = create_square(store_menu_batch, x=windowWidth / 4 - 100, y=windowHeight * 0.80,
@@ -978,7 +981,7 @@ def store_menu():
                                               batch=store_menu_batch,
                                               group=buttons_layer)
     plane_choice_shopping = 1
-    description = pyglet.text.Label("", font_name='Comic Sans', font_size=40,
+    description = pyglet.text.Label("", font_name='Comic Sans', font_size=20,
                                  x=windowWidth / 2, y=50, batch=store_menu_batch, group=buttons_layer)
     description.color = (0, 0, 0, 255)
     temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
@@ -1101,7 +1104,7 @@ def end_screen():
     label = pyglet.text.Label('Stars: ' + str(starVal),
                               font_name='Times New Roman',
                               font_size=50, group=buttons_layer,
-                              x=window.width /2 , y=window.height // 2, batch=end_screen_batch, color = (255,255,0,255))
+                              x=window.width /2 , y=window.height*1 // 3, batch=end_screen_batch, color = (255,255,0,255))
     label.x = label.x - label.content_width /2
 
     @window.event
