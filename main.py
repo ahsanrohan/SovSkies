@@ -938,7 +938,7 @@ def store_menu():
                 store_label.x = store_label.x - store_label.content_width / 2
                 return [store_label]
             elif item == 7:
-                store_label = pyglet.text.Label('Increased Special Damage',
+                store_label = pyglet.text.Label('Decreased Special Cooldown',
                                                 font_name='Times New Roman',
                                                 font_size=50, group=label_layer,
                                                 x=2 * windowWidth / 3, y=2 * windowHeight / 3 + 55,
@@ -969,8 +969,15 @@ def store_menu():
                                     font_name='Times New Roman',
                                     font_size=50, group=buttons_layer,
                                     x=window.width / 2, y=window.height // 1.1,
-                                    batch=store_menu_batch)
+                                    batch=store_menu_batch, color=(0,0,0,255))
     store_label.x = store_label.x - store_label.content_width / 2
+    cost_label = pyglet.text.Label('Every Upgrade Costs 3',
+                                    font_name='Times New Roman',
+                                    font_size=20, group=label_layer,
+                                    x=windowWidth / 2, y=windowHeight / 5 - 55,
+                                    batch=store_menu_batch, color=(0,0,0,255))
+    cost_label.x = cost_label.x - cost_label.content_width / 2
+
     star_icon = pyglet.sprite.Sprite(star, group=buttons_layer,
                                      x=50, y=window.height // 1.06,
                                      batch=store_menu_batch)
@@ -1495,6 +1502,8 @@ def start(level_number=0):
             global starVal
             starVal = 0
             if time >= finalTime:
+                if (currPercent >= 1.0):
+                    starVal = 11
                 if (currPercent >= 0.7):
                     starVal = 10
                 elif (currPercent >= 0.5):
