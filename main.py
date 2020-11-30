@@ -129,10 +129,10 @@ def init():
     print("database upgrades: ")
     printAllPlayerPlanesUpgrades()
 
-    deletePlanes("Peyton")
+    # deletePlanes("Peyton")
     # deleteUpgrades("Peyton")
-    createPlayerPlanes("Peyton", "fast_plane")
-    createPlayerPlanes("Peyton", "damage_plane")
+    # createPlayerPlanes("Peyton", "fast_plane")
+    # createPlayerPlanes("Peyton", "damage_plane")
     # createPlayerPlanes("Peyton", "helicopter")
     # createPlayerPlanes("Peyton", "support_plane")
     
@@ -686,6 +686,7 @@ def level_menu():
 
 def store_menu():
     def item_buy(item):
+        # global description
         if (getPlayerCash("Peyton")[0][0] >= 3):
             if item[0] == 1:
                 # print(item[1])
@@ -993,23 +994,32 @@ def store_menu():
         nonlocal temp_upgrades, plane_choice_shopping
         planes_array = getPlayerPlanes(playerName)
         if windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom left
-            item_buy([plane_choice_shopping, 3])
+            item_buy([plane_choice_shopping, 3, temp_upgrades])
+            temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
         elif windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top left
-            item_buy([plane_choice_shopping, 1])
+            item_buy([plane_choice_shopping, 1, temp_upgrades])
+            temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
         elif windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle left
-            item_buy([plane_choice_shopping, 2])
+            item_buy([plane_choice_shopping, 2, temp_upgrades])
+            temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
         elif windowWidth / 2 - 50 < x < windowWidth / 2 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top middle
-            item_buy([plane_choice_shopping, 4])
+            item_buy([plane_choice_shopping, 4, temp_upgrades])
+            temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
         elif windowWidth / 2 - 50 < x < windowWidth / 2 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle middle
-            item_buy([plane_choice_shopping, 5])
+            item_buy([plane_choice_shopping, 5, temp_upgrades])
+            temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
         elif windowWidth / 2 - 50 < x < windowWidth / 2 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom left
-            item_buy([plane_choice_shopping, 6])
+            item_buy([plane_choice_shopping, 6 ,temp_upgrades])
+            temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
         elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top right
-            item_buy([plane_choice_shopping, 7])
+            item_buy([plane_choice_shopping, 7, temp_upgrades])
+            temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
         elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and windowHeight / 2 - 50 < y < windowHeight / 2 + 50:  # middle right
-            item_buy([plane_choice_shopping, 8])
+            item_buy([plane_choice_shopping, 8, temp_upgrades])
+            temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
         elif 2 * windowWidth / 3 - 50 < x < 2 * windowWidth / 3 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom right
-            item_buy([plane_choice_shopping, 9])
+            item_buy([plane_choice_shopping, 9, temp_upgrades])
+            temp_upgrades = shop_upgrade(plane_choice_shopping, store_menu_batch, description)
 
         elif windowWidth / 8 - 100 < x < windowWidth / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 1
             plane_choice_shopping = 1
