@@ -126,10 +126,10 @@ def init():
     print("database upgrades: ")
     printAllPlayerPlanesUpgrades()
 
-    deletePlanes("Peyton")
-    deleteUpgrades("Peyton")
-    createPlayerPlanes("Peyton", "fast_plane")
-    createPlayerPlanes("Peyton", "damage_plane")
+    # deletePlanes("Peyton")
+    # deleteUpgrades("Peyton")
+    # createPlayerPlanes("Peyton", "fast_plane")
+    # createPlayerPlanes("Peyton", "damage_plane")
     # createPlayerPlanes("Peyton", "helicopter")
     # createPlayerPlanes("Peyton", "support_plane")
     
@@ -956,6 +956,7 @@ def store_menu():
     def on_mouse_press(x, y, button, modifiers):
         global mode
         nonlocal temp_upgrades, plane_choice_shopping
+        planes_array = getPlayerPlanes(playerName)
         if windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and windowHeight / 3 - 50 < y < windowHeight / 3 + 50:  # bottom left
             item_buy([plane_choice_shopping, 3])
         elif windowWidth / 3 - 50 < x < windowWidth / 3 + 50 and 2 * windowHeight / 3 - 50 < y < 2 * windowHeight / 3 + 50:  # top left
@@ -986,12 +987,14 @@ def store_menu():
             bullet_sound.play()
             temp_upgrades = shop_upgrade(2, store_menu_batch, description)
 
-        elif windowWidth * 5 / 8 - 100 < x < windowWidth * 5 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 3
+        elif windowWidth * 5 / 8 - 100 < x < windowWidth * 5 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85 and len(planes_array) > 2:
+        # plane 3
             plane_choice_shopping = 3
             bullet_sound.play()
             temp_upgrades = shop_upgrade(3, store_menu_batch, description)
 
-        elif windowWidth * 7 / 8 - 100 < x < windowWidth * 7 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85:  # swap plane 3
+        elif windowWidth * 7 / 8 - 100 < x < windowWidth * 7 / 8 + 100 and windowHeight * 0.80 < y < windowHeight * 0.85 and len(planes_array) > 3:
+            # swap plane 4
             plane_choice_shopping = 4
             bullet_sound.play()
             temp_upgrades = shop_upgrade(4, store_menu_batch, description)
@@ -1284,12 +1287,30 @@ def start(level_number=0):
                 planeHandler.setActivePlane(0, currPlane)
             if symbol == pyglet.window.key._2:
                 # planeHandler.getActivePlane(0).x = currPlane.x
+                if (planeHandler.getActivePlane().name == "fast_plane"):
+                    for obj in game_objects:
+                        if obj.is_bullet:
+                            if obj.is_laser:
+                                obj.dead = True
+                                obj.visible = False
                 planeHandler.setActivePlane(1, currPlane)
             if symbol == pyglet.window.key._3:
                 # planeHandler.getActivePlane(0).x = currPlane.x
+                if (planeHandler.getActivePlane().name == "fast_plane"):
+                    for obj in game_objects:
+                        if obj.is_bullet:
+                            if obj.is_laser:
+                                obj.dead = True
+                                obj.visible = False
                 planeHandler.setActivePlane(2, currPlane)
             if symbol == pyglet.window.key._4:
                 # planeHandler.getActivePlane(0).x = currPlane.x
+                if (planeHandler.getActivePlane().name == "fast_plane"):
+                    for obj in game_objects:
+                        if obj.is_bullet:
+                            if obj.is_laser:
+                                obj.dead = True
+                                obj.visible = False
                 planeHandler.setActivePlane(3, currPlane)
             if symbol == pyglet.window.key.E:
                 planeHandler.autoFire = not planeHandler.autoFire
@@ -1385,14 +1406,14 @@ def start(level_number=0):
             global starVal
             if (currPercent >= 0.7):
                 starVal = 10
-            elif (currPercent >= 0.6):
+            elif (currPercent >= 0.3):
                 starVal = 8
-            elif (currPercent >= 0.5):
+            elif (currPercent >= 0.2):
                 starVal = 6
-            elif (currPercent >= 0.4):
+            elif (currPercent >= 0.1):
                 starVal = 4
             else:
-                starVal = 0
+                starVal = 1
 
             if (currPercent >= 0.4):
                 if (level_number == 0 and len(getPlayerPlane("Peyton", "helicopter")) == 0):
@@ -1403,7 +1424,7 @@ def start(level_number=0):
             #print(currPercent)
             # return
             time = 0
-            updateLevelComplete(level_number +1, starVal, score_obj['score'], "Peyton")
+            updateLevelComplete(level_number + 1, starVal, score_obj['score'], "Peyton")
             pyglet.app.exit()
 
         if paused == False:
@@ -1469,6 +1490,13 @@ def start(level_number=0):
         # print(game_objects)
 
     def switchDeadPlane(dt, num, currPlane):
+        if (planeHandler.getActivePlane().name == "fast_plane"):
+            for obj in game_objects:
+                if obj.is_bullet:
+                    if obj.is_laser:
+                        obj.dead = True
+                        obj.visible = False
+
         if (planeHandler.getActivePlane().health <= 0):
             planeHandler.deadPlaneNum.append(planeHandler.getActivePlane().planeNum)
         planeHandler.setActivePlane(num, currPlane)
@@ -1614,10 +1642,10 @@ def start(level_number=0):
         global finalTime
         global mode
         global quitCheck
-        print(quitCheck)
+        # print(quitCheck)
         # print(enemies)
-        print(time)
-        print(finalTime)
+        # print(time)
+        # print(finalTime)
         # print(planeHandler.autoFire)
         # print(mode)
         # print(game_objects)
