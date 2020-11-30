@@ -950,6 +950,7 @@ def store_menu():
                                     x= 80, y=window.height // 1.1,
                                     batch=store_menu_batch)
 
+    planes_array = getPlayerPlanes(playerName)
     # plane_square_1 = create_square(store_menu_batch, x=windowWidth / 4 - 100, y=windowHeight * 0.80,
     #                                x2=windowWidth / 4 + 100, y2=windowHeight * 0.85, width=2)
     plane_1_label = pyglet.sprite.Sprite(plane1_button, group=buttons_layer,
@@ -967,9 +968,13 @@ def store_menu():
     plane_3_label = pyglet.sprite.Sprite(plane3_button, group=buttons_layer,
                                          x=window.width * 5 / 8, y=window.height * 0.82,
                                          batch=store_menu_batch)
+    if (len(planes_array) < 3):
+        plane_3_label.color = (100,100,100)
     plane_4_label = pyglet.sprite.Sprite(plane4_button, group=buttons_layer,
                                          x=window.width * 7 / 8, y=window.height * 0.82,
                                          batch=store_menu_batch)
+    if (len(planes_array) < 4):
+        plane_4_label.color = (100,100,100)
 
     exit_button_sprite = pyglet.sprite.Sprite(x_button, x=windowWidth - x_button.anchor_x,
                                               y=windowHeight - x_button.anchor_y,
