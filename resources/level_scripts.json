@@ -365,7 +365,7 @@
             "movement": {"name": "move_parabola", "speed": -8, "a": -2},
             "fire": {"name": "target_plane", "interval":  0.3, "speed": 7},
             "enemy_obj":
-                {"img": "enemy_plane_6", "hp": 50, "kwargs": {"x": 1600, "y": 800}}
+                {"img": "enemy_plane_6", "hp": 50, "kwargs": {"x": 2000, "y": 800}}
         },
         {   "spawn_time": 19,
             "enemy_count": 3,
