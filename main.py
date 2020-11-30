@@ -574,11 +574,11 @@ def level_menu():
                                               group=buttons_layer)
 
     stars_text = []
-    level_1 = level_button(1, stars=levels_array[0][1], completed=levels_array[0][3])
-    level_2 = level_button(2, stars=levels_array[1][1], completed=levels_array[1][3])
-    level_3 = level_button(3, stars=levels_array[2][1], completed=levels_array[2][3])
-    level_4 = level_button(4, stars=levels_array[3][1], completed=levels_array[3][3])
-    level_5 = level_button(5, stars=levels_array[4][1], completed=levels_array[4][3])
+    level_1 = level_button(1, stars=levels_array[0][1], completed=levels_array[0][4])
+    level_2 = level_button(2, stars=levels_array[1][1], completed=levels_array[1][4])
+    level_3 = level_button(3, stars=levels_array[2][1], completed=levels_array[2][4])
+    level_4 = level_button(4, stars=levels_array[3][1], completed=levels_array[3][4])
+    level_5 = level_button(5, stars=levels_array[4][1], completed=levels_array[4][4])
     level_6 = level_button(6, stars=0)
     locks = []
 
@@ -1240,11 +1240,11 @@ def start(level_number=0):
     print(finalTime)
     # initializing the background
     if level_number == 0 or level_number == 4:
-        curr_map = level_map1
-    elif level_number == 1 or level_number == 5:
         curr_map = level_map2
-    elif level_number == 2:
+    elif level_number == 1 or level_number == 5:
         curr_map = level_map3
+    elif level_number == 2:
+        curr_map = level_map1
     elif level_number == 3:
         curr_map = level_map4
     level_map_object = PhysicalObject(curr_map, x=windowWidth / 2, batch=level_batch,
