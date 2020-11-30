@@ -938,7 +938,7 @@ def store_menu():
                 store_label.x = store_label.x - store_label.content_width / 2
                 return [store_label]
             elif item == 7:
-                store_label = pyglet.text.Label('Increased Special Damage',
+                store_label = pyglet.text.Label('Decreased Special Cooldown',
                                                 font_name='Times New Roman',
                                                 font_size=50, group=label_layer,
                                                 x=2 * windowWidth / 3, y=2 * windowHeight / 3 + 55,
@@ -1495,6 +1495,8 @@ def start(level_number=0):
             global starVal
             starVal = 0
             if time >= finalTime:
+                if (currPercent >= 1.0):
+                    starVal = 11
                 if (currPercent >= 0.7):
                     starVal = 10
                 elif (currPercent >= 0.5):
