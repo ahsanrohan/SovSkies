@@ -1099,7 +1099,7 @@ def end_screen():
     label = pyglet.text.Label('Stars: ' + str(starVal),
                               font_name='Times New Roman',
                               font_size=50, group=buttons_layer,
-                              x=window.width /2 , y=window.height // 2, batch=end_screen_batch, color = (255,255,0,255))
+                              x=window.width /2 , y=window.height*1 // 3, batch=end_screen_batch, color = (255,255,0,255))
     label.x = label.x - label.content_width /2
 
     @window.event
