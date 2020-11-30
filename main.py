@@ -1493,6 +1493,7 @@ def start(level_number=0):
 
             currPercent = score_obj['score'] / score_obj['target_score']
             global starVal
+            starVal = 0
             if time >= finalTime:
                 if (currPercent >= 0.7):
                     starVal = 10
