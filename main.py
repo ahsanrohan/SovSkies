@@ -1493,27 +1493,30 @@ def start(level_number=0):
 
             currPercent = score_obj['score'] / score_obj['target_score']
             global starVal
-            if (currPercent >= 0.7):
-                starVal = 10
-            elif (currPercent >= 0.5):
-                starVal = 8
-            elif (currPercent >= 0.2):
-                starVal = 6
-            elif (currPercent >= 0.1):
-                starVal = 4
-            else:
-                starVal = 1
+            if time >= finalTime:
+                if (currPercent >= 0.7):
+                    starVal = 10
+                elif (currPercent >= 0.5):
+                    starVal = 8
+                elif (currPercent >= 0.4):
+                    starVal = 6
+                elif (currPercent >= 0.3):
+                    starVal = 4
+                else:
+                    starVal = 0
 
-            if (currPercent >= 0.4):
-                if (level_number == 0 and len(getPlayerPlane("Peyton", "helicopter")) == 0):
-                    createPlayerPlanes("Peyton", "helicopter")
-                    print("got here")
-                if (level_number == 2 and len(getPlayerPlane("Peyton", "support_plane")) == 0):
-                    createPlayerPlanes("Peyton", "support_plane")
-            # print(currPercent)
-            # return
+                if (currPercent >= 0.3):
+                    if (level_number == 0 and len(getPlayerPlane("Peyton", "helicopter")) == 0):
+                        createPlayerPlanes("Peyton", "helicopter")
+                        print("got here")
+                    if (level_number == 2 and len(getPlayerPlane("Peyton", "support_plane")) == 0):
+                        createPlayerPlanes("Peyton", "support_plane")
+                # print(currPercent)
+                # return
+
+                if starVal > 0:
+                    updateLevelComplete(level_number + 1, starVal, score_obj['score'], "Peyton")
             time = 0
-            updateLevelComplete(level_number + 1, starVal, score_obj['score'], "Peyton")
             pyglet.app.exit()
 
         if paused == False:
