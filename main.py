@@ -13,6 +13,7 @@ user32 = ctypes.windll.user32
 
 # createGame()
 mode = "hi"
+level_choice = 0
 quitCheck = False
 time = 0
 finalTime = 0
@@ -49,6 +50,8 @@ playerName = "Peyton"
 @window.event
 def on_close():
     global mode
+    global level_choice
+
     mode = "end"
 
 
@@ -63,7 +66,7 @@ def modeCheck():
         if (mode == "game"):
             bullet_sound.play()
             # print(mode)
-            start()
+            start(level_choice)
         if (mode == "store"):
             bullet_sound.play()
             # print(mode)
@@ -126,10 +129,10 @@ def init():
     print("database upgrades: ")
     printAllPlayerPlanesUpgrades()
 
-    # deletePlanes("Peyton")
+    deletePlanes("Peyton")
     # deleteUpgrades("Peyton")
-    # createPlayerPlanes("Peyton", "fast_plane")
-    # createPlayerPlanes("Peyton", "damage_plane")
+    createPlayerPlanes("Peyton", "fast_plane")
+    createPlayerPlanes("Peyton", "damage_plane")
     # createPlayerPlanes("Peyton", "helicopter")
     # createPlayerPlanes("Peyton", "support_plane")
     
@@ -418,6 +421,7 @@ def shop_upgrade(plane_choice_shopping, batch, description):
 
 # menu function
 def menu():
+    global level_choice
     # Sound
     player.next_source()
     player.queue(background_music)
@@ -467,6 +471,7 @@ def menu():
     @window.event
     def on_mouse_press(x, y, button, modifiers):
         global mode
+        global level_choice
         if 2*windowWidth / 13 - 150 < x < (2* windowWidth / 13) + 150 and  (
                 windowHeight / 4 - 50 < y < windowHeight / 4 + 50):  # start game
             inGame = True
@@ -474,6 +479,14 @@ def menu():
             window.clear()
             # print(level_batch)
             mode = "game"
+            count = 0
+            for level in getLevels(playerName):
+                if level[4] == False:
+                    level_choice = count
+                    break
+                count += 1
+            #peytonhere
+            window.clear()
             pyglet.app.exit()
             # return
             # start()
@@ -508,6 +521,7 @@ def menu():
 
 
 def level_menu():
+    global level_choice
     player.next_source()
     player.queue(kicks)
     player.play()
@@ -612,6 +626,7 @@ def level_menu():
 
     @window.event
     def on_mouse_press(x, y, button, modifiers):
+        global level_choice
         global mode
         global time
         nonlocal levels_array
@@ -623,32 +638,44 @@ def level_menu():
         elif level_1[0].x - 100 < x < level_1[0].x + 100 and level_1[0].y - 100 < y < level_1[0].y + 100:
             mode = "game"
             time = 0
-            start(0)
+            level_choice = 0
+            window.clear()
+            pyglet.app.exit()
         elif level_2[0].x - 100 < x < level_2[0].x + 100 and level_2[0].y - 100 < y < level_2[
             0].y + 100 and levels_array[0][4] == 1:
             mode = "game"
             time = 0
-            start(1)
+            level_choice = 1
+            window.clear()
+            pyglet.app.exit()
         elif level_3[0].x - 100 < x < level_3[0].x + 100 and level_3[0].y - 100 < y < level_3[
             0].y + 100 and levels_array[1][4] == 1:
             mode = "game"
             time = 0
-            start(2)
+            level_choice = 2 
+            window.clear()
+            pyglet.app.exit()
         elif level_4[0].x - 100 < x < level_4[0].x + 100 and level_4[0].y - 100 < y < level_4[
             0].y + 100 and levels_array[2][4] == 1:
             mode = "game"
             time = 0
-            start(3)
+            level_choice = 3
+            window.clear()
+            pyglet.app.exit()
         elif level_5[0].x - 100 < x < level_5[0].x + 100 and level_5[0].y - 100 < y < level_5[
             0].y + 100 and levels_array[3][4] == 1:
             mode = "game"
             time = 0
-            start(4)
+            level_choice = 4
+            window.clear()
+            pyglet.app.exit()
         elif level_6[0].x - 100 < x < level_6[0].x + 100 and level_6[0].y - 100 < y < level_6[
             0].y + 100 and levels_array[4][4] == 1:
             mode = "game"
             time = 0
-            start(5)
+            level_choice = 5
+            window.clear()
+            pyglet.app.exit()
 
     def update(dt):
         level_menu_batch.draw()
@@ -1045,6 +1072,7 @@ def store_menu():
 
 
 def end_screen():
+    global level_choice
     global starVal
     end_screen_batch = pyglet.graphics.Batch()
     # del game_objects
@@ -1076,11 +1104,19 @@ def end_screen():
         global mode
         global quitCheck
         global time
-
+        global level_choice
         if windowWidth / 2 - 150 < x < (windowWidth / 2) + 150 and y < 100:
             window.clear()
             # print(level_batch)
             mode = "game"
+            count = 0
+            for level in getLevels(playerName):
+                if level[4] == False:
+                    level_choice = count
+                    break
+                count += 1
+            #peytonhere
+            window.clear()
             quitCheck = False
             pyglet.app.exit()
             # start()
@@ -1240,11 +1276,11 @@ def start(level_number=0):
     print(finalTime)
     # initializing the background
     if level_number == 0 or level_number == 4:
-        curr_map = level_map1
-    elif level_number == 1 or level_number == 5:
         curr_map = level_map2
-    elif level_number == 2:
+    elif level_number == 1 or level_number == 5:
         curr_map = level_map3
+    elif level_number == 2:
+        curr_map = level_map1
     elif level_number == 3:
         curr_map = level_map4
     level_map_object = PhysicalObject(curr_map, x=windowWidth / 2, batch=level_batch,
@@ -1406,7 +1442,7 @@ def start(level_number=0):
             global starVal
             if (currPercent >= 0.7):
                 starVal = 10
-            elif (currPercent >= 0.3):
+            elif (currPercent >= 0.5):
                 starVal = 8
             elif (currPercent >= 0.2):
                 starVal = 6
